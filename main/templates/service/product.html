@@ -1,0 +1,313 @@
+{% extends "base_site.html" %}
+{% load i18n static %}
+{% load cart_tag humanize com_extras %}
+{% block title %}List Products{% endblock %}
+{% block plugins_js %}{{ block.super }}
+<script type="text/javascript">
+    function setPosition() {
+    var window_top = $(window).scrollTop();
+    var window_height = $(".shop__sidebar").height();
+    var footer_top = $(".pre-footer").offset().top;
+    var div_top = $('.shop__sidebar').offset().top;
+    var div_height = $(".shop__sidebar").innerHeight();
+    var div_bottom = (footer_top > div_top + div_height)?(div_top + div_height):(div_top + window_height);
+    if (window_top >= (div_top + div_height) || window_top >= div_bottom){
+        $(".shop__sidebar").css({'position': 'sticky', 'top': footer_top + $(".shop__sidebar").innerHeight()});
+    }
+    else
+    {
+        if (window_top < div_top || (window_top + window_height < div_top + div_height) ){
+            $(".shop__sidebar").css({'position': 'sticky', 'top': 'auto'});
+        }
+    }
+}
+var fixSB = null;
+$(function () {
+    addEventListener("scroll", function() {
+        if (fixSB) clearTimeout(fixSB);
+        fixSB = setTimeout(setPosition, 100);
+    }, true);
+    $(window).resize(setPosition);
+    setPosition();
+});
+</script>
+{% endblock %}
+{% block content %}{{ block.super }}
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__links">
+                    <a href="{% url 'home' %}"><i class="fa fa-home"></i></a>
+                    <a href="{% url 'main:shop' %}"><span>Shop's Home</span></a>
+                    <a href="{% url 'main:product_list' %}">All Products</a>
+                    <span>List Products </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Shop Section Begin -->
+<section class="shop spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-3 col-lg-3 col-md-3 hidden-sm hidden-xs col-sm-hidden col-sx-hidden">
+                <div class="shop__sidebar">
+                    <div class="sidebar__categories">
+                        <div class="section-title">
+                            <h4>Categories</h4>
+                        </div>
+                        <div class="categories__accordion">
+                            <div class="accordion" id="accordionExample">
+                                <div class="card">
+                                    <div class="card-heading active">
+                                        <a data-target="#collapseOne" data-toggle="collapse">Women</a>
+                                    </div>
+                                    <div class="collapse show" data-parent="#accordionExample" id="collapseOne">
+                                        <div class="card-body">
+                                            <ul>
+                                                <li><a href="#">Coats</a></li>
+                                                <li><a href="#">Jackets</a></li>
+                                                <li><a href="#">Dresses</a></li>
+                                                <li><a href="#">Shirts</a></li>
+                                                <li><a href="#">T-shirts</a></li>
+                                                <li><a href="#">Jeans</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-heading">
+                                        <a data-target="#collapseTwo" data-toggle="collapse">Men</a>
+                                    </div>
+                                    <div class="collapse" data-parent="#accordionExample" id="collapseTwo">
+                                        <div class="card-body">
+                                            <ul>
+                                                <li><a href="#">Coats</a></li>
+                                                <li><a href="#">Jackets</a></li>
+                                                <li><a href="#">Dresses</a></li>
+                                                <li><a href="#">Shirts</a></li>
+                                                <li><a href="#">T-shirts</a></li>
+                                                <li><a href="#">Jeans</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-heading">
+                                        <a data-target="#collapseThree" data-toggle="collapse">Kids</a>
+                                    </div>
+                                    <div class="collapse" data-parent="#accordionExample" id="collapseThree">
+                                        <div class="card-body">
+                                            <ul>
+                                                <li><a href="#">Coats</a></li>
+                                                <li><a href="#">Jackets</a></li>
+                                                <li><a href="#">Dresses</a></li>
+                                                <li><a href="#">Shirts</a></li>
+                                                <li><a href="#">T-shirts</a></li>
+                                                <li><a href="#">Jeans</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-heading">
+                                        <a data-target="#collapseFour" data-toggle="collapse">Accessories</a>
+                                    </div>
+                                    <div class="collapse" data-parent="#accordionExample" id="collapseFour">
+                                        <div class="card-body">
+                                            <ul>
+                                                <li><a href="#">Coats</a></li>
+                                                <li><a href="#">Jackets</a></li>
+                                                <li><a href="#">Dresses</a></li>
+                                                <li><a href="#">Shirts</a></li>
+                                                <li><a href="#">T-shirts</a></li>
+                                                <li><a href="#">Jeans</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-heading">
+                                        <a data-target="#collapseFive" data-toggle="collapse">Cosmetic</a>
+                                    </div>
+                                    <div class="collapse" data-parent="#accordionExample" id="collapseFive">
+                                        <div class="card-body">
+                                            <ul>
+                                                <li><a href="#">Coats</a></li>
+                                                <li><a href="#">Jackets</a></li>
+                                                <li><a href="#">Dresses</a></li>
+                                                <li><a href="#">Shirts</a></li>
+                                                <li><a href="#">T-shirts</a></li>
+                                                <li><a href="#">Jeans</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sidebar__filter">
+                        <div class="section-title">
+                            <h4>Shop by price</h4>
+                        </div>
+                        <div class="filter-range-wrap">
+                            <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
+                                 data-max="99" data-min="33"></div>
+                            <div class="range-slider">
+                                <div class="price-input">
+                                    <p>Price:</p>
+                                    <input id="minamount" type="text">
+                                    <input id="maxamount" type="text">
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">Filter</a>
+                    </div>
+                    <div class="sidebar__sizes">
+                        <div class="section-title">
+                            <h4>Shop by size</h4>
+                        </div>
+                        <div class="size__list">
+                            <label for="xxs">
+                                xxs
+                                <input id="xxs" type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label for="xs">
+                                xs
+                                <input id="xs" type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label for="xss">
+                                xs-s
+                                <input id="xss" type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label for="s">
+                                s
+                                <input id="s" type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label for="m">
+                                m
+                                <input id="m" type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label for="ml">
+                                m-l
+                                <input id="ml" type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label for="l">
+                                l
+                                <input id="l" type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label for="xl">
+                                xl
+                                <input id="xl" type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="sidebar__color">
+                        <div class="section-title">
+                            <h4>Shop by color</h4>
+                        </div>
+                        <div class="size__list color__list">
+                            <label for="black">
+                                Blacks
+                                <input id="black" type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label for="whites">
+                                Whites
+                                <input id="whites" type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label for="reds">
+                                Reds
+                                <input id="reds" type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label for="greys">
+                                Greys
+                                <input id="greys" type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label for="blues">
+                                Blues
+                                <input id="blues" type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label for="beige">
+                                Beige Tones
+                                <input id="beige" type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label for="greens">
+                                Greens
+                                <input id="greens" type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label for="yellows">
+                                Yellows
+                                <input id="yellows" type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-9 col-lg-9 col-md-9 col-sm-12 col-sx-12">
+                {% load com_extras %}
+                {% load cart_tag %}
+                {% for pro_att in productattributes %}
+                {% if forloop.first %}
+                <div class="row">
+                    {% endif %}
+                    <div class="col-md-4 col-sm-6">
+                        <div class="product-grid3">
+                            <div class="product-image3">
+                                <a href="{{ pro_att.get_absolute_url }}">
+                                    <img class="pic-1" src='{{MEDIA_URL}}{% thumbnail pro_att "mid" %}'>
+                                    <img class="pic-2" src='{% thumbnail_alt pro_att "big" %}'>
+                                </a>
+                                <ul class="social">
+                                    <li><a href="{{ pro_att.get_absolute_url }}"><i class="icon_heart_alt"></i></a></li>
+                                    <li><a href="{% url 'cart:cart_add' pro_att.pro_attribute_id %}"><i
+                                            class="fa fa-shopping-cart"></i></a></li>
+                                </ul>
+                                <span class="product-new-label">{{ pro_att.product_id.condition }}</span>
+                            </div>
+                            <div class="product-content">
+                                <h3 class="title"><a href="{{ pro_att.get_absolute_url }}">{{ pro_att.attr_name }}</a>
+                                </h3>
+                                <div class="price">{{ pro_att.price|floatformat:2|intcomma }} VND <br/>(<span>saleoff~10%</span>)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% if forloop.counter|modulo:3 == 0 and not forloop.first and not forloop.last%}
+                </div>
+                <hr>
+                <div class="row">
+                    {% endif %}
+                    {% if forloop.last %}
+                </div>
+                {% endif %}
+                {% endfor %}
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        {% include "pagination.html" with page=page_obj %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Shop Section End -->
+<hr>
+{% endblock %}

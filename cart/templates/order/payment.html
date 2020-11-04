@@ -1,0 +1,173 @@
+{% extends "base_site.html" %}
+{% load i18n static %}
+{% load cart_tag humanize com_extras %}
+{% block title %}My Shopping{% endblock %}
+{% block content %}{{ block.super }}
+{% load crispy_forms_tags %}
+{% block plugins_js %}{{ block.super }}
+<script src='{% static "js/init.js" %}' type="text/javascript"></script>
+<script src='{% static "ckeditor/ckeditor-init.js" %}' type="text/javascript"></script>
+<script src='{% static "ckeditor/ckeditor/ckeditor.js" %}' type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".django-ckeditor-widget").css("width", "100%")
+     });
+{% endblock %}
+
+</script>
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__links">
+                    <a href="{% url 'home' %}"><i class="fa fa-home"></i></a>
+                    <span>Shop's Home</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+<section class="shop-cart spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="shop__cart__table">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price (VND)</th>
+                            <th>Quantity</th>
+                            <th>Total (VND)</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in items %}
+                        <tr>
+                            <td class="cart__product__item">
+                                <a href="{% url 'main:pro_attr_detail' item.pk|item_str %}">
+                                    <!--{{item.image|safe}}--><img
+                                        src='{% headshot item.pk|item_str "ProductAttribute" "hmid" %}'
+                                        width="64">
+                                </a>
+                                <div class="cart__product__item__title">
+                                    <h6><a href="{% url 'main:pro_attr_detail' item.pk|item_str %}">
+                                        {{item.name|title}}
+                                    </a></h6>
+                                    <div class="more">
+                                        Current saleoff: 10%<br>
+                                        Exp Date: {% now "M d, Y" %}
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="cart__price">{{item.price|floatformat:2|intcomma}}</td>
+                            <td class="cart__quantity">
+                                <div class="pro-qty">
+                                    <input type="text" value="{{item.quantity}}">
+                                </div>
+                            </td>
+                            <td class="cart__total">~{{ item.price|multiply:item.quantity|floatformat:2|intcomma }}</td>
+                            <td class="cart__close">
+                                <a alt="Delete" data-toggle="tooltip"
+                                   href="{% url 'cart:cart_clear' item.pk|cart_item_str %}" title="Delete"><span
+                                        class="icon_close"></span></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="cart__btn">
+                    <a href="{% url 'main:shop' %}">Continue Shopping</a>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="cart__btn update__btn">
+                    <a href="#"><span class="icon_loading"></span> Update cart</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="discount__content">
+                    <h6>Discount codes</h6>
+                    <form action="#">
+                        <input placeholder="Enter your coupon code" type="text">
+                        <button class="site-btn" type="submit">Apply</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-4 offset-lg-2">
+                <div class="cart__total__procced">
+                    <h6>Cart total</h6>
+                    <ul>
+                        <li>Total Amount <span>{{ cart_total_amount|floatformat:2|intcomma }} VND</span></li>
+                        <li>Total Wrapping <span>{{ cart_total_wrapping|floatformat:2|intcomma }} VND</span></li>
+                        <li>Total Real Paid <span>{{ cart_total_paid_real|floatformat:2|intcomma }} VND</span></li>
+                    </ul>
+                    <a class="primary-btn" href="{% url 'cart:order_payment' order.pk %}">Proceed to payment</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="container">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12"><h4>Thông tin Thanh Toán:</h4></div>
+            <div class="col-lg-12">
+                <form enctype="multipart/form-data" method="post" role="form">
+                    {% csrf_token %}
+                    {{ form.media }}
+                    <div class="row">
+                        <div class="col-6">
+                            {{ form.amount|as_crispy_field }}
+                        </div>
+                        <div class="col-6">
+                            {{ form.payment_method|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            {{ form.data_payment|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12"><h4>Upload PDF Or Image For Processing Payment:</h4></div>
+                        <div class="col-12">
+                            <div class="row text-center align-middle" style="text-center; align-middle">
+                                {% show_payment order object %}
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            {{ form.file1|as_crispy_field }}
+                            {{ form.file3|as_crispy_field }}
+                        </div>
+                        <div class="col-6">
+                            {{ form.file2|as_crispy_field }}
+                            {{ form.file4|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-10 mr-2">
+                            <button class="btn btn-success" name="payment" type="submit" value="payment">Save</button>
+                            <button class="btn btn-success" name="payment" type="submit" value="finished">Save &
+                                Finished Payment
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

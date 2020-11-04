@@ -1,0 +1,46 @@
+{% extends "base_site.html" %}
+{% load i18n static %}
+{% load cart_tag humanize com_extras %}
+{% block title %}My Shopping{% endblock %}
+{% block content %}{{ block.super }}
+{% load crispy_forms_tags %}
+{% block plugins_js %}{{ block.super }}
+<script src='{% static "js/init.js" %}' type="text/javascript"></script>
+<script src='{% static "ckeditor/ckeditor-init.js" %}' type="text/javascript"></script>
+<script src='{% static "ckeditor/ckeditor/ckeditor.js" %}' type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".django-ckeditor-widget").css("width", "100%")
+     });
+{% endblock %}
+
+</script>
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__links">
+                    <a href="{% url 'home' %}"><i class="fa fa-home"></i></a>
+                    <span>Shop's Home</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+<div class="container">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h4>Payment Successful</h4>
+                <p class="text-success">
+                    Thank you for completing the online payment process,
+                    your transaction has been processed successfully.
+                </p>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

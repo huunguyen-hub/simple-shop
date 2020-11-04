@@ -1,0 +1,288 @@
+ /* Container holding the image and the text */
+ #style-switcher {
+    right: -335px;
+    position: fixed;
+    top: 175px;
+    z-index: 99;
+}
+
+#style-switcher-toggle {
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    top: 0;
+    position: absolute;
+    width: 44px;
+}
+
+#style-switcher-toggle.on {
+    right: 0px;
+    left: auto;
+    width: 48px;
+    height: 48px;
+    background-color: #fff;
+    box-shadow: none;
+}
+
+#style-switcher-toggle.off {
+    left: -48px;
+    width: 48px;
+    height: 48px;
+    background-color: #efefef;
+}
+
+#style-switcher-panel {
+    background-color: #fff;
+    box-shadow: 0 0 10px #4a86b8;
+    padding: 0px;
+    position: relative;
+    width: 300px;
+    font-size: 13px;
+    z-index: 1;
+    text-align: left;
+}
+
+#style-switcher-panel .content-toc-container {
+    border: 1px solid white;
+    overflow-y: scroll;
+    max-height: 420px;
+}
+
+#style-switcher-panel h3 {
+    padding: 5px;
+    border-bottom: 1px solid #ff9249;
+}
+
+#style-switcher-panel label {
+    color: #333;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: .1em
+}
+
+#style-switcher-panel .form-group select {
+    font-size: 12px;
+    padding: .1em
+}
+
+#style-switcher-panel .form-group {
+    margin-bottom: .5em
+}
+
+#style-switcher-panel:before,
+#style-switcher-panel:after {
+    content: " ";
+    display: table
+}
+
+#style-switcher-panel:after {
+    clear: both
+}
+
+#style-switcher-panel {
+    max-height: 500px;
+    background: #fafafa;
+    border: solid 2px #4a86b8;
+}
+.box_image {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+
+/* Bottom left text */
+.box_image .bottom-left {
+  position: absolute;
+  bottom: 8px;
+  left: 16px;
+}
+
+/* Top left text */
+.box_image .top-left {
+  position: absolute;
+  top: 8px;
+  left: 16px;
+}
+
+/* Top right text */
+.box_image .top-right {
+  position: absolute;
+  top: 8px;
+  right: 16px;
+}
+
+/* Bottom right text */
+.box_image .bottom-right {
+  position: absolute;
+  bottom: 8px;
+  right: 16px;
+}
+
+/* Centered text */
+.box_image .centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.box_image .bottom_centered {
+    padding: 2px 5px 2px 5px;
+    margin: -54px 10px 0 10px;
+    background: black;
+    opacity: 0.4;
+    color: white;
+}
+/* here you can put your own css to customize and override the theme */
+.product__details__button .custom-select, .custom-select, select.custom-select {
+    background-color: #DABCAA;
+    color: #5F6162;
+    border: 0 none;
+    border-radius: 20px;
+    padding: 6px 20px;
+}
+.table-responsive {
+    display: table;
+}
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+}
+a[disabled="disabled"] {
+    pointer-events: none;
+}
+.pagination li {
+	display: inline-block;
+	height: 40px;
+	width: 40px;
+	border: 1px solid #f2f2f2;
+	border-radius: 50%;
+	font-size: 14px;
+	color: #111111;
+	font-weight: 600;
+	line-height: 40px;
+	text-align: center;
+	-webkit-transition: all, 0.3s;
+	-o-transition: all, 0.3s;
+	transition: all, 0.3s;
+	margin-right: 6px;
+}
+.pagination ul li.active a, .pagination ul li.current a, .pagination ul li a:hover  {
+    background: #C49C83;
+	border-color: #0d0d0d;
+	color: #ffffff;
+}
+/*body, html {
+			margin: 0;
+			padding: 0;
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+			background: black !important;
+		}*/
+
+		/*
+			You can add your custom layer styles
+			in the style attribute of the layer,
+			to a style element or
+			to an external css file
+		*/
+
+		#layerslider * {
+			font-family: Lato, 'Open Sans', sans-serif;
+			font-weight: 300;
+		}
+
+		#layerslider h1 {
+			font-size: 30px;
+			color: #eee;
+		}
+
+		#layerslider h2 {
+			font-size: 40px;
+			color: #111;
+		}
+
+		#layerslider {
+			position: absolute;
+			z-index: 1;
+		}
+
+		#example-wrapper {
+			z-index: 2;
+			position: relative;
+			top: 50%;
+		}
+		.sidenav {
+			height:100%;
+			width:160px;
+			position: fixed;
+			z-index:1;
+			top:0;
+			left:0;
+			background-color:#111;
+			overflow-x: :hidden;
+			padding-top:20px;
+		}
+
+		.sidenav a {
+			padding:6px 8px 6px 16px;
+			text-decoration: none;
+			font-size:25px;
+			color: #818181;
+			display:block;
+		}
+
+		.sidenav a:hover{
+			color:#f1f1f1;
+		}
+
+		.main{
+			margin-left:160px;
+			padding: 0px 10px;
+		}
+
+		.custom-radios div {
+  display: inline-block;
+}
+.custom-radios input[type="radio"] {
+  display: none;
+}
+.custom-radios input[type="radio"] + label {
+  color: #333;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+.custom-radios input[type="radio"] + label span {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  margin: -1px 4px 0 0;
+  vertical-align: middle;
+  cursor: pointer;
+  border-radius: 50%;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.33);
+  background-repeat: no-repeat;
+  background-position: center;
+  text-align: center;
+  line-height: 44px;
+}
+.custom-radios input[type="radio"] + label span img {
+  opacity: 0;
+  transition: all .3s ease;
+}
+.custom-radios input[type="radio"]#color-1 + label span {
+  background-color: #2ecc71;
+}
+.custom-radios input[type="radio"]#color-2 + label span {
+  background-color: #3498db;
+}
+.custom-radios input[type="radio"]#color-3 + label span {
+  background-color: #f1c40f;
+}
+.custom-radios input[type="radio"]#color-4 + label span {
+  background-color: #e74c3c;
+}
+.custom-radios input[type="radio"]:checked + label span img {
+  opacity: 1;
+}

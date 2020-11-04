@@ -1,0 +1,163 @@
+{% extends "base_site.html" %}
+{% load i18n static cart_tag humanize com_extras %}
+{% block title %}Home's Blog{% endblock %}
+
+{% block plugins_js %}{{ block.super }}
+<script type="text/javascript">
+  function detectSize() {
+  /* if not isMobile return False */
+    var window_height = $(".shop__sidebar").height();
+    var window_width = $(".shop__sidebar").width();
+    if (window_width > window_height){
+        /* so sanh voi gia tri set boi view of django neu == khong lam gi het. Neu khac thi request view to change view */
+    }
+  }
+var fixSB = null;
+$(function () {
+    addEventListener("resize", function() {
+        if (fixSB) clearTimeout(fixSB);
+        fixSB = setTimeout(detectSize, 100);
+    }, true);
+    $(window).resize(detectSize);
+    detectSize();
+});
+</script>
+{% endblock %}
+
+{% block content %}{{ block.super }}
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__links">
+                    <a href="{% url 'home' %}"><i class="fa fa-home"></i></a>
+                    <a href="{% url 'main:product_list' %}">All Products</a>
+                    <span>Shop's Home</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+<div class="container">
+<!-- Blog Section Begin -->
+<section class="blog spad">
+    <div class="container">
+        {% for post in posts %}
+        {% if forloop.counter <= 5 %}
+        {% if forloop.first %}
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 p-0">
+                    <div class="blog__item" onclick="location.href='{{ post.get_absolute_url }}';" style="cursor:pointer;">
+                        <div class="blog__item__pic large__item set-bg" data-setbg='{% thumbnail post "hbig" %}'></div>
+                        <div class="blog__item__text">
+                            <h6><a href="{{ post.get_absolute_url }}">{{ post.title|truncatechars:70|title }}</a></h6>
+                            <ul>
+                                <li>by <span>{{ post.user_add.last_name }}</span></li>
+                                <li>{{ post.date_add|date:"M d, Y" }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                    <div class="row">
+         {% else %}
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="blog__item" onclick="location.href='{{ post.get_absolute_url }}';" style="cursor:pointer;">
+                                <div class="blog__item__pic set-bg" data-setbg='{% thumbnail post "mid" %}'></div>
+                                <div class="blog__item__text">
+                                    <h6><a href="{{ post.get_absolute_url }}">{{ post.title|truncatechars:70|title }}</a></h6>
+                                    <ul>
+                                        <li>by <span>{{ post.user_add.last_name }}</span></li>
+                                        <li>{{ post.date_add|date:"M d, Y" }}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+         {% endif %}
+                        {% if forloop.counter|modulo:5 == 0 or forloop.last%}
+                    </div>
+            </div>
+                        {% endif %}
+            {% else %}
+                {% if forloop.counter == 6 %}
+                 <div class="row">
+                 <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                    <div class="row">
+                {% endif %}
+                {% if forloop.counter <= 9 %}
+                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="blog__item" onclick="location.href='{{ post.get_absolute_url }}';" style="cursor:pointer;">
+                                <div class="blog__item__pic set-bg" data-setbg='{% thumbnail post "mid" %}'></div>
+                                <div class="blog__item__text">
+                                    <h6><a href="{{ post.get_absolute_url }}">{{ post.title|truncatechars:70|title }}</a></h6>
+                                    <ul>
+                                        <li>by <span>{{ post.user_add.last_name }}</span></li>
+                                        <li>{{ post.date_add|date:"M d, Y" }}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        {% if forloop.last%}
+                         </div>
+            </div>
+                     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                          </div>
+            </div>
+                         {% endif %}
+                {% else %}
+                      {% if forloop.counter|modulo:5 == 0 or forloop.last%}
+                         </div>
+            </div>
+                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 p-0">
+                    <div class="blog__item" onclick="location.href='{{ post.get_absolute_url }}';" style="cursor:pointer;">
+                        <div class="blog__item__pic large__item set-bg" data-setbg='{% thumbnail post "hbig" %}'></div>
+                        <div class="blog__item__text">
+                            <h6><a href="{{ post.get_absolute_url }}">{{ post.title|truncatechars:70|title }}</a></h6>
+                            <ul>
+                                <li>by <span>{{ post.user_add.last_name }}</span></li>
+                                <li>{{ post.date_add|date:"M d, Y" }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                        {% endif %}
+                {% endif %}
+            {% endif %}
+            {% endfor %}
+
+        </div>
+    <div class="container">
+        <div class="row">
+        <div class="col-md-12 col-sm-12">
+            {% include "pagination.html" with page=page_obj %}
+        </div>
+    </div>
+    </div>
+</section>
+<!-- Blog Section End -->
+<div id="style-switcher">
+    <div id="style-switcher-panel">
+        <h3>Mục lục</h3>
+        <div class="item-toc-data">
+            <div class="content-toc-container">
+                <dl>
+                    <dt>1- <a class="internal-page-anchor" data-href="#a7721914">Python Dictionary</a></dt>
+                    <dt>2- <a class="internal-page-anchor" data-href="#a7737873">Cập nhập Dictionary</a></dt>
+                    <dt>3- <a class="internal-page-anchor" data-href="#a7739117">Xóa dictionary</a></dt>
+                    <dt>4- <a class="internal-page-anchor" data-href="#a7739973">Các hàm với với Dictionary</a></dt>
+                    <dt>5- <a class="internal-page-anchor" data-href="#a7740519">Các phương thức</a></dt>
+                </dl>
+            </div>
+        </div>
+        <div style="border-top: 1px solid #ff9249;">
+            <ul style="list-style-type: none; padding-left: 10px;">
+                <li><a target="_blank" href="#" class="target-blank-url">Hone's Blog</a></li>
+            </ul>
+        </div>
+        <div id="style-switcher-toggle" class="off"></div>
+   </div>
+</div>
+{% endblock %}

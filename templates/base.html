@@ -1,0 +1,124 @@
+{% load i18n static %}
+{% load cart_tag fontawesome_5 %}
+<!DOCTYPE html>
+<html lang="{% block lang %}en{% endblock %}">
+<head>
+    {% fontawesome_5_static %}
+    <title>{% block title %}{% endblock %}</title>
+    {% block meta %}
+    <meta charset="UTF-8">
+    <meta content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta content="Spa - HuuNguyen" name="description">
+    <meta content="Spa, HuuNguyen, biên hòa, Đồng nai" name="keywords">
+    <link href='{% static "favicon.ico" %}' rel="shortcut icon">
+    {% endblock %}{% block blockbots %}
+    <meta content="NONE,NOARCHIVE" name="robots">
+    {% endblock %}
+    <!-- Fonts START -->
+    {% block fonts %}
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&display=swap" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Pathway+Gothic+One|PT+Sans+Narrow:400+700|Source+Sans+Pro:200,300,400,600,700,900&amp;subset=all"
+          rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    {% endblock %}
+    <!-- Fonts END -->
+    <!-- Global styles BEGIN -->
+    {% block globals_css %}
+    <link href='{% static "bootstrap/css/bootstrap.css" %}' rel="stylesheet">
+    <link href='{% static "font-awesome/css/font-awesome.css" %}' rel="stylesheet">
+    <link href='{% static "css/jquery-ui.min.css" %}' rel="stylesheet" type="text/css">
+    <link href='{% static "css/elegant-icons.css" %}' rel="stylesheet" type="text/css">
+    <link href='{% static "css/slicknav.min.css" %}' rel="stylesheet" type="text/css">
+    <link href='{% static "css/custom.css" %}' rel="stylesheet" type="text/css">
+    <link href='{% static "css/themes/red.css" %}' rel="stylesheet" type="text/css">
+    {% endblock %}
+    <!-- Global styles END -->
+    <!-- Page level plugin styles BEGIN -->
+    {% block plugins_css %}
+
+    {% endblock %}
+    <!-- Page level plugin styles END -->
+    <!-- Theme styles BEGIN -->
+    {% block themes_css %}
+    <link href='{% static "css/style.css" %}' rel="stylesheet" type="text/css">
+    <link href='{% static "css/list.css" %}' rel="stylesheet" type="text/css">
+    {% endblock %}
+    {% block head_css %}{% endblock %}
+    {% block head_js %}
+    <script src='{% static "js/jquery.min.js" %}'></script>
+    <script src='{% static "bootstrap/js/bootstrap.min.js" %}'></script>
+    {% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock body_class %}"
+      id="{% block body_id %}spa{% endblock body_id %}">
+<!-- Page Preloder -->
+<div id="preloder">
+    <div class="loader"></div>
+</div>
+{% block body_content %}
+<!--[if lt IE 7]>
+<div class="alert alert-warning">
+    <p>You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your
+        browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to
+        improve your experience.</p>
+</div>
+<![endif]-->
+{% block header_content %}
+<!-- Offcanvas Menu Begin -->
+
+<div class="offcanvas-menu-overlay"></div>
+<div class="offcanvas-menu-wrapper">
+    <ul class="offcanvas__widget">
+        <li><span class="icon_search search-switch"></span></li>
+        <li><a href="#"><span class="icon_heart_alt"></span>
+            <div class="tip">2</div>
+        </a></li>
+        <li><a href="{% url 'cart:cart_detail' %}"><span class="icon_bag_alt"></span>
+            <div class="tip">{{request.session.cart|length}}</div>
+        </a></li>
+        <!--<li><div class="offcanvas__close">+</div></li>-->
+    </ul>
+    <div id="mobile-menu-wrap"></div>
+    <div class="offcanvas__auth">
+        {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}">Log Out</a>
+        {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'signup' %}">Sign Up</a>
+        {% endif %}
+    </div>
+</div>
+<!-- Offcanvas Menu End -->
+{% endblock header_content %}
+{% block main_content %}
+<!-- Content -->
+<div class='{% block coltype %}{% endblock %}' id="content">
+        <div class="container">
+            <div class="row p-0">
+                {% block sidebar_left %}{% endblock sidebar_left %}
+                    {% block content %}
+                        {% if has_head_content %}{% endif %}
+                        <!------------------------------ START Content ------------------------------>
+                        {{ content }}
+                        <!------------------------------ END Content ------------------------------>
+                        {% if has_foot_content %}{% endif %}
+                    {% endblock %}
+                {% block sidebar_right %}{% endblock sidebar_right %}
+                </div>
+        </div>
+    </div>
+    <!-- END Content -->
+    {% endblock %}
+
+    {% block footer_content %}{% endblock footer_content %}
+    {% endblock body_content %}
+    {% block body_js %}{% endblock body_js %}
+    {% block global_js %}
+    {% endblock %}
+    {% block plugins_js %}
+    {% endblock plugins_js %}
+</body>
+</html>

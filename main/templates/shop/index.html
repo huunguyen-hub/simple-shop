@@ -1,0 +1,228 @@
+{% extends "base_site.html" %}
+{% load i18n static cart_tag humanize com_extras %}
+{% block title %}Home Shopping{% endblock %}
+{% block content %}{{ block.super }}
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__links">
+                    <a href="{% url 'home' %}"><i class="fa fa-home"></i></a>
+                    <a href="{% url 'main:product_list' %}">All Products</a>
+                    <span>Shop's Home</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+<div class="container">
+    <div class="section-title"><h4>Products In Spa's Shop</h4></div>
+    {% for pro_att in productattributes %}
+    {% if forloop.first %}
+    <div class="row">
+        {% endif %}
+        <div class="col-md-3 col-sm-6">
+            <div class="product-grid3">
+                <div class="product-image3">
+                    <a href="{{ pro_att.get_absolute_url }}">
+                        <img class="pic-1" src='{{MEDIA_URL}}{% thumbnail pro_att "hmid" %}'>
+                        <img class="pic-2" src='{% thumbnail_alt pro_att "hmid" %}'>
+                    </a>
+                    <ul class="social">
+                        <li><a href="{{ pro_att.get_absolute_url }}"><i class="icon_heart_alt"></i></a></li>
+                        <li><a href="{% url 'cart:cart_add' pro_att.pro_attribute_id %}"><i class="fa fa-shopping-cart"></i></a></li>
+                    </ul>
+                    <span class="product-new-label">{{ pro_att.product_id.condition }}</span>
+                </div>
+                <div class="product-content">
+                    <h3 class="title"><a href="{{ pro_att.get_absolute_url }}">{{ pro_att.attr_name }}</a></h3>
+                    <div class="price">{{ pro_att.price|floatformat:2|intcomma }} VND <br/>(<span>saleoff~10%</span>)</div>
+                </div>
+            </div>
+        </div>
+        {% if forloop.counter|modulo:4 == 0 and not forloop.first and not forloop.last%}
+    </div>
+    <hr>
+    <div class="row">
+        {% endif %}
+        {% if forloop.last %}
+    </div>
+    {% endif %}
+    {% endfor %}
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            {% include "pagination.html" with page=page_obj %}
+        </div>
+    </div>
+</div>
+<hr>
+<div class="container">
+    <h3 class="h3">Mẫu ảnh đứng - Thời trang</h3>
+    <div class="row">
+        <div class="col-md-3 col-sm-6">
+            <div class="product-grid7">
+                <div class="product-image7">
+                    <a href="#">
+                        <img class="pic-1" src='{% static "img/product/product-7.jpg" %}'>
+                        <img class="pic-2" src='{% static "img/product/product-8.jpg" %}'>
+                    </a>
+                    <ul class="social">
+                        <li><a class="fa fa-search" href=""></a></li>
+                        <li><a class="icon_heart_alt" href=""></a></li>
+                        <li><a class="fa fa-shopping-cart" href=""></a></li>
+                    </ul>
+                    <span class="product-new-label">New</span>
+                </div>
+                <div class="product-content">
+                    <h3 class="title"><a href="#">Men's Blazer</a></h3>
+                    <ul class="rating">
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                    </ul>
+                    <div class="price">$15.00
+                        <span>$20.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="product-grid7">
+                <div class="product-image7">
+                    <a href="#">
+                        <img class="pic-1" src='{% static "img/product/product-6.jpg" %}'>
+                        <img class="pic-2" src='{% static "img/product/product-5.jpg" %}'>
+                    </a>
+                    <ul class="social">
+                        <li><a class="fa fa-search" href=""></a></li>
+                        <li><a class="icon_heart_alt" href=""></a></li>
+                        <li><a class="fa fa-shopping-cart" href=""></a></li>
+                    </ul>
+                </div>
+                <div class="product-content">
+                    <h3 class="title"><a href="#">Women's White Shirt</a></h3>
+                    <ul class="rating">
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                    </ul>
+                    <div class="price">$15.00</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="product-grid7">
+                <div class="product-image7">
+                    <a href="#">
+                        <img class="pic-1" src='{% static "img/product/product-4.jpg" %}'>
+                        <img class="pic-2" src='{% static "img/product/product-3.jpg" %}'>
+                    </a>
+                    <ul class="social">
+                        <li><a class="fa fa-search" href=""></a></li>
+                        <li><a class="icon_heart_alt" href=""></a></li>
+                        <li><a class="fa fa-shopping-cart" href=""></a></li>
+                    </ul>
+                    <span class="product-new-label">New</span>
+                </div>
+                <div class="product-content">
+                    <h3 class="title"><a href="#">Men's Blazer</a></h3>
+                    <ul class="rating">
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                    </ul>
+                    <div class="price">$15.00
+                        <span>$20.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="product-grid7">
+                <div class="product-image7">
+                    <a href="#">
+                        <img class="pic-1" src='{% static "img/product/product-2.jpg" %}'>
+                        <img class="pic-2" src='{% static "img/product/product-1.jpg" %}'>
+                    </a>
+                    <ul class="social">
+                        <li><a class="fa fa-search" href=""></a></li>
+                        <li><a class="icon_heart_alt" href=""></a></li>
+                        <li><a class="fa fa-shopping-cart" href=""></a></li>
+                    </ul>
+                    <span class="product-new-label">New</span>
+                </div>
+                <div class="product-content">
+                    <h3 class="title"><a href="#">Men's Blazer</a></h3>
+                    <ul class="rating">
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                    </ul>
+                    <div class="price">$15.00
+                        <span>$20.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<!-- Product Section Begin -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3 col-md-3">
+            <div class="section-title">
+                <h4>In Group</h4>
+            </div>
+        </div>
+        <div class="col-lg-9 col-md-9">
+            <ul class="filter__controls">
+                <li class="active" data-filter="*">All</li>
+                {% for pro in products %}
+                <li data-filter=".{{ pro.slug }}">{{ pro.name|truncatechars:16|title }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="row property__gallery">
+        {% for pro in products %}
+        {% for pro_att in pro.get_pro_atts %}
+        <div class="col-lg-3 col-md-4 col-sm-6 mix {{ pro.slug }}">
+            <div class="product-grid4">
+                <div class="product-image4">
+                    <a href="{{ pro_att.get_absolute_url }}">
+                        <img class="pic-1" src='{{MEDIA_URL}}{% thumbnail pro_att "mid" %}'>
+                        <img class="pic-2" src='{% thumbnail_alt pro_att "big" %}'>
+                    </a>
+                    <ul class="social">
+                        <li><a data-tip="Quick View" href="#"><i class="fa fa-eye"></i></a></li>
+                        <li><a data-tip="Add to Wishlist" href="#"><i class="icon_heart_alt"></i></a></li>
+                        <li><a data-tip="Add to Cart" href="{% url 'cart:cart_add' pro_att.pro_attribute_id %}"><i class="fa fa-shopping-cart"></i></a></li>
+                    </ul>
+                    <span class="product-new-label">New</span>
+                    <span class="product-discount-label">-10%</span>
+                </div>
+                <div class="product-content">
+                    <h3 class="title"><a href="{{ pro_att.get_absolute_url }}">{{ pro_att.attr_name }}</a></h3>
+                    <div class="price">{{ pro_att.price|floatformat:2|intcomma }} VND <br/>(<span>saleoff~10%</span>)</div>
+                    <a class="add-to-cart" href="{% url 'cart:cart_add' pro_att.pro_attribute_id %}">ADD TO CART</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endfor %}
+    </div>
+</div>
+<!-- Product Section End -->
+<hr>
+{% endblock %}

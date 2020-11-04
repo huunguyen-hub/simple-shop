@@ -1,0 +1,664 @@
+{% extends "base_site.html" %}
+{% load i18n static %}
+{% block title %}My Shopping{% endblock %}
+
+{% block content %}{{ block.super }}
+{% if page_obj.number is None or page_obj.number <= 1 %}
+<!-- Categories Section Begin -->
+<section class="categories">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6 p-0">
+                <div class="categories__item categories__large__item set-bg"
+                     data-setbg='{% static "img/categories/category-1.jpg" %}'>
+                    <div class="categories__text">
+                        <h1>Women’s fashion</h1>
+                        <p>Sitamet, consectetur adipiscing elit, sed do eiusmod tempor incidid-unt labore
+                            edolore magna aliquapendisse ultrices gravida.</p>
+                        <a href="#">Shop now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 p-0">
+                        <div class="categories__item set-bg" data-setbg='{% static "img/categories/category-2.jpg" %}'>
+                            <div class="categories__text">
+                                <h4>Men’s fashion</h4>
+                                <p>358 items</p>
+                                <a href="#">Shop now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 p-0">
+                        <div class="categories__item set-bg" data-setbg='{% static "img/categories/category-3.jpg" %}'>
+                            <div class="categories__text">
+                                <h4>Kid’s fashion</h4>
+                                <p>273 items</p>
+                                <a href="#">Shop now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 p-0">
+                        <div class="categories__item set-bg" data-setbg='{% static "img/categories/category-4.jpg" %}'>
+                            <div class="categories__text">
+                                <h4>Cosmetics</h4>
+                                <p>159 items</p>
+                                <a href="#">Shop now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 p-0">
+                        <div class="categories__item set-bg" data-setbg='{% static "img/categories/category-5.jpg" %}'>
+                            <div class="categories__text">
+                                <h4>Accessories</h4>
+                                <p>792 items</p>
+                                <a href="#">Shop now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Categories Section End -->
+{% endif %}
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__links">
+                    <a href="{% url 'home' %}"><i class="fa fa-home"></i></a>
+                    <span>Shop's Home</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+<div class="container">
+    <div class="section-title"><h4>Products In Spa's Shop</h4></div>
+        {% load com_extras %}
+        {% for pro_att in productattributes %}
+             {% if forloop.first %}
+                <div class="row">
+            {% endif %}
+            <div class="col-md-3 col-sm-6">
+            <div class="product-grid3">
+                <div class="product-image3">
+                    <a href="{{ pro_att.get_absolute_url }}">
+                        <img class="pic-1" src='{{MEDIA_URL}}{% thumbnail pro_att "mid" %}'>
+                        <img class="pic-2" src='{% thumbnail_alt pro_att "big" %}'>
+                    </a>
+                    <ul class="social">
+                        <li><a href="{{ pro_att.get_absolute_url }}"><i class="icon_heart_alt"></i></a></li>
+                        <li><a href="{{ pro_att.get_absolute_url }}"><i class="fa fa-shopping-cart"></i></a></li>
+                    </ul>
+                    <span class="product-new-label">{{ pro_att.product_id.condition }}</span>
+                </div>
+                <div class="product-content">
+                    <h3 class="title"><a href="{{ pro_att.get_absolute_url }}">{{ pro_att.attr_name }}</a></h3>
+                    <div class="price">{{ pro_att.price }} VND (<span>saleoff~10%</span>)</div>
+                </div>
+            </div>
+        </div>
+            {% if forloop.counter|modulo:4 == 0 and not forloop.first and not forloop.last%}
+                </div><hr><div class="row">
+            {% endif %}
+            {% if forloop.last %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            {% include "pagination.html" with page=page_obj %}
+        </div>
+    </div>
+</div>
+<hr>
+<div class="container">
+    <div class="section-title"><h4>shopping Demo-3</h4></div>
+    <div class="row">
+        <div class="col-md-3 col-sm-6">
+            <div class="product-grid3">
+                <div class="product-image3">
+                    <a href="#">
+                        <img class="pic-1" src='{% static "img/product/category-1.jpg" %}'>
+                        <img class="pic-2" src='{% static "img/product/category-2.jpg" %}'>
+                    </a>
+                    <ul class="social">
+                        <li><a href="#"><i class="icon_heart_alt"></i></a></li>
+                        <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                    </ul>
+                    <span class="product-new-label">New</span>
+                </div>
+                <div class="product-content">
+                    <h3 class="title"><a href="#">Men's Blazer</a></h3>
+                    <div class="price">$63.50<span>$75.00</span></div>
+                    <ul class="rating">
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star disable"></li>
+                        <li class="fa fa-star disable"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="product-grid3">
+                <div class="product-image3">
+                    <a href="#">
+                        <img class="pic-1" src='{% static "img/product/product-3.jpg" %}'>
+                        <img class="pic-2" src='{% static "img/product/product-4.jpg" %}'>
+                    </a>
+                    <ul class="social">
+                        <li><a href="#"><i class="icon_heart_alt"></i></a></li>
+                        <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                    </ul>
+                </div>
+                <div class="product-content">
+                    <h3 class="title"><a href="#">Women's Designer Top</a></h3>
+                    <div class="price">
+                        $43.50
+                    </div>
+                    <ul class="rating">
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="product-grid3">
+                <div class="product-image3">
+                    <a href="#">
+                        <img class="pic-1" src='{% static "img/product/category-3.jpg" %}'>
+                        <img class="pic-2" src='{% static "img/product/category-4.jpg" %}'>
+                    </a>
+                    <ul class="social">
+                        <li><a href="#"><i class="icon_heart_alt"></i></a></li>
+                        <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                    </ul>
+                    <span class="product-new-label">New</span>
+                </div>
+                <div class="product-content">
+                    <h3 class="title"><a href="#">Men's Blazer</a></h3>
+                    <div class="price">
+                        $63.50
+                        <span>$75.00</span>
+                    </div>
+                    <ul class="rating">
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star disable"></li>
+                        <li class="fa fa-star disable"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="product-grid3">
+                <div class="product-image3">
+                    <a href="#">
+                        <img class="pic-1" src='{% static "img/product/product-7.jpg" %}'>
+                        <img class="pic-2" src='{% static "img/product/product-8.jpg" %}'>
+                    </a>
+                    <ul class="social">
+                        <li><a href="#"><i class="icon_heart_alt"></i></a></li>
+                        <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                    </ul>
+                    <span class="product-new-label">New</span>
+                </div>
+                <div class="product-content">
+                    <h3 class="title"><a href="#">Men's Blazer</a></h3>
+                    <div class="price">
+                        $63.50
+                        <span>$75.00</span>
+                    </div>
+                    <ul class="rating">
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star disable"></li>
+                        <li class="fa fa-star disable"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<div class="container">
+    <h3 class="h3">shopping Demo-5 </h3>
+    <div class="row">
+        <div class="col-md-3 col-sm-6">
+            <div class="product-grid5">
+                <div class="product-image5">
+                    <a href="#">
+                        <img class="pic-1" src='{% static "img/product/category-2.jpg" %}'>
+                        <img class="pic-2" src='{% static "img/product/category-1.jpg" %}'>
+                    </a>
+                    <ul class="social">
+                        <li><a data-tip="Quick View" href=""><i class="fa fa-search"></i></a></li>
+                        <li><a data-tip="Add to Wishlist" href=""><i class="fa fa-shopping-bag"></i></a></li>
+                        <li><a data-tip="Add to Cart" href=""><i class="fa fa-shopping-cart"></i></a></li>
+                    </ul>
+                    <a class="select-options" href="#"><i class="fa fa-arrow-right"></i> Select Options</a>
+                </div>
+                <div class="product-content">
+                    <h3 class="title"><a href="#">Men's Sweat Shirt</a></h3>
+                    <div class="price">$11.00 - $15.00</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="product-grid5">
+                <div class="product-image5">
+                    <a href="#">
+                        <img class="pic-1" src='{% static "img/product/product-4.jpg" %}'>
+                        <img class="pic-2" src='{% static "img/product/product-3.jpg" %}'>
+                    </a>
+                    <ul class="social">
+                        <li><a data-tip="Quick View" href=""><i class="fa fa-search"></i></a></li>
+                        <li><a data-tip="Add to Wishlist" href=""><i class="fa fa-shopping-bag"></i></a></li>
+                        <li><a data-tip="Add to Cart" href=""><i class="fa fa-shopping-cart"></i></a></li>
+                    </ul>
+                    <a class="select-options" href="#"><i class="fa fa-arrow-right"></i> Select Options</a>
+                </div>
+                <div class="product-content">
+                    <h3 class="title"><a href="#">Women's Shirt</a></h3>
+                    <div class="price">$10.00 - $12.00</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="product-grid5">
+                <div class="product-image5">
+                    <a href="#">
+                        <img class="pic-1" src='{% static "img/product/product-5.jpg" %}'>
+                        <img class="pic-2" src='{% static "img/product/product-6.jpg" %}'>
+                    </a>
+                    <ul class="social">
+                        <li><a data-tip="Quick View" href=""><i class="fa fa-search"></i></a></li>
+                        <li><a data-tip="Add to Wishlist" href=""><i class="fa fa-shopping-bag"></i></a></li>
+                        <li><a data-tip="Add to Cart" href=""><i class="fa fa-shopping-cart"></i></a></li>
+                    </ul>
+                    <a class="select-options" href="#"><i class="fa fa-arrow-right"></i> Select Options</a>
+                </div>
+                <div class="product-content">
+                    <h3 class="title"><a href="#">Men's Sweat Shirt</a></h3>
+                    <div class="price">$11.00 - $15.00</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="product-grid5">
+                <div class="product-image5">
+                    <a href="#">
+                        <img class="pic-1" src='{% static "img/product/product-7.jpg" %}'>
+                        <img class="pic-2" src='{% static "img/product/product-8.jpg" %}'>
+                    </a>
+                    <ul class="social">
+                        <li><a data-tip="Quick View" href=""><i class="fa fa-search"></i></a></li>
+                        <li><a data-tip="Add to Wishlist" href=""><i class="fa fa-shopping-bag"></i></a></li>
+                        <li><a data-tip="Add to Cart" href=""><i class="fa fa-shopping-cart"></i></a></li>
+                    </ul>
+                    <a class="select-options" href="#"><i class="fa fa-arrow-right"></i> Select Options</a>
+                </div>
+                <div class="product-content">
+                    <h3 class="title"><a href="#">Men's Sweat Shirt</a></h3>
+                    <div class="price">$11.00 - $15.00</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<div class="container">
+    <h3 class="h3">shopping Demo-7 </h3>
+    <div class="row">
+        <div class="col-md-3 col-sm-6">
+            <div class="product-grid7">
+                <div class="product-image7">
+                    <a href="#">
+                        <img class="pic-1" src='{% static "img/product/product-7.jpg" %}'>
+                        <img class="pic-2" src='{% static "img/product/product-8.jpg" %}'>
+                    </a>
+                    <ul class="social">
+                        <li><a class="fa fa-search" href=""></a></li>
+                        <li><a class="icon_heart_alt" href=""></a></li>
+                        <li><a class="fa fa-shopping-cart" href=""></a></li>
+                    </ul>
+                    <span class="product-new-label">New</span>
+                </div>
+                <div class="product-content">
+                    <h3 class="title"><a href="#">Men's Blazer</a></h3>
+                    <ul class="rating">
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                    </ul>
+                    <div class="price">$15.00
+                        <span>$20.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="product-grid7">
+                <div class="product-image7">
+                    <a href="#">
+                        <img class="pic-1" src='{% static "img/product/product-6.jpg" %}'>
+                        <img class="pic-2" src='{% static "img/product/product-5.jpg" %}'>
+                    </a>
+                    <ul class="social">
+                        <li><a class="fa fa-search" href=""></a></li>
+                        <li><a class="icon_heart_alt" href=""></a></li>
+                        <li><a class="fa fa-shopping-cart" href=""></a></li>
+                    </ul>
+                </div>
+                <div class="product-content">
+                    <h3 class="title"><a href="#">Women's White Shirt</a></h3>
+                    <ul class="rating">
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                    </ul>
+                    <div class="price">$15.00</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="product-grid7">
+                <div class="product-image7">
+                    <a href="#">
+                        <img class="pic-1" src='{% static "img/product/product-4.jpg" %}'>
+                        <img class="pic-2" src='{% static "img/product/product-3.jpg" %}'>
+                    </a>
+                    <ul class="social">
+                        <li><a class="fa fa-search" href=""></a></li>
+                        <li><a class="icon_heart_alt" href=""></a></li>
+                        <li><a class="fa fa-shopping-cart" href=""></a></li>
+                    </ul>
+                    <span class="product-new-label">New</span>
+                </div>
+                <div class="product-content">
+                    <h3 class="title"><a href="#">Men's Blazer</a></h3>
+                    <ul class="rating">
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                    </ul>
+                    <div class="price">$15.00
+                        <span>$20.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="product-grid7">
+                <div class="product-image7">
+                    <a href="#">
+                        <img class="pic-1" src='{% static "img/product/product-2.jpg" %}'>
+                        <img class="pic-2" src='{% static "img/product/product-1.jpg" %}'>
+                    </a>
+                    <ul class="social">
+                        <li><a class="fa fa-search" href=""></a></li>
+                        <li><a class="icon_heart_alt" href=""></a></li>
+                        <li><a class="fa fa-shopping-cart" href=""></a></li>
+                    </ul>
+                    <span class="product-new-label">New</span>
+                </div>
+                <div class="product-content">
+                    <h3 class="title"><a href="#">Men's Blazer</a></h3>
+                    <ul class="rating">
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                    </ul>
+                    <div class="price">$15.00
+                        <span>$20.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<!-- Product Section Begin -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3 col-md-3">
+            <div class="section-title">
+                <h4>In Group</h4>
+            </div>
+        </div>
+        <div class="col-lg-9 col-md-9">
+            <ul class="filter__controls">
+                <li class="active" data-filter="*">All</li>
+                <li data-filter=".women">Women’s</li>
+                <li data-filter=".men">Men’s</li>
+                <li data-filter=".kid">Kid’s</li>
+                <li data-filter=".accessories">Accessories</li>
+                <li data-filter=".xxx">Cosmetics</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row property__gallery">
+        <div class="col-lg-3 col-md-4 col-sm-6 mix women">
+            <div class="product-grid7">
+                <div class="product-image7">
+                    <a href="#">
+                        <img class="pic-1" src='{% static "img/product/category-2.jpg" %}'>
+                        <img class="pic-2" src='{% static "img/product/category-1.jpg" %}'>
+                    </a>
+                    <ul class="social">
+                        <li><a class="fa fa-search" href=""></a></li>
+                        <li><a class="icon_heart_alt" href=""></a></li>
+                        <li><a class="fa fa-shopping-cart" href=""></a></li>
+                    </ul>
+                    <span class="product-new-label">New</span>
+                </div>
+                <div class="product-content">
+                    <h3 class="title"><a href="#">Men's Blazer</a></h3>
+                    <ul class="rating">
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                    </ul>
+                    <div class="price">$15.00
+                        <span>$20.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6 mix men">
+            <div class="product__item">
+                <div class="product__item__pic set-bg" data-setbg='{% static "img/product/product-2.jpg" %}'>
+                    <ul class="product__hover">
+                        <li><a class="image-popup" href='{% static "img/product/product-2.jpg" %}'><span
+                                class="arrow_expand"></span></a></li>
+                        <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                        <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+                    </ul>
+                </div>
+                <div class="product__item__text">
+                    <h6><a href="#">Flowy striped skirt</a></h6>
+                    <div class="rating">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </div>
+                    <div class="product__price">$ 49.0</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6 mix accessories">
+            <div class="product__item">
+                <div class="product__item__pic set-bg" data-setbg='{% static "img/product/product-3.jpg" %}'>
+                    <div class="label stockout">out of stock</div>
+                    <ul class="product__hover">
+                        <li><a class="image-popup" href='{% static "img/product/product-3.jpg" %}'><span
+                                class="arrow_expand"></span></a></li>
+                        <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                        <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+                    </ul>
+                </div>
+                <div class="product__item__text">
+                    <h6><a href="#">Cotton T-Shirt</a></h6>
+                    <div class="rating">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </div>
+                    <div class="product__price">$ 59.0</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6 mix cosmetic">
+            <div class="product__item">
+                <div class="product__item__pic set-bg" data-setbg='{% static "img/product/product-4.jpg" %}'>
+                    <ul class="product__hover">
+                        <li><a class="image-popup" href='{% static "img/product/product-4.jpg" %}'><span
+                                class="arrow_expand"></span></a></li>
+                        <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                        <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+                    </ul>
+                </div>
+                <div class="product__item__text">
+                    <h6><a href="#">Slim striped pocket shirt</a></h6>
+                    <div class="rating">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </div>
+                    <div class="product__price">$ 59.0</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6 mix kid">
+            <div class="product__item">
+                <div class="product__item__pic set-bg" data-setbg='{% static "img/product/product-5.jpg" %}'>
+                    <ul class="product__hover">
+                        <li><a class="image-popup" href='{% static "img/product/product-5.jpg" %}'><span
+                                class="arrow_expand"></span></a></li>
+                        <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                        <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+                    </ul>
+                </div>
+                <div class="product__item__text">
+                    <h6><a href="#">Fit micro corduroy shirt</a></h6>
+                    <div class="rating">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </div>
+                    <div class="product__price">$ 59.0</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6 mix women men kid accessories cosmetic">
+            <div class="product-grid4">
+                <div class="product-image4">
+                    <a href="#">
+                        <img class="pic-1" src='{% static "img/product/product-5.jpg" %}'>
+                        <img class="pic-2" src='{% static "img/product/product-7.jpg" %}'>
+                    </a>
+                    <ul class="social">
+                        <li><a data-tip="Quick View" href="#"><i class="fa fa-eye"></i></a></li>
+                        <li><a data-tip="Add to Wishlist" href="#"><i class="icon_heart_alt"></i></a></li>
+                        <li><a data-tip="Add to Cart" href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                    </ul>
+                    <span class="product-new-label">New</span>
+                    <span class="product-discount-label">-10%</span>
+                </div>
+                <div class="product-content">
+                    <h3 class="title"><a href="#">Women's Black Top</a></h3>
+                    <div class="price">
+                        $14.40
+                        <span>$16.00</span>
+                    </div>
+                    <a class="add-to-cart" href="">ADD TO CART</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6 mix women men kid accessories cosmetic">
+            <div class="product-grid4">
+                <div class="product-image4">
+                    <a href="#">
+                        <img class="pic-1" src='{% static "img/product/category-1.jpg" %}'>
+                        <img class="pic-2" src='{% static "img/product/category-5.jpg" %}'>
+                    </a>
+                    <ul class="social">
+                        <li><a data-tip="Quick View" href="#"><i class="fa fa-eye"></i></a></li>
+                        <li><a data-tip="Add to Wishlist" href="#"><i class="icon_heart_alt"></i></a></li>
+                        <li><a data-tip="Add to Cart" href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                    </ul>
+                    <span class="product-new-label">New</span>
+                    <span class="product-discount-label">-10%</span>
+                </div>
+                <div class="product-content">
+                    <h3 class="title"><a href="#">Women's Black Top</a></h3>
+                    <div class="price">
+                        $14.40
+                        <span>$16.00</span>
+                    </div>
+                    <a class="add-to-cart" href="">ADD TO CART</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6 mix women men kid accessories cosmetic xxx">
+            <div class="product-grid4">
+                <div class="product-image4">
+                    <a href="#">
+                        <img class="pic-1" src='{% static "img/product/category-2.jpg" %}'>
+                        <img class="pic-2" src='{% static "img/product/category-3.jpg" %}'>
+                    </a>
+                    <ul class="social">
+                        <li><a data-tip="Quick View" href="#"><i class="fa fa-eye"></i></a></li>
+                        <li><a data-tip="Add to Wishlist" href="#"><i class="icon_heart_alt"></i></a></li>
+                        <li><a data-tip="Add to Cart" href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                    </ul>
+                    <span class="product-new-label">New</span>
+                    <span class="product-discount-label">-10%</span>
+                </div>
+                <div class="product-content">
+                    <h3 class="title"><a href="#">Women's Black Top</a></h3>
+                    <div class="price">
+                        $14.40
+                        <span>$16.00</span>
+                    </div>
+                    <a class="add-to-cart" href="">ADD TO CART</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Product Section End -->
+<hr>
+{% endblock %}

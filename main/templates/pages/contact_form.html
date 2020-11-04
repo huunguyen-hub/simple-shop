@@ -1,0 +1,225 @@
+{% extends "base_site.html" %}
+{% load i18n static cart_tag humanize com_extras widget_tweaks %}
+{% load crispy_forms_tags %}
+{% block title %}{{ post.title }}{% endblock %}
+{% block plugins_js %}{{ block.super }}
+<script src='{% static "js/extra-cke-img.js" %}' type="text/javascript"></script>
+<script type="text/javascript">
+$(function () {
+    $('.captcha').click(function () {
+        $.getJSON("/captcha/refresh/", function (result) {
+            $('.captcha').attr('src', result['image_url']);
+            $('#id_captcha_0').val(result['key'])
+        });
+    });
+
+  let url = location.href.replace(/\/$/, "");
+
+  if (location.hash) {
+    const hash = url.split("#");
+    $('#tabCom a[href="#'+hash[1]+'"]').tab("show");
+    url = location.href.replace(/\/#/, "#");
+    history.replaceState(null, null, url);
+    setTimeout(() => {
+      $(window).scrollTop(0);
+    }, 400);
+  }
+
+  $('a[data-toggle="tab"]').on("click", function() {
+    let newUrl;
+    const hash = $(this).attr("href");
+    if(hash == "#home") {
+      newUrl = url.split("#")[0];
+    } else {
+      newUrl = url.split("#")[0] + hash;
+    }
+    newUrl += "/";
+    history.replaceState(null, null, newUrl);
+  });
+
+ var slider_wp = new Waypoint({
+      element: document.getElementById('slider-waypoint'),
+      handler: function(direction) {
+        console.log(direction);
+        if(direction == 'down') { $(".left__sidebar").css({'position': 'sticky', 'top': $(".pre-footer").offset().top + $(".left__sidebar").innerHeight()}); }
+        else { $(".left__sidebar").css({'position': 'sticky', 'top': 'auto'}); }
+      },
+      offset: '100%'
+    });
+});
+
+
+
+
+
+
+</script>
+{% endblock %}
+{% block content %}{{ block.super }}
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__links">
+                    <a href="{% url 'home' %}"><i class="fa fa-home"></i></a>
+                    <a href="{% url 'main:product_list' %}">All Products</a>
+                    <span>Shop's Home</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+<section class="post-details spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <iframe
+                        allowfullscreen=""
+                        height="250"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d48158.305462977965!2d-74.13283844036356!3d41.02757295168286!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2e440473470d7%3A0xcaf503ca2ee57958!2sSaddle%20River%2C%20NJ%2007458%2C%20USA!5e0!3m2!1sen!2sbd!4v1575917275626!5m2!1sen!2sbd"
+                        style="border:0"
+                        width="100%">
+                </iframe>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-9 col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                <div class="row">
+                    <div class="col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="post__details__tab">
+                            <ul class="nav nav-tabs" id="tabCom" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#frm" role="tab">Contact
+                                        Form</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#com" role="tab">Other Info</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane row active" id="frm" role="tabpanel">
+                                    <div class="col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <form class="form-horizontal" method="post" role="form">
+                                            {% csrf_token %}
+                                            {{ form.media }}
+                                            <div class="form-row">
+                                                <div class="form-group col-6 mb-0">
+                                                    {{ form.name|as_crispy_field }}
+                                                </div>
+                                                <div class="form-group col-6 mb-0">
+                                                    {{ form.email|as_crispy_field }}
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-6 mb-0">
+                                                    {{ form.company|as_crispy_field }}
+                                                </div>
+                                                <div class="form-group col-6 mb-0">
+                                                    {{ form.mobile|as_crispy_field }}
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-12 mb-0">
+                                                    {{ form.description|as_crispy_field }}
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-6 mb-0">
+                                                    {{ form.captcha|as_crispy_field }}
+                                                </div>
+                                                <div class="form-group col-6 mb-0">
+                                                    {{ form.customer_service|as_crispy_field }}
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-12 mb-0 text-center align-middle">
+                                                    <button class="btn btn-success" type="submit">Submit</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="com">
+                                    <div class="row">
+                                        <div class="col-6 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <div class="contact__address">
+                                                <h5>Contact info</h5>
+                                                <ul>
+                                                    <li>
+                                                        <h6><i class="fa fa-map-marker"></i> Address</h6>
+                                                        <p>160 Pennsylvania Ave NW, Washington, Castle, PA
+                                                            16101-5161</p>
+                                                    </li>
+                                                    <li>
+                                                        <h6><i class="fa fa-phone"></i> Phone</h6>
+                                                        <p><span>125-711-811</span><span>125-668-886</span></p>
+                                                    </li>
+                                                    <li>
+                                                        <h6><i class="fa fa-headphones"></i> Support</h6>
+                                                        <p>Support.photography@gmail.com</p>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <div class="contact__address">
+                                                <h5>Contact info</h5>
+                                                <ul>
+                                                    <li>
+                                                        <h6><i class="fa fa-map-marker"></i> Address</h6>
+                                                        <p>160 Pennsylvania Ave NW, Washington, Castle, PA
+                                                            16101-5161</p>
+                                                    </li>
+                                                    <li>
+                                                        <h6><i class="fa fa-phone"></i> Phone</h6>
+                                                        <p><span>125-711-811</span><span>125-668-886</span></p>
+                                                    </li>
+                                                    <li>
+                                                        <h6><i class="fa fa-headphones"></i> Support</h6>
+                                                        <p>Support.photography@gmail.com</p>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="menu-waypoint" id="menu-waypoint"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <div class="left__sidebar">
+                    <!-- BEGIN RECENT NEWS -->
+                    <h2>Recent News</h2>
+                    {% for post in posts %}
+                    {% if forloop.counter <= 1 %}
+                    <div class="row">
+                        <div class="col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <img alt="{{ post.title|truncatechars:70|title }}" class="img-responsive"
+                                 src='{% thumbnail post "hmid" %}'>
+                            <h5><a href="{{ post.get_absolute_url }}">{{ post.title|truncatechars:70|title }}</a></h5>
+                            <p>{{ post.title|truncatechars:400 }}</p>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="post-container">
+                        <span class="post-content">
+                            <h5><a href="{{ post.get_absolute_url }}">{{ post.title|truncatechars:45|title }}</a></h5>
+                            <p>
+                            by <span>{{ post.user_add.last_name }}</span> {{ post.date_add|date:"M d, Y" }}
+                            </p>
+                        </span>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    <span class="slider-waypoint" id="slider-waypoint"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

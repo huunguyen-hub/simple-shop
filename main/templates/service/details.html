@@ -1,0 +1,368 @@
+{% extends "base_site.html" %}
+{% load i18n static %}
+{% load cart_tag humanize com_extras %}
+{% block title %}Details for Product{% endblock %}
+{% block content %}{{ block.super }}
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__links">
+                    <a href="{% url 'home' %}"><i class="fa fa-home"></i></a>
+                    <a href="{% url 'main:shop' %}">Shop's Home</a>
+                    <a href="{% url 'main:product_list' %}">All Products</a>
+                    <a href="{{ model.product_id.get_absolute_url }}">List Products</a>
+                    <span>{{ model.attr_name}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+<!-- Product Details Section Begin -->
+<section class="product-details spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                {% load_slider model %}
+            </div>
+            <div class="col-lg-6">
+                <div class="product__details__text">
+                    <h3>{{ model.attr_name}} <span>Product: <a href="{{ model.product_id.get_absolute_url }}">{{ model.product_id.name}}</a></span></h3>
+                    <div class="rating">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <span>( 138 reviews )</span>
+                    </div>
+                    <div class="product__details__other">
+                        <span>Quick Select Product:</span>
+                         <select class="custom-select" id="selPro">
+                             {% for o_model in models %}
+                                {% if o_model.pk == model.pk %}
+                                    <option selected="selected" value="{{o_model.pk}}" data-href="{{ o_model.get_absolute_url }}">{{o_model.attr_name}}</option>
+                                {% else %}
+                                    <option value="{{o_model.pk}}" data-href="{{ o_model.get_absolute_url }}">{{o_model.attr_name}}</option>
+                                {% endif %}
+                            {% endfor %}
+                         </select>
+                    </div>
+                    <div class="product__details__price">{{ model.price|floatformat:2|intcomma }} VND <br/>(<span>saleoff~10%</span>)</div>
+                    <p>{{ model.product_id.description_short|safe }}</p>
+                    {% load_variant model %}
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="product__details__tab">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Description</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Specification</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">Reviews ( 2 )</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                            <h4>Description</h4>
+                            {{ model.product_id.description_short|safe }}
+                            {{ model.product_id.description|safe }}
+                        </div>
+                        <div class="tab-pane table-responsive" id="tabs-2" role="tabpanel">
+                            <h4>Specification: Features</h4>
+                            <div class="col-md-12">
+                                    <table class="table table-responsive">
+                                        <thead>
+                                        <tr>
+                                            <th>Feature Key</th>
+                                            <th>Feature Value</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for obj_feature in obj_features %}
+                                        <tr>
+                                            <td class="key-cell">
+                                                <span>{{ obj_feature.feature_id.name }}</span>
+                                            </td>
+                                            <td class="value-cell">
+                                                <span>{{ obj_feature.feature_value_id.value }}</span>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                             <h4>Specification: Other Attributes</h4>
+                            <div class="col-md-12">
+                                    <table class="table table-responsive">
+                                        <thead>
+                                        <tr>
+                                            <th>Attributes Key</th>
+                                            <th>Attributes Value</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for obj_attribute in obj_attributes %}
+                                        <tr>
+                                            <td class="key-cell">
+                                                <span>{{ obj_attribute.attr_group_id.name }}</span>
+                                            </td>
+                                            <td class="value-cell">
+                                                <span>{{ obj_attribute.name }}</span>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                        </div>
+                        <div class="tab-pane" id="tabs-3" role="tabpanel">
+                            <h6>Reviews ( 2 )</h6>
+                            <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed
+                                quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt loret.
+                                Neque porro lorem quisquam est, qui dolorem ipsum quia dolor si. Nemo enim ipsam
+                                voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed quia ipsu
+                                consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Nulla
+                                consequat massa quis enim.</p>
+                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget
+                                dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes,
+                                nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium
+                                quis, sem.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Product Details Section End -->
+
+<!-- Product Section Begin -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3 col-md-3">
+            <div class="section-title">
+                <h4>In Group</h4>
+            </div>
+        </div>
+        <div class="col-lg-9 col-md-9">
+            <ul class="filter__controls">
+                <li class="active" data-filter="*">All</li>
+                <li data-filter=".women">Women’s</li>
+                <li data-filter=".men">Men’s</li>
+                <li data-filter=".kid">Kid’s</li>
+                <li data-filter=".accessories">Accessories</li>
+                <li data-filter=".xxx">Cosmetics</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row property__gallery">
+        <div class="col-lg-3 col-md-4 col-sm-6 mix women">
+            <div class="product-grid7">
+                <div class="product-image7">
+                    <a href="#">
+                        <img class="pic-1" src='{% static "img/product/category-2.jpg" %}'>
+                        <img class="pic-2" src='{% static "img/product/category-1.jpg" %}'>
+                    </a>
+                    <ul class="social">
+                        <li><a class="fa fa-search" href=""></a></li>
+                        <li><a class="icon_heart_alt" href=""></a></li>
+                        <li><a class="fa fa-shopping-cart" href=""></a></li>
+                    </ul>
+                    <span class="product-new-label">New</span>
+                </div>
+                <div class="product-content">
+                    <h3 class="title"><a href="#">Men's Blazer</a></h3>
+                    <ul class="rating">
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                        <li class="fa fa-star"></li>
+                    </ul>
+                    <div class="price">$15.00
+                        <span>$20.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6 mix men">
+            <div class="product__item">
+                <div class="product__item__pic set-bg" data-setbg='{% static "img/product/product-2.jpg" %}'>
+                    <ul class="product__hover">
+                        <li><a class="image-popup" href='{% static "img/product/product-2.jpg" %}'><span
+                                class="arrow_expand"></span></a></li>
+                        <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                        <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+                    </ul>
+                </div>
+                <div class="product__item__text">
+                    <h6><a href="#">Flowy striped skirt</a></h6>
+                    <div class="rating">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </div>
+                    <div class="product__price">$ 49.0</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6 mix accessories">
+            <div class="product__item">
+                <div class="product__item__pic set-bg" data-setbg='{% static "img/product/product-3.jpg" %}'>
+                    <div class="label stockout">out of stock</div>
+                    <ul class="product__hover">
+                        <li><a class="image-popup" href='{% static "img/product/product-3.jpg" %}'><span
+                                class="arrow_expand"></span></a></li>
+                        <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                        <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+                    </ul>
+                </div>
+                <div class="product__item__text">
+                    <h6><a href="#">Cotton T-Shirt</a></h6>
+                    <div class="rating">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </div>
+                    <div class="product__price">$ 59.0</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6 mix cosmetic">
+            <div class="product__item">
+                <div class="product__item__pic set-bg" data-setbg='{% static "img/product/product-4.jpg" %}'>
+                    <ul class="product__hover">
+                        <li><a class="image-popup" href='{% static "img/product/product-4.jpg" %}'><span
+                                class="arrow_expand"></span></a></li>
+                        <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                        <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+                    </ul>
+                </div>
+                <div class="product__item__text">
+                    <h6><a href="#">Slim striped pocket shirt</a></h6>
+                    <div class="rating">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </div>
+                    <div class="product__price">$ 59.0</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6 mix kid">
+            <div class="product__item">
+                <div class="product__item__pic set-bg" data-setbg='{% static "img/product/product-5.jpg" %}'>
+                    <ul class="product__hover">
+                        <li><a class="image-popup" href='{% static "img/product/product-5.jpg" %}'><span
+                                class="arrow_expand"></span></a></li>
+                        <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                        <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+                    </ul>
+                </div>
+                <div class="product__item__text">
+                    <h6><a href="#">Fit micro corduroy shirt</a></h6>
+                    <div class="rating">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </div>
+                    <div class="product__price">$ 59.0</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6 mix women men kid accessories cosmetic">
+            <div class="product-grid4">
+                <div class="product-image4">
+                    <a href="#">
+                        <img class="pic-1" src='{% static "img/product/product-5.jpg" %}'>
+                        <img class="pic-2" src='{% static "img/product/product-7.jpg" %}'>
+                    </a>
+                    <ul class="social">
+                        <li><a data-tip="Quick View" href="#"><i class="fa fa-eye"></i></a></li>
+                        <li><a data-tip="Add to Wishlist" href="#"><i class="icon_heart_alt"></i></a></li>
+                        <li><a data-tip="Add to Cart" href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                    </ul>
+                    <span class="product-new-label">New</span>
+                    <span class="product-discount-label">-10%</span>
+                </div>
+                <div class="product-content">
+                    <h3 class="title"><a href="#">Women's Black Top</a></h3>
+                    <div class="price">
+                        $14.40
+                        <span>$16.00</span>
+                    </div>
+                    <a class="add-to-cart" href="">ADD TO CART</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6 mix women men kid accessories cosmetic">
+            <div class="product-grid4">
+                <div class="product-image4">
+                    <a href="#">
+                        <img class="pic-1" src='{% static "img/product/category-1.jpg" %}'>
+                        <img class="pic-2" src='{% static "img/product/category-5.jpg" %}'>
+                    </a>
+                    <ul class="social">
+                        <li><a data-tip="Quick View" href="#"><i class="fa fa-eye"></i></a></li>
+                        <li><a data-tip="Add to Wishlist" href="#"><i class="icon_heart_alt"></i></a></li>
+                        <li><a data-tip="Add to Cart" href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                    </ul>
+                    <span class="product-new-label">New</span>
+                    <span class="product-discount-label">-10%</span>
+                </div>
+                <div class="product-content">
+                    <h3 class="title"><a href="#">Women's Black Top</a></h3>
+                    <div class="price">
+                        $14.40
+                        <span>$16.00</span>
+                    </div>
+                    <a class="add-to-cart" href="">ADD TO CART</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6 mix women men kid accessories cosmetic xxx">
+            <div class="product-grid4">
+                <div class="product-image4">
+                    <a href="#">
+                        <img class="pic-1" src='{% static "img/product/category-2.jpg" %}'>
+                        <img class="pic-2" src='{% static "img/product/category-3.jpg" %}'>
+                    </a>
+                    <ul class="social">
+                        <li><a data-tip="Quick View" href="#"><i class="fa fa-eye"></i></a></li>
+                        <li><a data-tip="Add to Wishlist" href="#"><i class="icon_heart_alt"></i></a></li>
+                        <li><a data-tip="Add to Cart" href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                    </ul>
+                    <span class="product-new-label">New</span>
+                    <span class="product-discount-label">-10%</span>
+                </div>
+                <div class="product-content">
+                    <h3 class="title"><a href="#">Women's Black Top</a></h3>
+                    <div class="price">
+                        $14.40
+                        <span>$16.00</span>
+                    </div>
+                    <a class="add-to-cart" href="">ADD TO CART</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Product Section End -->
+<hr>
+{% endblock %}

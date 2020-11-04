@@ -1,0 +1,77 @@
+{% load i18n static com_extras %}
+<div class="product__details__button">
+    <div class="quantity">
+        <span>Quantity:</span>
+        <div class="pro-qty">
+            <input data-max="{{ model.quantity }}" data-min="1" id="inQty" type="text" value="1">
+        </div>
+    </div>
+    <a class="cart-btn" data-href="{% url 'cart:cart_add' model.pro_attribute_id %}" href="javascript:void(0)"><span
+            class="icon_bag_alt"></span> Add to cart</a>
+    <ul>
+        <li><a alt="Add to WishList" data-toggle="tooltip" href="javascript:void(0)" title="Add to WishList"><span
+                class="icon_heart_alt"></span></a></li>
+        <li><a alt="Chat with shop" data-toggle="tooltip" href="javascript:void(0)" title="Chat with shop"><span
+                class="icon_chat_alt"></span></a></li>
+    </ul>
+</div>
+<div class="product__details__widget">
+    <ul>
+        <li>
+            <span>Availability:</span>
+            <div class="stock__checkbox">
+                <label for="stockin">
+                    Current Quantity In Stock: ({{ model.quantity }})
+                    <input checked disabled id="stockin" type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </li>
+        {% for name_group in variants %}
+        {% if name_group is False %}
+        <li>
+            <span>Available color:</span>
+            <div class="color__checkbox">
+                <label for="red">
+                    <input checked id="red" name="color__radio" type="radio">
+                    <span class="checkmark"></span>
+                </label>
+                <label for="black">
+                    <input id="black" name="color__radio" type="radio">
+                    <span class="checkmark black-bg"></span>
+                </label>
+                <label for="grey">
+                    <input id="grey" name="color__radio" type="radio">
+                    <span class="checkmark grey-bg"></span>
+                </label>
+            </div>
+        </li>
+        {% else %}
+        <li>
+            <span>Available {{name_group}}:</span>
+            <div class="{{name_group}}__btn">
+                {% for item in variants|get_item:name_group %}
+                {% if item.pk in act_value %}
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input checked class="custom-control-input" data-key="{{item.pk}}" id="name{{item.pk}}" name="{{name_group}}" type="radio">
+                    <label class="custom-control-label" for="name{{item.pk}}">{{item.name}}</label>
+                </div>
+                {% else %}
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input class="custom-control-input" data-key="{{item.pk}}" id="name{{item.pk}}" name="{{name_group}}" type="radio">
+                    <label class="custom-control-label" for="name{{item.pk}}">{{item.name}}</label>
+                </div>
+                {% endif %}
+
+                {% endfor %}
+            </div>
+        </li>
+        {% endif %}
+
+        {% endfor %}
+        <li>
+            <span>Promotions:</span>
+            <p>Free shipping</p>
+        </li>
+    </ul>
+</div>

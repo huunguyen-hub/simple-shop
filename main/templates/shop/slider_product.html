@@ -1,0 +1,23 @@
+{% load i18n static com_extras %}
+<div class="product__details__pic">
+    <div class="product__details__pic__left product__thumb nice-scroll">
+        {% for key in images %}
+            {% if forloop.first %}
+                <a class="pt active" href="#product-{{ forloop.counter }}">
+                    <img alt="{{ key|safe }}" src="{{ key|safe }}" />
+                </a>
+            {% else %}
+                <a class="pt" href="#product-{{ forloop.counter }}">
+                    <img alt="{{ key|safe }}" src="{{ key|safe }}">
+                </a>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div class="product__details__slider__content">
+        <div class="product__details__pic__slider owl-carousel">
+            {% for key in images %}
+                <img alt="{{ key|safe }}" class="product__big__img" data-hash="product-{{ forloop.counter }}" src="{{ images|get_item:key }}">
+            {% endfor %}
+        </div>
+    </div>
+</div>

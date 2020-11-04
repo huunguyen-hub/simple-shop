@@ -2,10 +2,10 @@
 -- version 4.5.4.1deb2ubuntu2.1
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Oct 13, 2020 at 11:26 PM
--- Server version: 5.7.31-0ubuntu0.16.04.1
--- PHP Version: 7.1.33-19+ubuntu16.04.1+deb.sury.org+1
+-- Host: 127.0.0.1:3306
+-- Generation Time: Nov 04, 2020 at 03:55 PM
+-- Server version: 5.7.32-0ubuntu0.16.04.1
+-- PHP Version: 7.0.33-37+ubuntu16.04.1+deb.sury.org+1
 
 SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -32,15 +32,12 @@ USE `spadb`;
 --
 
 DROP TABLE IF EXISTS `account_emailaddress`;
-CREATE TABLE IF NOT EXISTS `account_emailaddress` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `account_emailaddress` (
+  `id` int(11) NOT NULL,
   `email` varchar(254) NOT NULL,
   `verified` tinyint(1) NOT NULL,
   `primary` tinyint(1) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `email` (`email`),
-  KEY `account_emailaddress_user_id_2c513194_fk_auth_user_id` (`user_id`)
+  `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -50,15 +47,12 @@ CREATE TABLE IF NOT EXISTS `account_emailaddress` (
 --
 
 DROP TABLE IF EXISTS `account_emailconfirmation`;
-CREATE TABLE IF NOT EXISTS `account_emailconfirmation` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `account_emailconfirmation` (
+  `id` int(11) NOT NULL,
   `created` datetime(6) NOT NULL,
   `sent` datetime(6) DEFAULT NULL,
   `key` varchar(64) NOT NULL,
-  `email_address_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `key` (`key`),
-  KEY `account_emailconfirm_email_address_id_5b7f8c58_fk_account_e` (`email_address_id`)
+  `email_address_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -68,14 +62,13 @@ CREATE TABLE IF NOT EXISTS `account_emailconfirmation` (
 --
 
 DROP TABLE IF EXISTS `actor`;
-CREATE TABLE IF NOT EXISTS `actor` (
+CREATE TABLE `actor` (
   `actor_id` int(11) NOT NULL,
   `name` varchar(245) DEFAULT NULL,
   `workingtime` json DEFAULT NULL,
   `rating` tinyint(8) DEFAULT NULL,
   `price_extra` decimal(20,2) DEFAULT NULL,
-  `available_date` datetime DEFAULT NULL,
-  PRIMARY KEY (`actor_id`)
+  `available_date` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -85,20 +78,16 @@ CREATE TABLE IF NOT EXISTS `actor` (
 --
 
 DROP TABLE IF EXISTS `address`;
-CREATE TABLE IF NOT EXISTS `address` (
-  `address_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `address` (
+  `address_id` int(11) UNSIGNED NOT NULL,
   `city_id` int(11) UNSIGNED NOT NULL,
   `district_id` int(11) UNSIGNED DEFAULT NULL,
   `ward_id` int(11) UNSIGNED DEFAULT NULL,
   `address` varchar(128) NOT NULL,
   `mobile` varchar(16) NOT NULL,
   `date_add` datetime NOT NULL,
-  `date_upd` datetime DEFAULT NULL,
-  PRIMARY KEY (`address_id`),
-  KEY `fk_address_6` (`city_id`),
-  KEY `fk_address_8` (`district_id`),
-  KEY `fk_address_9` (`ward_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
+  `date_upd` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `address`
@@ -143,8 +132,8 @@ INSERT INTO `address` (`address_id`, `city_id`, `district_id`, `ward_id`, `addre
 --
 
 DROP TABLE IF EXISTS `admin_interface_theme`;
-CREATE TABLE IF NOT EXISTS `admin_interface_theme` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `admin_interface_theme` (
+  `id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
   `active` tinyint(1) NOT NULL,
   `title` varchar(50) NOT NULL,
@@ -184,10 +173,8 @@ CREATE TABLE IF NOT EXISTS `admin_interface_theme` (
   `env_visible_in_favicon` tinyint(1) NOT NULL,
   `related_modal_close_button_visible` tinyint(1) NOT NULL,
   `language_chooser_active` tinyint(1) NOT NULL,
-  `language_chooser_display` varchar(10) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `admin_interface_theme_name_30bda70f_uniq` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+  `language_chooser_display` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `admin_interface_theme`
@@ -206,13 +193,11 @@ INSERT INTO `admin_interface_theme` (`id`, `name`, `active`, `title`, `title_vis
 --
 
 DROP TABLE IF EXISTS `answer_customer`;
-CREATE TABLE IF NOT EXISTS `answer_customer` (
+CREATE TABLE `answer_customer` (
   `answer_owner_id` int(11) UNSIGNED NOT NULL,
   `answer_id` int(11) UNSIGNED NOT NULL,
   `owner_id` int(11) UNSIGNED NOT NULL,
-  `ex_info` text,
-  PRIMARY KEY (`answer_owner_id`),
-  KEY `fk_answer_customer_1` (`answer_id`)
+  `ex_info` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -222,15 +207,13 @@ CREATE TABLE IF NOT EXISTS `answer_customer` (
 --
 
 DROP TABLE IF EXISTS `attribute`;
-CREATE TABLE IF NOT EXISTS `attribute` (
-  `attribute_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `attribute` (
+  `attribute_id` int(11) UNSIGNED NOT NULL,
   `attr_group_id` int(11) UNSIGNED NOT NULL,
   `color` varchar(32) DEFAULT NULL,
   `name` varchar(45) NOT NULL,
-  `position` tinyint(2) UNSIGNED NOT NULL DEFAULT '0',
-  PRIMARY KEY (`attribute_id`),
-  KEY `attribute_1` (`attr_group_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+  `position` tinyint(2) UNSIGNED NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `attribute`
@@ -259,16 +242,13 @@ INSERT INTO `attribute` (`attribute_id`, `attr_group_id`, `color`, `name`, `posi
 --
 
 DROP TABLE IF EXISTS `attribute_group`;
-CREATE TABLE IF NOT EXISTS `attribute_group` (
-  `attr_group_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `attribute_group` (
+  `attr_group_id` int(11) UNSIGNED NOT NULL,
   `name` varchar(45) NOT NULL,
   `public_name` varchar(45) NOT NULL,
   `group_type` enum('select','radio','color') NOT NULL DEFAULT 'select',
-  `position` tinyint(2) UNSIGNED NOT NULL DEFAULT '0',
-  PRIMARY KEY (`attr_group_id`),
-  UNIQUE KEY `name_UNIQUE` (`name`),
-  UNIQUE KEY `public_name_UNIQUE` (`public_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+  `position` tinyint(2) UNSIGNED NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `attribute_group`
@@ -287,12 +267,10 @@ INSERT INTO `attribute_group` (`attr_group_id`, `name`, `public_name`, `group_ty
 --
 
 DROP TABLE IF EXISTS `auth_group`;
-CREATE TABLE IF NOT EXISTS `auth_group` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(150) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+CREATE TABLE `auth_group` (
+  `id` int(11) NOT NULL,
+  `name` varchar(150) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `auth_group`
@@ -312,14 +290,11 @@ INSERT INTO `auth_group` (`id`, `name`) VALUES
 --
 
 DROP TABLE IF EXISTS `auth_group_permissions`;
-CREATE TABLE IF NOT EXISTS `auth_group_permissions` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `auth_group_permissions` (
+  `id` int(11) NOT NULL,
   `group_id` int(11) NOT NULL,
-  `permission_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `auth_group_permissions_group_id_permission_id_0cd325b0_uniq` (`group_id`,`permission_id`),
-  KEY `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` (`permission_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2321 DEFAULT CHARSET=utf8;
+  `permission_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `auth_group_permissions`
@@ -2654,14 +2629,12 @@ INSERT INTO `auth_group_permissions` (`id`, `group_id`, `permission_id`) VALUES
 --
 
 DROP TABLE IF EXISTS `auth_permission`;
-CREATE TABLE IF NOT EXISTS `auth_permission` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `auth_permission` (
+  `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `content_type_id` int(11) NOT NULL,
-  `codename` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `auth_permission_content_type_id_codename_01ab375a_uniq` (`content_type_id`,`codename`)
-) ENGINE=InnoDB AUTO_INCREMENT=625 DEFAULT CHARSET=utf8;
+  `codename` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `auth_permission`
@@ -3300,28 +3273,26 @@ INSERT INTO `auth_permission` (`id`, `name`, `content_type_id`, `codename`) VALU
 --
 
 DROP TABLE IF EXISTS `auth_user`;
-CREATE TABLE IF NOT EXISTS `auth_user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `auth_user` (
+  `id` int(11) NOT NULL,
   `password` varchar(128) NOT NULL,
   `last_login` datetime(6) DEFAULT NULL,
   `is_superuser` tinyint(1) NOT NULL,
   `username` varchar(150) NOT NULL,
-  `first_name` varchar(30) NOT NULL,
+  `first_name` varchar(150) NOT NULL,
   `last_name` varchar(150) NOT NULL,
   `email` varchar(254) NOT NULL,
   `is_staff` tinyint(1) NOT NULL,
   `is_active` tinyint(1) NOT NULL,
-  `date_joined` datetime(6) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+  `date_joined` datetime(6) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `auth_user`
 --
 
 INSERT INTO `auth_user` (`id`, `password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`) VALUES
-(1, 'pbkdf2_sha256$180000$rsNwq9gp6G9H$cfSwZKZMcZTWiNU4onCPfC1TkuWBiFU3sEQJeP+Eh0E=', '2020-10-13 03:27:10.414421', 1, 'huunguyen', 'Nguyen Huu', 'Nguyen', 'nguyenhuunguyen@gmail.com', 1, 1, '2020-06-30 16:14:48.000000'),
+(1, 'pbkdf2_sha256$216000$XXWlv49ZVM2Q$UaijQ96DGJilWu5fQM5u+T5PXoomN0zjrbrwwObSQY4=', '2020-11-02 02:35:34.071652', 1, 'huunguyen', 'Nguyen Huu', 'Nguyen', 'nguyenhuunguyen@gmail.com', 1, 1, '2020-06-30 16:14:48.000000'),
 (2, 'pbkdf2_sha256$180000$No2cO7WvhQl6$+2+ePJgEGTcd8gMy1+8CuihgiCXCDqlnc6ndLwIaUKA=', NULL, 1, 'super', 'super', 'system', 'super@localhost.vn', 1, 1, '2020-09-08 06:59:33.000000'),
 (3, 'pbkdf2_sha256$180000$oGYJvSKkBPHF$C8eUe/jvTZLiOBb07EftEFhxnfzQ+Fibcn+RAEdjDMI=', NULL, 0, 'admin', 'admin', 'system', 'admin@localhost.vn', 1, 1, '2020-09-08 06:59:45.000000'),
 (4, 'pbkdf2_sha256$180000$a2LAu0DxdSbJ$MVTnzkwJf2359m39ZYu8buXGnlBzYMGgavZ/JLBrYYk=', NULL, 0, 'thanhvien', 'thanh', 'vien', 'thanhvien@localhost.vn', 1, 1, '2020-09-08 06:59:56.000000'),
@@ -3335,14 +3306,11 @@ INSERT INTO `auth_user` (`id`, `password`, `last_login`, `is_superuser`, `userna
 --
 
 DROP TABLE IF EXISTS `auth_user_groups`;
-CREATE TABLE IF NOT EXISTS `auth_user_groups` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `auth_user_groups` (
+  `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `group_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `auth_user_groups_user_id_group_id_94350c0c_uniq` (`user_id`,`group_id`),
-  KEY `auth_user_groups_group_id_97559544_fk_auth_group_id` (`group_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+  `group_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `auth_user_groups`
@@ -3367,14 +3335,11 @@ INSERT INTO `auth_user_groups` (`id`, `user_id`, `group_id`) VALUES
 --
 
 DROP TABLE IF EXISTS `auth_user_user_permissions`;
-CREATE TABLE IF NOT EXISTS `auth_user_user_permissions` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `auth_user_user_permissions` (
+  `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `permission_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `auth_user_user_permissions_user_id_permission_id_14a6b632_uniq` (`user_id`,`permission_id`),
-  KEY `auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm` (`permission_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1161 DEFAULT CHARSET=utf8;
+  `permission_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `auth_user_user_permissions`
@@ -4549,13 +4514,51 @@ INSERT INTO `auth_user_user_permissions` (`id`, `user_id`, `permission_id`) VALU
 --
 
 DROP TABLE IF EXISTS `behavior`;
-CREATE TABLE IF NOT EXISTS `behavior` (
+CREATE TABLE `behavior` (
   `behavior_id` int(11) UNSIGNED NOT NULL,
   `name` varchar(45) DEFAULT NULL,
   `type` enum('ranges','options') DEFAULT NULL,
-  `info` text,
-  PRIMARY KEY (`behavior_id`)
+  `info` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `books`
+--
+
+DROP TABLE IF EXISTS `books`;
+CREATE TABLE `books` (
+  `books_id` int(10) UNSIGNED NOT NULL,
+  `mobile` varchar(12) NOT NULL,
+  `email` varchar(128) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `num_order` tinyint(8) DEFAULT NULL,
+  `status` tinyint(2) DEFAULT NULL,
+  `date_books` date DEFAULT NULL,
+  `time_books` time DEFAULT NULL,
+  `user_books` int(11) DEFAULT NULL,
+  `service_id` int(11) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `books_service_staff`
+--
+
+DROP TABLE IF EXISTS `books_service_staff`;
+CREATE TABLE `books_service_staff` (
+  `auto_id` int(11) UNSIGNED NOT NULL,
+  `books_id` int(11) UNSIGNED NOT NULL,
+  `service_id` int(11) UNSIGNED NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `status` tinyint(2) DEFAULT NULL,
+  `status_reason` varchar(255) DEFAULT NULL,
+  `start_calendar` time DEFAULT NULL,
+  `during_time` int(11) UNSIGNED DEFAULT NULL,
+  `during_average` int(11) UNSIGNED DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -4564,15 +4567,13 @@ CREATE TABLE IF NOT EXISTS `behavior` (
 --
 
 DROP TABLE IF EXISTS `captcha_captchastore`;
-CREATE TABLE IF NOT EXISTS `captcha_captchastore` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `captcha_captchastore` (
+  `id` int(11) NOT NULL,
   `challenge` varchar(32) NOT NULL,
   `response` varchar(32) NOT NULL,
   `hashkey` varchar(40) NOT NULL,
-  `expiration` datetime(6) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `hashkey` (`hashkey`)
-) ENGINE=InnoDB AUTO_INCREMENT=368 DEFAULT CHARSET=utf8mb4;
+  `expiration` datetime(6) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `captcha_captchastore`
@@ -4609,8 +4610,8 @@ INSERT INTO `captcha_captchastore` (`id`, `challenge`, `response`, `hashkey`, `e
 --
 
 DROP TABLE IF EXISTS `cart`;
-CREATE TABLE IF NOT EXISTS `cart` (
-  `cart_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `cart` (
+  `cart_id` int(11) UNSIGNED NOT NULL,
   `address_id` int(11) UNSIGNED DEFAULT NULL,
   `owner_id` int(11) NOT NULL,
   `date_add` datetime NOT NULL,
@@ -4618,12 +4619,8 @@ CREATE TABLE IF NOT EXISTS `cart` (
   `total_paid` varchar(45) DEFAULT NULL,
   `total_wrapping` varchar(45) DEFAULT NULL,
   `total_paid_real` varchar(45) DEFAULT NULL,
-  `status` tinyint(1) UNSIGNED DEFAULT '0',
-  PRIMARY KEY (`cart_id`),
-  UNIQUE KEY `owner_id` (`owner_id`),
-  UNIQUE KEY `address_id` (`address_id`),
-  KEY `fk_cart_1` (`address_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+  `status` tinyint(1) UNSIGNED DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cart`
@@ -4639,7 +4636,7 @@ INSERT INTO `cart` (`cart_id`, `address_id`, `owner_id`, `date_add`, `date_upd`,
 --
 
 DROP TABLE IF EXISTS `cart_item`;
-CREATE TABLE IF NOT EXISTS `cart_item` (
+CREATE TABLE `cart_item` (
   `find_item_id` varchar(128) NOT NULL,
   `class_of_item` mediumtext,
   `cart_id` int(11) UNSIGNED NOT NULL,
@@ -4648,10 +4645,16 @@ CREATE TABLE IF NOT EXISTS `cart_item` (
   `price` decimal(20,2) DEFAULT NULL,
   `original_price` decimal(20,2) DEFAULT NULL,
   `total_price` decimal(20,2) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`find_item_id`),
-  KEY `fk_cart_item_1_idx` (`cart_id`)
+  `name` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `cart_item`
+--
+
+INSERT INTO `cart_item` (`find_item_id`, `class_of_item`, `cart_id`, `quantity`, `unity`, `price`, `original_price`, `total_price`, `name`) VALUES
+('6_234', '[{"model": "main.productattribute", "pk": 234, "fields": {"product_id": 10, "attr_name": "Nhờ khả năng này, loài mèo có thể là cứu tinh giúp thế giới thoát khỏi COVID-19 kndwfxrx", "price": "500000.000", "quantity": 10, "date_add": "2020-10-02T07:01:38Z", "date_upd": "2020-10-03T06:33:39Z", "available_date": "2020-10-03T06:33:39Z"}}]', 6, 1, NULL, '500000.00', '500000.00', '500000.00', 'Nhờ khả năng này, loài mèo có thể là cứu tinh giúp thế giới thoát khỏi COVID-19 kndwfxrx'),
+('6_244', '[{"model": "main.productattribute", "pk": 244, "fields": {"product_id": 10, "attr_name": "Nhờ khả năng này, loài mèo có thể là cứu tinh giúp thế giới thoát khỏi COVID-19 nfgujcdv", "price": "440000.000", "quantity": 10, "date_add": "2020-10-03T06:31:37Z", "date_upd": "2020-10-03T06:33:39Z", "available_date": "2020-10-03T06:33:39Z"}}]', 6, 1, NULL, '440000.00', '440000.00', '440000.00', 'Nhờ khả năng này, loài mèo có thể là cứu tinh giúp thế giới thoát khỏi COVID-19 nfgujcdv');
 
 -- --------------------------------------------------------
 
@@ -4660,18 +4663,16 @@ CREATE TABLE IF NOT EXISTS `cart_item` (
 --
 
 DROP TABLE IF EXISTS `category`;
-CREATE TABLE IF NOT EXISTS `category` (
-  `category_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `category` (
+  `category_id` int(11) UNSIGNED NOT NULL,
   `parent_id` int(11) UNSIGNED DEFAULT NULL,
   `active` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
   `date_add` datetime NOT NULL,
   `date_upd` datetime DEFAULT NULL,
   `name` varchar(255) NOT NULL,
   `description` text,
-  `slug` varchar(255) NOT NULL,
-  PRIMARY KEY (`category_id`),
-  KEY `fk_category_1` (`parent_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+  `slug` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `category`
@@ -4692,15 +4693,12 @@ INSERT INTO `category` (`category_id`, `parent_id`, `active`, `date_add`, `date_
 --
 
 DROP TABLE IF EXISTS `category_product`;
-CREATE TABLE IF NOT EXISTS `category_product` (
-  `auto_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `category_product` (
+  `auto_id` int(11) UNSIGNED NOT NULL,
   `category_id` int(11) UNSIGNED NOT NULL,
   `product_id` int(11) UNSIGNED NOT NULL,
-  `position` tinyint(2) UNSIGNED NOT NULL DEFAULT '0',
-  PRIMARY KEY (`auto_id`),
-  KEY `category_id` (`category_id`),
-  KEY `product_id` (`product_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+  `position` tinyint(2) UNSIGNED NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `category_product`
@@ -4721,15 +4719,11 @@ INSERT INTO `category_product` (`auto_id`, `category_id`, `product_id`, `positio
 --
 
 DROP TABLE IF EXISTS `category_product_attribute`;
-CREATE TABLE IF NOT EXISTS `category_product_attribute` (
-  `auto_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `category_product_attribute` (
+  `auto_id` int(11) UNSIGNED NOT NULL,
   `category_id` int(11) UNSIGNED NOT NULL,
   `product_id` int(11) UNSIGNED NOT NULL,
-  `pro_attribute_id` int(11) UNSIGNED NOT NULL,
-  PRIMARY KEY (`auto_id`),
-  KEY `fk_category_product_attribute_2_idx` (`product_id`),
-  KEY `fk_category_product_attribute_3_idx` (`pro_attribute_id`),
-  KEY `fk_category_product_attribute_1` (`category_id`)
+  `pro_attribute_id` int(11) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -4739,14 +4733,13 @@ CREATE TABLE IF NOT EXISTS `category_product_attribute` (
 --
 
 DROP TABLE IF EXISTS `city`;
-CREATE TABLE IF NOT EXISTS `city` (
-  `city_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `city` (
+  `city_id` int(11) UNSIGNED NOT NULL,
   `name` varchar(128) NOT NULL,
   `iso_code` varchar(7) DEFAULT NULL,
   `date_add` datetime DEFAULT NULL,
-  `date_upd` datetime DEFAULT NULL,
-  PRIMARY KEY (`city_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=utf8;
+  `date_upd` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `city`
@@ -4824,8 +4817,8 @@ INSERT INTO `city` (`city_id`, `name`, `iso_code`, `date_add`, `date_upd`) VALUE
 --
 
 DROP TABLE IF EXISTS `comment`;
-CREATE TABLE IF NOT EXISTS `comment` (
-  `comment_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `comment` (
+  `comment_id` int(11) UNSIGNED NOT NULL,
   `post_id` int(11) UNSIGNED NOT NULL,
   `parent_id` int(11) UNSIGNED DEFAULT NULL,
   `owner_id` int(11) NOT NULL,
@@ -4833,12 +4826,8 @@ CREATE TABLE IF NOT EXISTS `comment` (
   `date_add` datetime DEFAULT NULL,
   `date_upd` datetime DEFAULT NULL,
   `status` enum('DRAFT','PUBLISHED','PENDING','DELETED') NOT NULL DEFAULT 'PUBLISHED',
-  `status_reason` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`comment_id`),
-  KEY `fk_comment_1` (`parent_id`),
-  KEY `fk_comment_2` (`post_id`),
-  KEY `fk_comment_3` (`owner_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8;
+  `status_reason` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `comment`
@@ -4877,17 +4866,16 @@ INSERT INTO `comment` (`comment_id`, `post_id`, `parent_id`, `owner_id`, `conten
 --
 
 DROP TABLE IF EXISTS `contact`;
-CREATE TABLE IF NOT EXISTS `contact` (
-  `contact_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `contact` (
+  `contact_id` int(11) UNSIGNED NOT NULL,
   `company` varchar(255) DEFAULT NULL,
   `name` varchar(128) DEFAULT NULL,
   `email` varchar(128) NOT NULL,
   `mobile` varchar(128) DEFAULT NULL,
   `description` text,
   `customer_service` tinyint(2) NOT NULL DEFAULT '0',
-  `status` tinyint(1) UNSIGNED DEFAULT NULL,
-  PRIMARY KEY (`contact_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+  `status` tinyint(1) UNSIGNED DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `contact`
@@ -4908,14 +4896,13 @@ INSERT INTO `contact` (`contact_id`, `company`, `name`, `email`, `mobile`, `desc
 --
 
 DROP TABLE IF EXISTS `csvc`;
-CREATE TABLE IF NOT EXISTS `csvc` (
-  `csvc_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `csvc` (
+  `csvc_id` int(11) UNSIGNED NOT NULL,
   `name` varchar(245) DEFAULT NULL,
   `type` tinyint(8) DEFAULT NULL,
   `price` decimal(20,2) DEFAULT NULL,
   `price_in_pack` decimal(20,2) DEFAULT NULL,
-  `available_date` datetime DEFAULT NULL,
-  PRIMARY KEY (`csvc_id`)
+  `available_date` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -4925,17 +4912,15 @@ CREATE TABLE IF NOT EXISTS `csvc` (
 --
 
 DROP TABLE IF EXISTS `customer_message`;
-CREATE TABLE IF NOT EXISTS `customer_message` (
-  `owner_message_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `customer_message` (
+  `owner_message_id` int(11) UNSIGNED NOT NULL,
   `owner_thread_id` int(11) UNSIGNED NOT NULL,
   `owner_id` int(11) UNSIGNED DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
   `message` text NOT NULL,
   `user_agent` varchar(128) DEFAULT NULL,
   `date_add` datetime NOT NULL,
-  `date_upd` datetime DEFAULT NULL,
-  PRIMARY KEY (`owner_message_id`),
-  KEY `customer_message_1` (`owner_thread_id`)
+  `date_upd` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -4945,17 +4930,15 @@ CREATE TABLE IF NOT EXISTS `customer_message` (
 --
 
 DROP TABLE IF EXISTS `customer_thread`;
-CREATE TABLE IF NOT EXISTS `customer_thread` (
-  `owner_thread_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `customer_thread` (
+  `owner_thread_id` int(11) UNSIGNED NOT NULL,
   `owner_id` int(11) UNSIGNED DEFAULT NULL,
   `order_id` int(11) UNSIGNED DEFAULT NULL,
   `status` enum('open','closed','pending1','pending2') NOT NULL DEFAULT 'open',
   `email` varchar(128) NOT NULL,
   `token` varchar(12) DEFAULT NULL,
   `date_add` datetime NOT NULL,
-  `date_upd` datetime DEFAULT NULL,
-  PRIMARY KEY (`owner_thread_id`),
-  KEY `fk_customer_thread_2` (`order_id`)
+  `date_upd` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -4965,16 +4948,12 @@ CREATE TABLE IF NOT EXISTS `customer_thread` (
 --
 
 DROP TABLE IF EXISTS `customization`;
-CREATE TABLE IF NOT EXISTS `customization` (
-  `customization_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `customization` (
+  `customization_id` int(11) UNSIGNED NOT NULL,
   `cart_id` int(11) UNSIGNED NOT NULL,
   `product_id` int(11) UNSIGNED NOT NULL,
   `pro_attribute_id` int(11) UNSIGNED DEFAULT NULL,
-  `quantity` int(11) NOT NULL,
-  PRIMARY KEY (`customization_id`),
-  KEY `customization_1` (`pro_attribute_id`),
-  KEY `customization_2` (`cart_id`),
-  KEY `customization_3` (`product_id`)
+  `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -4984,13 +4963,12 @@ CREATE TABLE IF NOT EXISTS `customization` (
 --
 
 DROP TABLE IF EXISTS `customized_data`;
-CREATE TABLE IF NOT EXISTS `customized_data` (
+CREATE TABLE `customized_data` (
   `customization_id` int(11) UNSIGNED NOT NULL,
   `type` tinyint(1) NOT NULL,
   `index` int(3) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
-  `value` varchar(255) NOT NULL,
-  PRIMARY KEY (`customization_id`,`type`,`index`)
+  `value` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -5000,13 +4978,11 @@ CREATE TABLE IF NOT EXISTS `customized_data` (
 --
 
 DROP TABLE IF EXISTS `district`;
-CREATE TABLE IF NOT EXISTS `district` (
-  `district_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `district` (
+  `district_id` int(11) UNSIGNED NOT NULL,
   `name` varchar(128) NOT NULL,
-  `city_id` int(11) UNSIGNED NOT NULL,
-  PRIMARY KEY (`district_id`),
-  KEY `fk_district_1` (`city_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=974 DEFAULT CHARSET=utf8;
+  `city_id` int(11) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `district`
@@ -5734,19 +5710,16 @@ INSERT INTO `district` (`district_id`, `name`, `city_id`) VALUES
 --
 
 DROP TABLE IF EXISTS `django_admin_log`;
-CREATE TABLE IF NOT EXISTS `django_admin_log` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `django_admin_log` (
+  `id` int(11) NOT NULL,
   `action_time` datetime(6) NOT NULL,
   `object_id` longtext,
   `object_repr` varchar(200) NOT NULL,
   `action_flag` smallint(5) UNSIGNED NOT NULL,
   `change_message` longtext NOT NULL,
   `content_type_id` int(11) DEFAULT NULL,
-  `user_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `django_admin_log_content_type_id_c4bce8eb_fk_django_co` (`content_type_id`),
-  KEY `django_admin_log_user_id_c564eba6_fk_auth_user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1281 DEFAULT CHARSET=utf8;
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `django_admin_log`
@@ -7048,13 +7021,11 @@ INSERT INTO `django_admin_log` (`id`, `action_time`, `object_id`, `object_repr`,
 --
 
 DROP TABLE IF EXISTS `django_content_type`;
-CREATE TABLE IF NOT EXISTS `django_content_type` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `django_content_type` (
+  `id` int(11) NOT NULL,
   `app_label` varchar(100) NOT NULL,
-  `model` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `django_content_type_app_label_model_76bd3d3b_uniq` (`app_label`,`model`)
-) ENGINE=InnoDB AUTO_INCREMENT=158 DEFAULT CHARSET=utf8;
+  `model` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `django_content_type`
@@ -7226,13 +7197,12 @@ INSERT INTO `django_content_type` (`id`, `app_label`, `model`) VALUES
 --
 
 DROP TABLE IF EXISTS `django_migrations`;
-CREATE TABLE IF NOT EXISTS `django_migrations` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `django_migrations` (
+  `id` int(11) NOT NULL,
   `app` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `applied` datetime(6) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
+  `applied` datetime(6) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `django_migrations`
@@ -7291,7 +7261,8 @@ INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
 (50, 'socialaccount', '0001_initial', '2020-10-03 06:11:45.589584'),
 (51, 'socialaccount', '0002_token_max_lengths', '2020-10-03 06:11:47.062283'),
 (52, 'socialaccount', '0003_extra_data_default_dict', '2020-10-03 06:11:47.088776'),
-(53, 'captcha', '0001_initial', '2020-10-06 08:41:02.112318');
+(53, 'captcha', '0001_initial', '2020-10-06 08:41:02.112318'),
+(54, 'auth', '0012_alter_user_first_name_max_length', '2020-11-03 01:52:20.473936');
 
 -- --------------------------------------------------------
 
@@ -7300,12 +7271,10 @@ INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
 --
 
 DROP TABLE IF EXISTS `django_session`;
-CREATE TABLE IF NOT EXISTS `django_session` (
+CREATE TABLE `django_session` (
   `session_key` varchar(40) NOT NULL,
   `session_data` longtext NOT NULL,
-  `expire_date` datetime(6) NOT NULL,
-  PRIMARY KEY (`session_key`),
-  KEY `django_session_expire_date_a5c62663` (`expire_date`)
+  `expire_date` datetime(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -7338,14 +7307,19 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('0td7i5zlfzd6ofp775y5g1jciwutej0g', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 16:46:04.714038'),
 ('0u1u7rbo6fh1buoxe9s0llb9ekvl6mo4', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-22 07:53:07.455578'),
 ('0vexf1v703bvrkmqlwvpcm7ke0c1gpho', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 07:08:54.206566'),
+('0xq06mifox31u9fi4ttprjele22m85ka', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-10 06:23:50.649520'),
 ('0ydor4r17oqi8s27ppjfwn97da60zj8x', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 01:58:52.623120'),
 ('0ygkao1bgt1cmj52w1uk6t45wj4l7nfn', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 07:48:50.849641'),
 ('0yszij6nfeys55sakuq7h43hpys7bw0j', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 16:19:19.288804'),
+('0z2malgt9rqjdqg3s7h77xg3ehp314su', 'eyJkZXZfYnkiOiJIdXUgTmd1eWVuIn0:1kZPgb:Qr4bh5dI1h0Ehh8cGa4KNwSMGVIHFLOZuVjyCyjTVsA', '2020-11-16 02:35:09.771547'),
 ('0z5xgw9y5k1yfjx1mmesebgr1v1cva7j', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 08:33:48.844038'),
 ('10y7xucfu6v13xc1mzq1l3o4hjh0d5fm', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 08:42:48.672426'),
 ('11q7794wcdjqvrekxk8ytt8tppd02rh3', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 07:38:42.293678'),
+('125kvz41coizt3ra9857v9ih0mx1uojo', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-10 04:54:03.580618'),
 ('130am3vhc0ye6dzgzvq7otg0g7rtc2hr', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 18:01:46.819543'),
 ('13sgwzn1cpv6cjiq4am7f7xtfdxg9u2h', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 18:16:49.366376'),
+('14ywjkcgv8qk0tup9qgezgvkv79e3vyn', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-10 06:20:58.296838'),
+('157f1y6sq7mii2oh0uc3hews7nm1oufu', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-10 02:02:07.044533'),
 ('15nrajm2eut8vwt0mpe839xs4ubgw90c', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 16:06:18.984586'),
 ('16pi8g32ktck0o27k7lzv45e2rndatbx', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 09:09:08.684232'),
 ('1b7cv7thpv1m41ppu0i608l7c6byw5ms', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 07:39:01.282668'),
@@ -7360,6 +7334,7 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('1t9ytmuqi1eaqtn6no1diuctiw1ac8zt', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 02:11:09.290235'),
 ('1u392rx438y6nfe31tctbcb63dykajeu', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 08:01:48.553878'),
 ('1vjh5uyprp0s60o0xglrgzfx42ukxhl8', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 07:51:12.312608'),
+('1vwntbnn5jsouasjunbhrxvmv6gl8vxs', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-09 06:16:56.313672'),
 ('1vzulumm0uu7oeigno78chjgse1xz655', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 06:47:15.469592'),
 ('1xg0ucwcgxra2gbxr4ttow48rgn825q5', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 18:28:20.483886'),
 ('1xxabm07w3257j0xs0dpzpl56k77dj5g', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 16:07:07.606304'),
@@ -7389,7 +7364,9 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('300sfi7la7pphi0qo5rfaaezx9387ra0', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 05:11:47.914492'),
 ('314ly8opi1x1c15pxh3kylc6i46bkoad', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 02:40:50.078108'),
 ('350t3jju7k38fuhixuafqbkvwnokyioj', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 03:05:08.139946'),
+('357lucxdixnjp554om261l0ea3btw7p3', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-12 03:34:21.228973'),
 ('35qf57r8yheaskyrdldhrav38jydwjty', 'YTZkMGVmMDI3MzEzYmIwYzk2Y2Y1ZTlmYzhhYjllZmFiNTgyMjU5Njp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyZmJkMGQwMTcyMDUxNDQzMDhmZWE5MDM3ZjJkNTk1OThlY2QzMDc1In0=', '2020-08-25 01:45:22.510639'),
+('36orx94jfqrp4egcmifn392g8uc5gfhf', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-10 02:10:13.660761'),
 ('37f1stnd2mfz9s8bju84und9b0rgr9su', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 16:43:34.089422'),
 ('37uy6njpv7403qv42twwad7dpbnc72gt', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 06:56:17.190540'),
 ('3bv6yp65bmee0e6k5c4s25a4kwd1thac', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 02:33:34.808268'),
@@ -7398,7 +7375,10 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('3e08ktaygpe75pivc6orn1p9cxp8d13j', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 02:29:46.207859'),
 ('3g73p0kohr69fl1o8ngci12mq88ey1sk', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 05:42:38.627915'),
 ('3iqsel3dquba983jp0qd70aqvodhem4p', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 07:24:08.794148'),
+('3lyebhlibil1woc4lhn0ad9g03v2uaf8', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-09 04:41:07.852098'),
+('3rdfxp0bvut3z0ds9eg62fuemmul6yfs', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-12 02:28:31.480705'),
 ('3rj9zfjga5tahyiatanjyq7499iklbof', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 02:13:35.132971'),
+('3v0lfupl9fyxb8rphu9g0un1v8wtt2du', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-10 06:21:08.064548'),
 ('3v6few8uk6tdrtg34iddjz4cwgumsgm3', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 03:14:22.664480'),
 ('3waw8euzvqa09j8of7dldsaoz3ti2983', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 03:56:23.221190'),
 ('3zq6htxvtqc01ordj9sghqp5hflbhem3', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 05:15:51.122403'),
@@ -7416,6 +7396,7 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('4ecy6ua91mniyy9z3nptqrz8pop8vy1o', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 09:07:00.023741'),
 ('4g8b9o3uojpp71f1xe53yffkyqt7w0g2', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 03:13:10.653521'),
 ('4hjaqe5p9x2hlcdatwom3jrvy6z4cs2p', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-26 03:20:15.854867'),
+('4ht5e3swf76fwgp2gr918hj7ovzopkoz', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-12 04:02:14.500276'),
 ('4inkmyfy9dm3rniajnnf422i27c0gowx', 'YTZkMGVmMDI3MzEzYmIwYzk2Y2Y1ZTlmYzhhYjllZmFiNTgyMjU5Njp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyZmJkMGQwMTcyMDUxNDQzMDhmZWE5MDM3ZjJkNTk1OThlY2QzMDc1In0=', '2020-08-24 04:46:45.282292'),
 ('4jsmlvaf7q8q1haf0xcqlw93blo1yeqj', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 08:32:00.122643'),
 ('4mco3iauhz1k5i3sgp1wxmfamop9wd6w', 'YmFkYzI2ZDQ1M2U4ZmE2OTYxOGQzNDE2MGU4MGQ1YTFmNjI0OTQ4NDp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyZmJkMGQwMTcyMDUxNDQzMDhmZWE5MDM3ZjJkNTk1OThlY2QzMDc1IiwiY2FydCI6e319', '2020-09-05 08:31:47.369522'),
@@ -7443,6 +7424,7 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('5dbwx2iu1s4qume2s1s8d2tk6ut0ol8g', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 08:51:18.718379'),
 ('5ewpljlio1hmmx4rv2vt52tedadjj6cy', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 08:45:20.912227'),
 ('5g09jvsc173d1wam0y30vrbjl876hr4o', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 07:20:48.250636'),
+('5g88kluotqwol335cf87xjilqh33xc67', 'eyJkZXZfYnkiOiJIdXUgTmd1eWVuIn0:1kZSrL:dVzGYlcWFgckyNryf4-kAW3dAHGm-bFEeYeP1UuA1MU', '2020-11-16 05:58:27.660204'),
 ('5h8kb6cwgf0byeqng7iqzceln9kbtr12', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 07:43:56.864599'),
 ('5iodckzdh7ondkwa997f0sog8u86ozsy', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 03:26:43.571854'),
 ('5iro5kq6ei0wknwa2zr9ti55tr0qskjx', 'YmFkYzI2ZDQ1M2U4ZmE2OTYxOGQzNDE2MGU4MGQ1YTFmNjI0OTQ4NDp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyZmJkMGQwMTcyMDUxNDQzMDhmZWE5MDM3ZjJkNTk1OThlY2QzMDc1IiwiY2FydCI6e319', '2020-09-15 09:00:53.864490'),
@@ -7456,6 +7438,7 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('5s42zbx3y304etfssnjs68npvkg469fi', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 12:07:49.864344'),
 ('5wcwv7xznu6imlyis4t621k2c1rrbi7i', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 05:45:56.176476'),
 ('5xdi08b0k6dd8a2dmy3xrg2szz3j87tp', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 16:41:29.797231'),
+('5xsnazfgzzgq8vbwdais25m4h8no6m7q', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-10 04:50:42.374134'),
 ('62tqueawapr8m4j9w8ich0fhzz0pwyp7', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-22 02:47:32.109598'),
 ('63n8zg185c07vfi4vnkh2eiruzg8yz8o', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 08:17:58.198897'),
 ('63qb1dvfzq9fum3ipzqopyy0t4xmrew0', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 16:12:13.454174'),
@@ -7478,8 +7461,10 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('6w1okqplg955clp1a1tdm10xry1h715h', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 15:59:43.640871'),
 ('6w5i9qfcddlwlf4nu2z47wjvvlqcgykv', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 18:30:24.574960'),
 ('6wwzpholit2331st87hohdszuliocpg0', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 16:12:37.129009'),
+('70a3f2bjiltvdsazt4vjmojxahaq1ejj', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-11 04:10:41.521809'),
 ('72n30oip11wuyiprxuxrrscoxy9ua8v8', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 02:40:22.337242'),
 ('72zv11gmz5ryub5uncwpm2a9w947atdd', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 01:57:51.019190'),
+('74ikozpl2xkjpkiadxyi2y2s8af6c4s6', 'eyJkZXZfYnkiOiJIdXUgTmd1eWVuIn0:1kZrNJ:rLwq5-6AHQhMggx1j8VUUwC2CWV_vBHlw64LOxS4-zU', '2020-11-17 08:09:05.603399'),
 ('754p8cy5fp3igfq9ryr1i5it15trfd3l', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 18:19:16.159340'),
 ('757szkm7stjif21a6pyabloin3q16d2w', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 01:58:39.183137'),
 ('75cyuq9ln6pqhmwrhp5c0bxvpcjhadgo', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 08:17:23.866430'),
@@ -7499,6 +7484,7 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('7okcejows7n7q0p9ku6x1cryram5f81f', 'YTZkMGVmMDI3MzEzYmIwYzk2Y2Y1ZTlmYzhhYjllZmFiNTgyMjU5Njp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyZmJkMGQwMTcyMDUxNDQzMDhmZWE5MDM3ZjJkNTk1OThlY2QzMDc1In0=', '2020-08-07 03:53:51.467239'),
 ('7ozt5ouxiveqy7e3hpo2kqmsrid0ajtd', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 07:54:47.279745'),
 ('7rdsm3pt9t92d7nkx3tfyfmktldnsifi', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 07:38:47.180473'),
+('7t1ze630ryb98zts72pn81g4cdo8w2l8', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-09 04:41:03.604760'),
 ('7uoy96kfsvovi8lgee6wkfr5i3ws2src', 'YjgxYTM1YzFiOWU0MDlmZjdmNGQ2OTQ1OWMzOTk1Mjk1YzVjMmQwNzp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyZmJkMGQwMTcyMDUxNDQzMDhmZWE5MDM3ZjJkNTk1OThlY2QzMDc1IiwiY2FydCI6eyI2XzIyMyI6eyJ1c2VyaWQiOjEsIml0ZW1faWQiOjIyMywib2JqIjoiW3tcIm1vZGVsXCI6IFwibWFpbi5wcm9kdWN0YXR0cmlidXRlXCIsIFwicGtcIjogMjIzLCBcImZpZWxkc1wiOiB7XCJwcm9kdWN0X2lkXCI6IDgsIFwiYXR0cl9uYW1lXCI6IFwiXFx1MDExMGlcXHUxZWM3biB0aG9cXHUxZWExaSwgc21hcnRwaG9uZSBjaFxcdTAwZWRuaCBoXFx1MDBlM25nIGdpXFx1MDBlMSByXFx1MWViYiBsZG9qcGRraFwiLCBcInByaWNlXCI6IFwiNzAwMDAwLjAwMFwiLCBcInF1YW50aXR5XCI6IDEwLCBcImRhdGVfYWRkXCI6IFwiMjAyMC0wOS0zMFQwMjowMDoyN1pcIiwgXCJkYXRlX3VwZFwiOiBcIjIwMjAtMDktMzBUMDI6MTE6MDZaXCIsIFwiYXZhaWxhYmxlX2RhdGVcIjogXCIyMDIwLTA5LTMwVDAyOjExOjA2WlwifX1dIiwibmFtZSI6Ilx1MDExMGlcdTFlYzduIHRob1x1MWVhMWksIHNtYXJ0cGhvbmUgY2hcdTAwZWRuaCBoXHUwMGUzbmcgZ2lcdTAwZTEgclx1MWViYiBsZG9qcGRraCIsInF1YW50aXR5IjoxLCJwcmljZSI6IjcwMDAwMC4wMDAiLCJpbWFnZSI6IjxpbWcgc3JjPVwiL21lZGlhL2F0dC8yMjMuanBnXCIgd2lkdGg9XCIzMjBcIiBoZWlnaHQ9XCIyNDBcIi8+In0sIjZfMjIyIjp7InVzZXJpZCI6MSwiaXRlbV9pZCI6MjIyLCJvYmoiOiJbe1wibW9kZWxcIjogXCJtYWluLnByb2R1Y3RhdHRyaWJ1dGVcIiwgXCJwa1wiOiAyMjIsIFwiZmllbGRzXCI6IHtcInByb2R1Y3RfaWRcIjogOCwgXCJhdHRyX25hbWVcIjogXCJcXHUwMTEwaVxcdTFlYzduIHRob1xcdTFlYTFpLCBzbWFydHBob25lIGNoXFx1MDBlZG5oIGhcXHUwMGUzbmcgZ2lcXHUwMGUxIHJcXHUxZWJiIGd1bHpweWp1XCIsIFwicHJpY2VcIjogXCIxOTAwMDAuMDAwXCIsIFwicXVhbnRpdHlcIjogMTAsIFwiZGF0ZV9hZGRcIjogXCIyMDIwLTA5LTMwVDAyOjAwOjI3WlwiLCBcImRhdGVfdXBkXCI6IFwiMjAyMC0wOS0zMFQwMjoxMTowNlpcIiwgXCJhdmFpbGFibGVfZGF0ZVwiOiBcIjIwMjAtMDktMzBUMDI6MTE6MDZaXCJ9fV0iLCJuYW1lIjoiXHUwMTEwaVx1MWVjN24gdGhvXHUxZWExaSwgc21hcnRwaG9uZSBjaFx1MDBlZG5oIGhcdTAwZTNuZyBnaVx1MDBlMSByXHUxZWJiIGd1bHpweWp1IiwicXVhbnRpdHkiOjEsInByaWNlIjoiMTkwMDAwLjAwMCIsImltYWdlIjoiPGltZyBzcmM9XCIvbWVkaWEvYXR0LzIyMi5qcGdcIiB3aWR0aD1cIjMyMFwiIGhlaWdodD1cIjI0MFwiLz4ifX19', '2020-10-14 04:15:57.141343'),
 ('7v2ky01lm6qqglgcu3gaa59esel55zez', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 17:14:15.896031'),
 ('7vhry2nnfzkkkt4unkzt88av4uucuzq3', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 06:56:53.954811'),
@@ -7509,6 +7495,8 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('83qha30n9kqjnbv3dbq5u8sth6bucqo4', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-22 07:55:03.974881'),
 ('84hq73zeb4hma59yki0umzeeh1lw1pxk', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 05:28:06.772797'),
 ('85uhtknliehc6023yowpuja88fvkuvjf', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 08:34:02.441909'),
+('86m2ftmihgyfl60voxshfttbibit7iza', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-09 04:40:22.551195'),
+('86ptlpgjti1mbiuf20ey6ww32p9ohtyj', 'eyJkZXZfYnkiOiJIdXUgTmd1eWVuIn0:1kZPh8:ltrNN_6121-YmMCZPfpG1eaxRXh9B7k9QNYLRYb-Gbo', '2020-11-16 02:35:42.216233'),
 ('86tyexsesyu91h1qqxc731ux1dy8v849', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 08:20:44.988395'),
 ('8713oy0n9pd209o6qcc15tk5uc4abgun', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 06:35:53.658862'),
 ('87ibkg6mjw9ampp7dd23wndm0ct5wn5e', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 02:08:17.824306'),
@@ -7516,6 +7504,8 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('87krj4s07nzdqwlmiynecbje1tg0l8i7', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 08:59:17.263708'),
 ('88w84w0khexjs7yt5w6snkrk66gem6k1', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 07:32:23.681850'),
 ('89bpf3l07q0pkh7t4hwd0v613hr8c816', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 02:02:27.882893'),
+('8a33mnorv3fhcbcct8b68r3ihp6tl3uw', 'eyJkZXZfYnkiOiJIdXUgTmd1eWVuIn0:1kZPgk:Jo-iX_mzv1iYft1lDPfrBcKAC0Xgu1Ts3vj7CAev0XM', '2020-11-16 02:35:18.733785'),
+('8ber1fu34m20faq6rqvg3qc6ag68koik', 'eyJkZXZfYnkiOiJIdXUgTmd1eWVuIn0:1kZPgB:9nR1X_bCfPbBtrwl8bukBMQu4Y2JmL5HnTur9Wb3Z1Q', '2020-11-16 02:34:43.481930'),
 ('8c4a3yyi1gy7f0888c5x5a9sm8530uos', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 02:13:24.191113'),
 ('8co56hu582vzi2axa9jq18kraqn7y67v', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 03:27:00.515491'),
 ('8co86jhg49ia70evm4lz0fxu0zk55j7u', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 07:46:23.059257'),
@@ -7528,12 +7518,16 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('8n7rh6jeguohe54w0bd2ury5rt6hdoil', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 03:56:30.120597'),
 ('8np83ti4r2tu3b17x16qftxyev9prikj', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 02:02:26.177196'),
 ('8o9j19ztgjxo9dggssjcrxzm5v000icb', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 08:36:12.986370'),
+('8ow6q8f0qods89y4ro6bnzh4xu5fgl6c', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-10 06:22:37.353570'),
 ('8pyj7jvkbrpauhpyiu4gw38i046qm9v6', 'YmRiMTM0YjI3MDUyMDhhNzY5Y2NkNmNlZDdmZTQyMGRlMjdjOTAxNjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyZmJkMGQwMTcyMDUxNDQzMDhmZWE5MDM3ZjJkNTk1OThlY2QzMDc1IiwiY2FydCI6eyI1XzcwIjp7InVzZXJpZCI6MSwiaXRlbV9pZCI6NzAsIm9iaiI6Ilt7XCJtb2RlbFwiOiBcIm1haW4ucHJvZHVjdGF0dHJpYnV0ZVwiLCBcInBrXCI6IDcwLCBcImZpZWxkc1wiOiB7XCJpZF9wcm9kdWN0XCI6IDQsIFwiYXR0cl9uYW1lXCI6IFwibWVyYSBjXFx1MWVlN2EgQXBwbGUgZ2lcXHUwMGZhcCBiXFx1MWVhMW4gY2hcXHUxZWU1cCBcXHUxZWEzXCIsIFwicHJpY2VcIjogXCI3NDAwMDAuMDAwXCIsIFwicXVhbnRpdHlcIjogNCwgXCJkYXRlX2FkZFwiOiBcIjIwMjAtMDktMTFUMDM6NTA6NDJaXCIsIFwiZGF0ZV91cGRcIjogXCIyMDIwLTA5LTE4VDA4OjQwOjQ4WlwiLCBcImF2YWlsYWJsZV9kYXRlXCI6IFwiMjAyMC0wOS0xOFQwODo0MDo0OFpcIn19XSIsIm5hbWUiOiJtZXJhIGNcdTFlZTdhIEFwcGxlIGdpXHUwMGZhcCBiXHUxZWExbiBjaFx1MWVlNXAgXHUxZWEzIiwicXVhbnRpdHkiOjIsInByaWNlIjoiNzQwMDAwLjAwMCIsImltYWdlIjoiPGltZyBzcmM9XCIvbWVkaWEvYXR0LzcwLmpwZ1wiIHdpZHRoPVwiMzIwXCIgaGVpZ2h0PVwiMjQwXCIvPiJ9LCI1XzY5Ijp7InVzZXJpZCI6MSwiaXRlbV9pZCI6NjksIm9iaiI6Ilt7XCJtb2RlbFwiOiBcIm1haW4ucHJvZHVjdGF0dHJpYnV0ZVwiLCBcInBrXCI6IDY5LCBcImZpZWxkc1wiOiB7XCJpZF9wcm9kdWN0XCI6IDQsIFwiYXR0cl9uYW1lXCI6IFwicCBiXFx1MWVhMW4gY2hcXHUxZWU1cCBcXHUxZWEzbmggXFx1MDExMVxcdTFlYjlwLCBuaFxcdTAxYjBuZyBraFxcdTAwZjRuZ3AgYlxcdTFlYTFuIGNoXFx1MWVlNXAgXFx1MWVhM25oIFxcdTAxMTFcXHUxZWI5cCwgbmhcXHUwMWIwbmcga2hcXHUwMGY0bmdcIiwgXCJwcmljZVwiOiBcIjQ4MDAwMC4wMDBcIiwgXCJxdWFudGl0eVwiOiA0LCBcImRhdGVfYWRkXCI6IFwiMjAyMC0wOS0xMVQwMzo1MDo0MlpcIiwgXCJkYXRlX3VwZFwiOiBcIjIwMjAtMDktMThUMDg6NDA6MTNaXCIsIFwiYXZhaWxhYmxlX2RhdGVcIjogXCIyMDIwLTA5LTE4VDA4OjQwOjEzWlwifX1dIiwibmFtZSI6InAgYlx1MWVhMW4gY2hcdTFlZTVwIFx1MWVhM25oIFx1MDExMVx1MWViOXAsIG5oXHUwMWIwbmcga2hcdTAwZjRuZ3AgYlx1MWVhMW4gY2hcdTFlZTVwIFx1MWVhM25oIFx1MDExMVx1MWViOXAsIG5oXHUwMWIwbmcga2hcdTAwZjRuZyIsInF1YW50aXR5IjoyLCJwcmljZSI6IjQ4MDAwMC4wMDAiLCJpbWFnZSI6IjxpbWcgc3JjPVwiL21lZGlhL2F0dC82OS5qcGdcIiB3aWR0aD1cIjMyMFwiIGhlaWdodD1cIjI0MFwiLz4ifSwiNV82NiI6eyJ1c2VyaWQiOjEsIml0ZW1faWQiOjY2LCJvYmoiOiJbe1wibW9kZWxcIjogXCJtYWluLnByb2R1Y3RhdHRyaWJ1dGVcIiwgXCJwa1wiOiA2NiwgXCJmaWVsZHNcIjoge1wiaWRfcHJvZHVjdFwiOiA0LCBcImF0dHJfbmFtZVwiOiBcImlQaG9uZXNhbyBjYW1lcmEgdHJcXHUwMGVhbiBpUGhvXCIsIFwicHJpY2VcIjogXCI2MDAwMC4wMDBcIiwgXCJxdWFudGl0eVwiOiA0LCBcImRhdGVfYWRkXCI6IFwiMjAyMC0wOS0xMVQwMzo1MDo0MlpcIiwgXCJkYXRlX3VwZFwiOiBcIjIwMjAtMDktMThUMDg6NDI6MDZaXCIsIFwiYXZhaWxhYmxlX2RhdGVcIjogXCIyMDIwLTA5LTE4VDA4OjQyOjA2WlwifX1dIiwibmFtZSI6ImlQaG9uZXNhbyBjYW1lcmEgdHJcdTAwZWFuIGlQaG8iLCJxdWFudGl0eSI6MSwicHJpY2UiOiI2MDAwMC4wMDAiLCJpbWFnZSI6IjxpbWcgc3JjPVwiL21lZGlhL2F0dC82Ni5qcGdcIiB3aWR0aD1cIjMyMFwiIGhlaWdodD1cIjI0MFwiLz4ifSwiNV82NCI6eyJ1c2VyaWQiOjEsIml0ZW1faWQiOjY0LCJvYmoiOiJbe1wibW9kZWxcIjogXCJtYWluLnByb2R1Y3RhdHRyaWJ1dGVcIiwgXCJwa1wiOiA2NCwgXCJmaWVsZHNcIjoge1wiaWRfcHJvZHVjdFwiOiA0LCBcImF0dHJfbmFtZVwiOiBcInNhbyBjYW1lcmEgdHJcXHUwMGVhbiBpUGhvbmVzYW8gY2FtZXJhIHRyXFx1MDBlYW4gaVBob25lXCIsIFwicHJpY2VcIjogXCI5MTAwMDAuMDAwXCIsIFwicXVhbnRpdHlcIjogMiwgXCJkYXRlX2FkZFwiOiBcIjIwMjAtMDktMTFUMDM6NTA6NDJaXCIsIFwiZGF0ZV91cGRcIjogXCIyMDIwLTA5LTE4VDA4OjM4OjQ3WlwiLCBcImF2YWlsYWJsZV9kYXRlXCI6IFwiMjAyMC0wOS0xOFQwODozODo0N1pcIn19XSIsIm5hbWUiOiJzYW8gY2FtZXJhIHRyXHUwMGVhbiBpUGhvbmVzYW8gY2FtZXJhIHRyXHUwMGVhbiBpUGhvbmUiLCJxdWFudGl0eSI6MSwicHJpY2UiOiI5MTAwMDAuMDAwIiwiaW1hZ2UiOiI8aW1nIHNyYz1cIi9tZWRpYS9hdHQvNjQuanBnXCIgd2lkdGg9XCIzMjBcIiBoZWlnaHQ9XCIyNDBcIi8+In19fQ==', '2020-10-02 12:09:41.793829'),
 ('8stddppbf7lhvh3f73luj3zbh8p9d8b1', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 05:37:43.334233'),
-('8svwnu3gsxrgtgpx435nf0tonz4vxlkz', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 08:14:41.689681'),
+('8svwnu3gsxrgtgpx435nf0tonz4vxlkz', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 08:14:41.689681');
+INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
 ('8t0ejty5l2q425ma6l5b44yloxslv5gh', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-22 03:30:31.110763'),
 ('8v6gu9xmylxsm3l0v6nanv25os2s6ff6', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 17:06:44.233694'),
+('8ydjc93ijh87lon62irrlfd6ro892obo', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-10 06:21:42.389154'),
 ('8yf3h6est8r8asfqxw9d1uk7bk6dz7s0', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 06:56:17.172562'),
+('8z3kbade7bb5at8vllaa6qgz48ka858t', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-10 02:10:10.760479'),
 ('904uagupzaifg89mbv0v5uk7agozisr5', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 01:54:35.148507'),
 ('90eh5aj2iykrxmx5u6df9bgox26wz57e', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 08:22:52.796202'),
 ('94dsr039hy8199r2i45aw7gy4w7cwbuz', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 08:28:57.135495'),
@@ -7550,8 +7544,7 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('9iasf078gfp23d5gvueq6qfoyqfv39mu', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 07:58:15.369988'),
 ('9joyry0z8nzyxkurxhxs40v9hyc06rwr', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 18:26:01.277107'),
 ('9mv8qlw1lfvnq18ie6plilt0gzeeploa', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 08:16:43.339444'),
-('9njx1790qiqej1jc4b6tgo6q38txtys3', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 08:21:36.703602');
-INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
+('9njx1790qiqej1jc4b6tgo6q38txtys3', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 08:21:36.703602'),
 ('9nw1okr907e8qrrv9pus46u641f9saq5', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 02:09:47.845480'),
 ('9pji4msnyc2w91hvwayln3xwtppgzo8x', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 18:32:13.319453'),
 ('9pn7pvsktp1w5ku4lh6wi72srhmecxwl', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 16:07:52.889429'),
@@ -7567,6 +7560,7 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('9zgtwors12l005wmu00fmud5r09bofw4', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 01:39:48.689865'),
 ('a1rlcxg6rq0g276yujmn7r4xdnwq6w34', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 02:36:42.410385'),
 ('a2gardbqu06rafvfz8xuhtphluvobfmk', 'YmFkYzI2ZDQ1M2U4ZmE2OTYxOGQzNDE2MGU4MGQ1YTFmNjI0OTQ4NDp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyZmJkMGQwMTcyMDUxNDQzMDhmZWE5MDM3ZjJkNTk1OThlY2QzMDc1IiwiY2FydCI6e319', '2020-09-29 09:11:47.271147'),
+('a342fekts933a041va4x5ggqmepao8ox', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-09 04:40:45.536208'),
 ('a3tlyv480zm1rx03xn8ri7bxpqgju9vs', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 08:33:53.025721'),
 ('a53lbnuy543zcorbjzsd2l3v7fc9gcpv', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 08:19:31.214970'),
 ('a5spy8xs52ory092wgjth96ke57aktip', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 02:51:48.543106'),
@@ -7601,7 +7595,9 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('baxmadng7la64wmzsnwbarh07625cifb', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 17:32:50.195890'),
 ('bbw4ckbpw5wex4dizddkf05ol5m4ep3u', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 02:50:48.177030'),
 ('bcjz21aas3b2psgvpcmw5h9wlb77q01o', 'MDk3ZjcxMGUxNzJjNmJiOTk3MDRkMGRiMzcwMGVhZTA1ODcwMTJkZTp7Imhhc19zaWRlYmFyX3JpZ2h0IjpmYWxzZSwiaGFzX3NpZGViYXJfbGVmdCI6ZmFsc2V9', '2020-10-19 07:41:52.730816'),
+('bdezwcolbjn72s0rsmi6m1rgmm38v4mq', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-09 04:40:48.111780'),
 ('bdwxhh27r8pw539kmc06zx1z4m37ms0b', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-22 03:30:27.694902'),
+('bev5thoz5mv2lcs591jj41jxrwg408j6', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-11 08:15:58.666490'),
 ('bgcp06nzq9vc3awpq3nkv6dyb7e63ypg', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 07:47:42.922261'),
 ('bilq92zvb0jkxii1rpxjltwt5ou97cyl', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 08:01:27.477048'),
 ('blx353arwruonrd7ne33o0vvcxk96aig', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-27 03:27:18.557030'),
@@ -7631,6 +7627,8 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('c44sy8a6nby3p6kvwe95xeqt1osbdkjb', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 05:36:49.886818'),
 ('c563sdvcbjeu5ga8er8u13cwux986j5s', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 08:09:56.219467'),
 ('c6btdddw5x4p48c31gd95zaz7gundx2a', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 17:23:04.957287'),
+('c7oubhvnvvnvez9lzxuk648r19rcef98', 'eyJkZXZfYnkiOiJIdXUgTmd1eWVuIn0:1kZPg8:h-FcXqqaccW5wHdvKC3qcvgJ8DGB4rpD7GS4Oyk6P0Q', '2020-11-16 02:34:40.170307'),
+('c950hp2qtooz314g6wpwsxi6c5pachtq', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-10 06:21:54.630209'),
 ('cb7w7ap77jzxu59dtt15f1ug8xqaiyoy', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 05:40:05.196907'),
 ('cbgyacx11rezm77ynseipq3xqlvnutmg', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-22 03:43:29.633285'),
 ('cclujmrm4agqul927kv4qussndnij22j', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 09:04:47.581384'),
@@ -7658,11 +7656,14 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('cwi12fwm8dyggpqe2ly18xvy024ogsi1', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 15:56:16.420473'),
 ('cxwlb7k7t4dsdjc1b64c4jtkl8m21g63', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 01:48:48.236268'),
 ('cyoq58zobldxypnnncchl9umd9af8on5', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 17:16:40.633264'),
+('czsfqf6intwsuecr2uxjz063mq2by7ed', 'eyJkZXZfYnkiOiJIdXUgTmd1eWVuIn0:1kZRjn:kJ1oNPbB9Vpywe0p3H1uKgGMvUAwy8RqKde_8JY5lQA', '2020-11-16 04:46:35.419799'),
 ('d0hqe7lvufejbmhv2ytbscdr4adb6t80', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 18:22:50.108894'),
 ('d1hivk8ynbyb1o1wbhxnr40gagztvax7', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 07:10:15.458520'),
 ('d35c4yyl070swfc1z8nh53v0q56hs90x', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 01:56:03.924031'),
+('d3fuvi6chksap5bbj9cj26ssev7kagwv', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-10 04:50:38.599987'),
 ('d780bsry5ut5yo3loh7jockx4gs6vixa', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 18:01:16.201411'),
 ('d7f23xzhpn2sldd0zigz0jq4ebyy6qil', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-22 03:55:58.190286'),
+('d7gilsk6l1dn4w3inode8zbs6ismuijk', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-09 04:41:11.712261'),
 ('d7xy3t2tcyw0lauhsw498mxoiv2p9t4q', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 01:54:13.225224'),
 ('d8volyyhteurjnn8w4dlo730hw6pmx0h', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 08:30:50.272177'),
 ('d91d56b9p0a53rqdau10btppxvx5cwvj', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 07:36:41.734724'),
@@ -7673,11 +7674,15 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('dn5tk7xy5lxmmvzpuv6liyw1i28tu6at', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 02:44:44.719541'),
 ('dni1wcch8gdqjrefxnxjh22hn56aag48', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 18:09:55.515106'),
 ('dnroyd9dqplgrtx4rqh1kdnzjtm0md35', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 08:57:14.558342'),
+('dns8ftkwy1i1nhrtk0kl43144qomxp2u', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-09 08:32:39.668245'),
 ('dorvit2xafptssm9vb4onz74hp5ww2nz', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 05:45:15.925106'),
 ('dpigxxr2quv2x1jmydlprwk2l8s17p1x', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 08:21:46.427675'),
 ('dr8jzdqe3mqvsqg7utulmg0m2xz1l0u4', 'YmFkYzI2ZDQ1M2U4ZmE2OTYxOGQzNDE2MGU4MGQ1YTFmNjI0OTQ4NDp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyZmJkMGQwMTcyMDUxNDQzMDhmZWE5MDM3ZjJkNTk1OThlY2QzMDc1IiwiY2FydCI6e319', '2020-10-13 17:50:28.430821'),
+('drky124leaf9kpqfatudbe15ai3mz1oi', 'eyJkZXZfYnkiOiJIdXUgTmd1eWVuIn0:1kZPgH:N3nI50B5mDE5bkoMKOyhGFH8Av_DsiRbAt4jPkRFIOo', '2020-11-16 02:34:49.907510'),
 ('dspe2xt1gbew8wpcnencgp6kc038p8dg', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 08:50:54.080862'),
 ('dvzora0ic99y9rthpc6c8ru4s5lba4to', 'YTZkMGVmMDI3MzEzYmIwYzk2Y2Y1ZTlmYzhhYjllZmFiNTgyMjU5Njp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyZmJkMGQwMTcyMDUxNDQzMDhmZWE5MDM3ZjJkNTk1OThlY2QzMDc1In0=', '2020-08-26 02:21:59.856680'),
+('dw1vwv5l5v69u44u8o7gi92uem5knhlz', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-10 06:21:29.746980'),
+('dwnovv4dtouy3op1i33fc6bgzzum27h5', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-11 08:15:52.075370'),
 ('dwuu39avavmsqi4xfpznsagzme1l5rj8', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 08:51:39.337027'),
 ('dxcd3p582pe2us7755b015awwj03yz39', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 17:16:12.188824'),
 ('dy5868aod1yrxa8kedkpg8gaawh0lfg4', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 07:43:58.048238'),
@@ -7705,6 +7710,7 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('ek7vf6inpndv6ot182t43fvj2aidaasu', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 07:59:53.335003'),
 ('ekkok2bqy6sslqo6z89357951lp2uyr2', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 01:49:46.071551'),
 ('elhhyrqyq1jodbmlaqsxdq6a83s1zthf', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 16:57:49.977752'),
+('elrlcjd824r3vbbpuaao9w7amzjwermj', '.eJzlUsuO0zAU_RXL6zT1I03aCFgAGxbAZsQCgqIb20nc5lFSZx4a9d-5TjIqDw2g2QGRIt3HOdfXx-ee5jC6Oh9PZsitpinlNPi2VoA6mM439B66qg9V37nBFqGHhEv3FL7ttWleLtjvBtRwqpEtEr0VkBRRIljEt8WGsYJDEW81xJBw2AEoAVrGm0iIWCVlstvochPHIjJlEpc4VMHgaHpP41zIyAd-vt-ZB9Q60077YyugfbHHIz_dZ7T1e2U0JRiC7cLj0OtROXD-DqMzGQ2wdTx4iKdiUlrT6JMvIH_B42hf4MwDPDnvoDXz3Hd1NnKjNTlMAUjSZSPjTHbVFDHD7gLS9HNoSTsF254oH5SSuImnJGlmiG9wY3YjcbarSWUnHBwXYFFOJTyysFia53K3HK9KS169__Dm9YrvyKHTN-XtcLvccrBq2RnVxy_Ef259GaFz1t1dLqnBmRy0nvGCCbbibMXEFUtSxlO5_TgzJ9x4_BEnr1icSpnK3YKDa7ANFI3JPeNX6PP5Mz621xff8C8QF5d9kG-y4iQzrn7RGBG2hcoXn9m2IqdBPc_oujXawhrdtEbnhftjlVFyY7WrsSkFvgypja1qh6mIMF2_oOfAuz963P3R090f_Wvu78pq3Ct9_ZP7o-iJ7p99iu5P_nv3P4j7mPsvGv_e_dGfuv98_grfbgqN:1kZPhE:_7WF0ij-4Syt_5vd9YN6cUwWLD6d35lnziOrs32pjvk', '2020-11-16 02:35:48.413802'),
 ('embn14egvlzizsm5bzd3mws40in3bsc6', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 02:02:27.892727'),
 ('eotk3xyalssxdl3bjldxyq9ymi3xm06w', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 16:05:44.141932'),
 ('es56zii77cgald3n6l8zxdk0m9c84bln', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 05:42:31.871863'),
@@ -7717,6 +7723,7 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('f3oib0n7xll1rr4lg9eyf1uvqqab96se', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 03:55:45.814508'),
 ('f4b2u04gnakev5w36ne02p16o3j10hmh', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 03:36:45.435270'),
 ('f5ogt3pci8mqpafib81gun8sn4lwlo88', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 09:12:05.108325'),
+('f61vq7kt5kxdzif3ncvrsn6yfe9446fa', 'eyJkZXZfYnkiOiJIdXUgTmd1eWVuIn0:1kZPfh:Vxq4B28R6N0H4Eqc3ZWWGEWkTuSGsLsTYBjHl7aQdO4', '2020-11-16 02:34:13.033740'),
 ('f74nsor2uc1sl72a1h6ns89yvkgns5s2', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 08:33:51.223913'),
 ('f7pqb9v7gmzk32fsfhvpzi0s1s5u8j09', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 15:21:22.845596'),
 ('f7ty3ioescv06fn1cb1ifjv0s2f6ejjy', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 08:31:55.165416'),
@@ -7742,10 +7749,12 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('g4jniy3pqd0u7nzdkwmhoo8i88j0ekga', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 08:34:05.688280'),
 ('g5l2uq8ute4zxffb0ws752i4bluzp45h', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 01:43:13.777534'),
 ('g7mle4yykjsde7o74a6ltvc4tj8a61sm', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-22 08:45:35.977664'),
-('ga4ms82di886079zyidlael3z0jauary', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 07:54:51.173098'),
+('ga4ms82di886079zyidlael3z0jauary', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 07:54:51.173098');
+INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
 ('gb6apfjslc1p5oryfxzbrx64gtjve699', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 07:29:05.719174'),
 ('gcf4pwm4l4v9tamlc5xwdb5v3ax5drab', 'YTZkMGVmMDI3MzEzYmIwYzk2Y2Y1ZTlmYzhhYjllZmFiNTgyMjU5Njp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyZmJkMGQwMTcyMDUxNDQzMDhmZWE5MDM3ZjJkNTk1OThlY2QzMDc1In0=', '2020-09-01 02:05:51.718072'),
 ('ge8gp4zl86xonhbx0o1laxmmfi4raomb', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 08:51:02.652133'),
+('ggb53id5zqrcxgt88lbs5ixkqc7ll7xs', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-09 06:36:27.288803'),
 ('ghcnw9dgblgxp8wdra696jc2dqq4916w', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 01:49:54.471813'),
 ('gj7ayhsd8faelu5kt0j49bvebah1cqwx', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 16:42:59.276144'),
 ('gjxcrtkmuo54dplw2kabgcz7rfz4oul8', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 08:42:42.988901'),
@@ -7767,11 +7776,13 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('hcera8j8pfx95klavx0pr2nbhaku6qyh', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 05:55:46.581436'),
 ('he1tqxq5xfkffqp8x8hezy6xdyb3q3ur', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 02:07:22.726807'),
 ('hec1kgaoa54e8y0zzqqjp1i4wb6uh73f', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 03:28:15.782164'),
+('hff86cmiq26ybi9uch4a8vikxjewjuyo', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-10 02:08:22.384544'),
 ('hh1p8ff33qpkenoqjzn7bpuxrpibjkk5', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 08:57:28.241956'),
 ('hnbzsmf9ftpgk1dh3ycn6w3c8j5sdqy9', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 06:49:37.905991'),
 ('hom0ze7ctmwunly2zt62l4l15n72gee0', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 09:03:33.727688'),
 ('hp0jay63m4bs9rxixmxxufbytrm8t4ca', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-22 02:18:27.342530'),
 ('hpnjgd0lv6o7e3zhr79dtzmv4rjdpewx', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 02:00:13.839813'),
+('hqebywmzfzkf71ftvkwcozs5suyebwb3', 'eyJkZXZfYnkiOiJIdXUgTmd1eWVuIn0:1kZPhJ:0NYbzT00q3oZUZcb42qCj8gcVn1ogtsm9bYTDuym4hk', '2020-11-16 02:35:53.538895'),
 ('hr6idw0gfn8ybx64el1m21gw5ma1m7hd', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 01:28:03.079880'),
 ('hrs1odkpl8zniwos28wnlu4oiasqcfrw', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 17:24:52.386680'),
 ('hsbw25ilx6oqr6izaf5ia4fr0x1yd4h7', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 18:06:13.233385'),
@@ -7782,8 +7793,7 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('i34ux2eerk95vwl346ryspe3lo4qyw7f', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 07:03:01.673057'),
 ('i54vxy8e4231eadfd18t5g8mxcodb5xj', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-26 03:22:40.899833'),
 ('i7m4vym59pnv02dkbhyevg4o528xsrwm', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 07:49:10.947973'),
-('i7pl9ykhrnh4sta1atix4regkjrqi508', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 16:45:48.269016');
-INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
+('i7pl9ykhrnh4sta1atix4regkjrqi508', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 16:45:48.269016'),
 ('i89bqf8pn8dyc24hrixu2cf9621ldlp1', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 02:46:26.971812'),
 ('i9gv5waiw7iqkn75bfzt9igejc0bj0fj', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 04:05:46.331176'),
 ('i9nviltbfc1ebwuuieo17ds9xqc6jdsk', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 03:25:45.428799'),
@@ -7796,9 +7806,11 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('igtmhmmrz6iegkt9eznewhlgoatf59ig', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-22 03:29:03.600313'),
 ('ii6j79cut7cgfi58igo451sz20sfxtq9', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 16:28:31.599936'),
 ('iigieepta88g79s3mfrdndibcnkdjvlr', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 03:40:53.600399'),
+('iispfux8bxpv34g3xt3b3rzj0gkfj23g', 'eyJkZXZfYnkiOiJIdXUgTmd1eWVuIn0:1kZPge:nyl7OgfYvoMyG_F-Epytwa7oLW5r0jNlDgxw5s-Azug', '2020-11-16 02:35:12.476030'),
 ('ijwaad81gdmec2cizw86agvtvksvj67r', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 16:46:31.842895'),
 ('ik5k41gxzd8lksgnziif8mgfl2b1q55w', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 08:09:18.898827'),
 ('ika6vpoejyzi2yn8d60m93wo718ldd98', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 01:49:58.305561'),
+('im9zfscytbrb2vl1u3vq9bqjd9flbvdp', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-12 03:34:27.347503'),
 ('indrb4xirxdn22un4mocgs8xej3c6if3', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 01:58:55.420332'),
 ('io2295yyd0mgp1moulx2nj5lipfsx2ii', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 01:58:47.516757'),
 ('ipq0ml3anidiobkryzkf8rc5udqrxlw6', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 07:48:52.555708'),
@@ -7868,6 +7880,7 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('kkqrgaf4z63f70uocqd972b9893jy035', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 07:52:42.658131'),
 ('klelzit0f3oewdxnk4r9be2924o2r65m', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-22 08:42:48.780765'),
 ('kmle7pain0ieh18l2k3a5mq7yyrjws6w', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 08:24:32.272298'),
+('ko75pzfwa56yjyaibvo8i3gxyienc2ou', 'eyJkZXZfYnkiOiJIdXUgTmd1eWVuIn0:1kZPgX:SO3D4oQ1hMona_IcAdVTCI7LFpCi9pn9xqWj9JsMtIc', '2020-11-16 02:35:05.723721'),
 ('ksjeh4peqp9tqbnuckd5pede1n46pxlg', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-26 01:46:22.276252'),
 ('ksst4gs4xd7vzy6e58te20gzjc6n3lce', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 05:23:46.687571'),
 ('ktt3mzchdjfzi3jsrcbpkkpck16zaww1', 'YmFkYzI2ZDQ1M2U4ZmE2OTYxOGQzNDE2MGU4MGQ1YTFmNjI0OTQ4NDp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyZmJkMGQwMTcyMDUxNDQzMDhmZWE5MDM3ZjJkNTk1OThlY2QzMDc1IiwiY2FydCI6e319', '2020-10-02 16:32:08.069002'),
@@ -7926,6 +7939,7 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('mneizydcbd9vh1xkmb98a7idshml147t', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 03:01:00.164469'),
 ('mnmeblbikn3ch5z8vus8zzvm8447lrwi', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 18:28:17.553666'),
 ('moiiuvglfqli1h31g2pj2weyt3xcyxf1', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 01:58:50.777992'),
+('mrctcn5eifpdpsq9fkizx9owy1pxju3k', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-10 06:24:39.657907'),
 ('msdnecxr3bybzrdwzwqqcot91m5nbnp2', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 16:33:45.971208'),
 ('mu4dfp2br4bisz6qodh53gd2hbp1k9hq', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-26 03:22:35.769279'),
 ('mvxbt1q8bteduz7yan9cs4iv6wgrlx0o', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 01:56:38.966992'),
@@ -7949,9 +7963,12 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('nk4b2bknmrhbaxpmgpxvqelm47ilittb', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 08:01:08.953900'),
 ('nk4wbqwv42e9w27556hikvstj8r6sv2s', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 01:59:32.479207'),
 ('nmk1ka5zgotp9d27n3s8d64ji1dhv1tx', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 08:18:21.173980'),
+('nmqzxow2ar6pslqjhdd3xu6zjpiwt0m0', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-10 06:24:33.267369'),
 ('npnazw8kpt0i5ik6c460npsf7gkkhxl5', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 07:17:09.237988'),
 ('nqtxxc38nnu7pn4jk45jk1j4o4elw6ix', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 07:44:58.489965'),
 ('ns0j6e8d9q1ulxhhjcncab5p6oqvhob4', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 01:57:48.853343'),
+('ntf4skffijaylfm1r8gydngu8kwjck0z', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-11 04:20:28.137896'),
+('ntu5ir0noq95x5ygxu5mkqwnr2yvrm3n', 'eyJkZXZfYnkiOiJIdXUgTmd1eWVuIn0:1kZVcp:7HVsEeyK27shjEQVesXJShGKMguTec3b-7cocOWGPo0', '2020-11-16 08:55:39.991840'),
 ('nx64mzq98is4sqkagmhfb6gkhnyqugeh', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-22 01:55:51.829392'),
 ('nyhai7qrgkoihd0l5tmjerlwoqknuw24', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 17:34:42.045729'),
 ('nztqhl9i3ixd3l7mzp69r8ri8xbiq0tx', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 01:43:35.864252'),
@@ -7964,6 +7981,8 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('o3ysjfxdfn07cjswcnp99abc2uxgbmhw', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 02:50:16.435713'),
 ('o48phh2b87c6zvd274ntjt1sjlio1hmd', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 16:23:19.967831'),
 ('o56k0047vqyz86vq1305t3lraayqfhyy', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 08:14:48.334565'),
+('o5849xvw69cay55ma0p79s3z2cfbqzeh', 'eyJkZXZfYnkiOiJIdXUgTmd1eWVuIn0:1kZPh0:KbDyyFnKmsiH_ni2l4bRuQJvpNYCIPS4EZCXqBA-vbY', '2020-11-16 02:35:34.139214'),
+('o5wes17cev5sg0lcmyg2fz36g44y6my1', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-11 08:16:02.422476'),
 ('o6z15d9ih6f9o1thr4fkacmn2ruyn204', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 18:06:52.753544'),
 ('o9wqe02jcfv5uoccg72xgy5l6270w5r9', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-22 01:44:20.376239'),
 ('oa2zzscee8fudzki4n8pzr5ydhz5bpo2', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 17:28:28.791448'),
@@ -7996,17 +8015,21 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('p61jfuhzst4iwbtyuny74zxcqq2pesbu', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 09:11:16.411535'),
 ('p6evcimu2t7pajq9bor9ia7gw7edsdz4', 'YmFkYzI2ZDQ1M2U4ZmE2OTYxOGQzNDE2MGU4MGQ1YTFmNjI0OTQ4NDp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyZmJkMGQwMTcyMDUxNDQzMDhmZWE5MDM3ZjJkNTk1OThlY2QzMDc1IiwiY2FydCI6e319', '2020-10-12 09:10:18.551815'),
 ('p8puvlyp7ks3pm2vf05np126p3vvnvms', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-22 03:42:13.516612'),
-('pbh8wuqajkh2f6cmpr3ypti8zbyl3g6n', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 08:49:54.993415'),
+('pabsakq0kg4nx9nscrs8yzr2veoyqwsd', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-10 06:22:00.396942'),
+('pbh8wuqajkh2f6cmpr3ypti8zbyl3g6n', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 08:49:54.993415');
+INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
 ('pbzc007o2tewh0u8ufu5j84hsryb618c', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 03:34:57.406001'),
 ('pgd96406r3tmrmdba9gxjdpqg8sadbq4', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 09:11:12.577044'),
 ('pgynuxkuctd0ru6hpuv6qff9mobnb6gn', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 15:59:12.745208'),
 ('ph5izb7o3cyr4l7cl39x119wd5melcpz', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 16:08:37.910355'),
 ('pholzi9hldqgztsq9n11yg0yrwvb1533', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-22 03:46:52.048165'),
 ('pkte1ce3j0f0glo2dj7fv7qgsjqk4f92', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-22 03:21:12.792578'),
+('pnallccky5vc2mda2d771ig8sw9viovk', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-10 06:23:04.871083'),
 ('pnrieexarx9f6he0lyzcr1xim07zumsj', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 07:59:46.723963'),
 ('pocqc3tymdywo93d0a97cdme96ni1kjb', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 07:30:19.097230'),
 ('prc0ibm8f5yq8svwjc2i9v3ndwsnm1qt', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 08:29:19.803493'),
 ('ps5xrrr4w9zegobtpjj9tpvjluimwvnn', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 05:42:28.096090'),
+('pst98vfc1ec0btuoti2vk7zxbovv95js', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-10 06:23:31.652255'),
 ('ptx4ua40tjcj4nx9a3pul7prrdjdgvl6', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 08:54:55.962769'),
 ('pu5eptv41h3tnvss01u0lrdmri63ac35', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 16:50:06.201106'),
 ('pwu1fc6q2aq6j7rtq8m38jgqpnozq89k', 'MDk3ZjcxMGUxNzJjNmJiOTk3MDRkMGRiMzcwMGVhZTA1ODcwMTJkZTp7Imhhc19zaWRlYmFyX3JpZ2h0IjpmYWxzZSwiaGFzX3NpZGViYXJfbGVmdCI6ZmFsc2V9', '2020-10-19 07:42:12.745218'),
@@ -8042,8 +8065,7 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('qnljejdy5sjr0zlr7b4886vqdphwp1em', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 11:58:10.503203'),
 ('qnonpwg8l2u0k5x80yxqqvx0v2o34qby', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 02:44:07.648879'),
 ('qoso6ayhou2uxlb4rvcovapcpxf6ng88', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 03:02:06.538760'),
-('qpdjspven6nw8p7qrkgm5gi0sot6k45o', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 01:25:41.310999');
-INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
+('qpdjspven6nw8p7qrkgm5gi0sot6k45o', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 01:25:41.310999'),
 ('qs7y4ph6xuyhhqwgvf7r4m3rgyw7swns', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 16:21:45.584198'),
 ('qv7vh2re0474ydvznvchumkqewjrwnzj', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 18:32:57.119729'),
 ('qvj0e764fuam9mz2oxuwxtl0phkgkqne', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 17:08:04.538737'),
@@ -8133,10 +8155,12 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('u3owvi44hzzbb3a7n1iiyu6oblg79yvk', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 17:24:43.100672'),
 ('u4u7f41r7b42rea4bj92rxzltklwznmr', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 03:39:52.868168'),
 ('u7fmwwn3db31g2gop655lsixq8e6eonc', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 09:05:52.408010'),
+('uaj8fm3c511fe5jg2hr1qiqf1tkwxowc', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-12 03:34:33.117087'),
 ('ucg468xbd2l4lt6jvaku61f6ww62trtb', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 08:33:58.803876'),
 ('uclu8mino60k8xochnidaskhya6r4dbp', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 07:24:36.291562'),
 ('ucuz0qx8lw17hnja5nrb2fwx9n9yvfbm', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 17:42:58.126238'),
 ('udjoht2p6difgcjytwvvpjg00y8yu2fn', 'YmFkYzI2ZDQ1M2U4ZmE2OTYxOGQzNDE2MGU4MGQ1YTFmNjI0OTQ4NDp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyZmJkMGQwMTcyMDUxNDQzMDhmZWE5MDM3ZjJkNTk1OThlY2QzMDc1IiwiY2FydCI6e319', '2020-10-23 08:34:05.788535'),
+('uh7l0j6owv0uz1f67fhgi7apyqczckyf', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-10 04:51:10.473589'),
 ('uimg39v8v5mhkm94howyzti97ywduklh', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 02:43:13.443529'),
 ('uiya3h7duixofe8cyd5imigyq0jq4qqm', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-26 03:22:47.229915'),
 ('ukmgdv2j6puvi4ybbu0k0a6e70b76pdm', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-27 03:27:20.982021'),
@@ -8144,9 +8168,11 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('umqbzjeo5bt6a32uamsqm447kq85er2l', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 01:31:04.785864'),
 ('unn12sw6drordqrutqbse3sg1s56e43r', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 07:49:47.109035'),
 ('uo2as07otrs3ea48t8x98va7vsukpsjx', 'NzY1N2Q1NjExMGVlOWY5M2ZjYjkwOTlkNWY2ZDJkNWNkODE3MTViMTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyZmJkMGQwMTcyMDUxNDQzMDhmZWE5MDM3ZjJkNTk1OThlY2QzMDc1IiwiY2FydCI6eyI2XzY3Ijp7InVzZXJpZCI6MSwiaXRlbV9pZCI6NjcsIm9iaiI6Ilt7XCJtb2RlbFwiOiBcIm1haW4ucHJvZHVjdGF0dHJpYnV0ZVwiLCBcInBrXCI6IDY3LCBcImZpZWxkc1wiOiB7XCJwcm9kdWN0X2lkXCI6IDQsIFwiYXR0cl9uYW1lXCI6IFwiaVBob25lc2FvIGNhbWVyYSB0clxcdTAwZWFuIGlQaG8gaVBob25lc2FvIGNhbWVyYSB0clxcdTAwZWFuIGlQaG9cIiwgXCJwcmljZVwiOiBcIjk5MDAwMC4wMDBcIiwgXCJxdWFudGl0eVwiOiA1LCBcImRhdGVfYWRkXCI6IFwiMjAyMC0wOS0xMVQwMzo1MDo0MlpcIiwgXCJkYXRlX3VwZFwiOiBcIjIwMjAtMDktMThUMDg6Mzk6MjJaXCIsIFwiYXZhaWxhYmxlX2RhdGVcIjogXCIyMDIwLTA5LTE4VDA4OjM5OjIyWlwifX1dIiwibmFtZSI6ImlQaG9uZXNhbyBjYW1lcmEgdHJcdTAwZWFuIGlQaG8gaVBob25lc2FvIGNhbWVyYSB0clx1MDBlYW4gaVBobyIsInF1YW50aXR5IjoxLCJwcmljZSI6Ijk5MDAwMC4wMDAiLCJpbWFnZSI6IjxpbWcgc3JjPVwiL21lZGlhL2F0dC82Ny5qcGdcIiB3aWR0aD1cIjMyMFwiIGhlaWdodD1cIjI0MFwiLz4ifSwiNl82NCI6eyJ1c2VyaWQiOjEsIml0ZW1faWQiOjY0LCJvYmoiOiJbe1wibW9kZWxcIjogXCJtYWluLnByb2R1Y3RhdHRyaWJ1dGVcIiwgXCJwa1wiOiA2NCwgXCJmaWVsZHNcIjoge1wicHJvZHVjdF9pZFwiOiA0LCBcImF0dHJfbmFtZVwiOiBcInNhbyBjYW1lcmEgdHJcXHUwMGVhbiBpUGhvbmVzYW8gY2FtZXJhIHRyXFx1MDBlYW4gaVBob25lXCIsIFwicHJpY2VcIjogXCI5MTAwMDAuMDAwXCIsIFwicXVhbnRpdHlcIjogMiwgXCJkYXRlX2FkZFwiOiBcIjIwMjAtMDktMTFUMDM6NTA6NDJaXCIsIFwiZGF0ZV91cGRcIjogXCIyMDIwLTA5LTE4VDA4OjM4OjQ3WlwiLCBcImF2YWlsYWJsZV9kYXRlXCI6IFwiMjAyMC0wOS0xOFQwODozODo0N1pcIn19XSIsIm5hbWUiOiJzYW8gY2FtZXJhIHRyXHUwMGVhbiBpUGhvbmVzYW8gY2FtZXJhIHRyXHUwMGVhbiBpUGhvbmUiLCJxdWFudGl0eSI6MywicHJpY2UiOiI5MTAwMDAuMDAwIiwiaW1hZ2UiOiI8aW1nIHNyYz1cIi9tZWRpYS9hdHQvNjQuanBnXCIgd2lkdGg9XCIzMjBcIiBoZWlnaHQ9XCIyNDBcIi8+In19fQ==', '2020-10-08 09:54:18.921257'),
+('uo3mngfv4krv42j9km8ww730ptkwvydk', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-10 06:21:02.344218'),
 ('uoe49tp609bxsijcl69jeogi59d665hj', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 07:52:35.676875'),
 ('upswl0ljmkc08pfl6xguch7ndjtibx5u', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 18:20:04.993710'),
 ('urceu65dxt6kt3ix6r9qylhm9yqdzgxw', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 07:28:34.393506'),
+('uss1aepm693jz0hrmxpao57qoud5uimi', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-10 06:23:23.650062'),
 ('uto4mkl9rjrunm43hjg2ozcpehtu8ris', 'YmFkYzI2ZDQ1M2U4ZmE2OTYxOGQzNDE2MGU4MGQ1YTFmNjI0OTQ4NDp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyZmJkMGQwMTcyMDUxNDQzMDhmZWE5MDM3ZjJkNTk1OThlY2QzMDc1IiwiY2FydCI6e319', '2020-09-14 09:50:46.658137'),
 ('uu3qb7les12yex84ibyv98jeh2msnlm9', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 01:56:41.567490'),
 ('uwvcbzqpbpemhuzolmp7lr8oolibqvm9', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 01:54:09.257638'),
@@ -8158,6 +8184,7 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('v0bo3ohqo65024326p4cg7eouz93ut4w', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 11:58:12.480267'),
 ('v0piq8mc3vmb97i05dvfjq4t17vozdpx', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 18:21:15.795358'),
 ('v3gb6ml0kp39ghpsdss8n9f89q5rn002', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-27 03:27:13.749667'),
+('v6ed343wi9wvza1qytpl7zcedtxkix04', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-09 04:49:53.114716'),
 ('v6phwxn61nvgys576jl290s0plkqg2sk', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 17:31:59.971478'),
 ('vadxjpquarxyat6rhh49in6nyxkl6e42', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 08:31:30.537955'),
 ('vfon4tdss2y1oaoulps1ttbcrwp13zhg', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 16:46:43.015661'),
@@ -8178,7 +8205,9 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('vxj26xwdgjdomb4l711ryvmma8q7o7v3', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-22 02:40:09.223393'),
 ('vxwbp4xgfs07avj9drr9mnmc3emi1mdo', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 03:38:16.718581'),
 ('w08yf4yjwb40j5cnct4aofq7ite3dj1f', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 03:40:06.453999'),
+('w14sbu3918r8gqekzghvgwh8jp3mx3a7', 'eyJkZXZfYnkiOiJIdXUgTmd1eWVuIn0:1kZVcj:vGQ_0jXN3EAU-tl8t_CcdmDEgGSOEG_gvTXmH68Xw7Q', '2020-11-16 08:55:33.600398'),
 ('w275cxe93m5grr90g0dk11xbjjdair68', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 05:36:27.578205'),
+('w2przak1m4v16xdufg6izhs5w2qlf5pb', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-11 04:17:30.410467'),
 ('w3yrtltz19ezo3hjctz1366qagitreu3', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 17:31:32.686882'),
 ('w4nzp5f23h6r7ge1l1x9q6sdnw7943yc', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 03:42:04.388396'),
 ('w7dwg5a4zegre71sth0zl0bsoxzvq0rr', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 08:56:30.170818'),
@@ -8187,13 +8216,16 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('wbez0wdymc433hn1din2gnz6shues2x0', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 02:51:51.395645'),
 ('wbl7e3ye0av0kthoedbkw4yx44v5gozc', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 08:53:15.908212'),
 ('wcmoesza6t89j5ypp96ivk1pjokybqqn', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-22 08:42:38.122000'),
+('wdhkidkwsd8z3m7ov6vftqqq7l184ye6', 'eyJkZXZfYnkiOiJIdXUgTmd1eWVuIn0:1kZPhE:ag_RfevirRCU-gwn49gudF3-SioI3FHFlGFr5p43tZY', '2020-11-16 02:35:48.449506'),
 ('wex4uv944z0et2n5p394cy4twmkf0t79', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 08:36:47.890030'),
+('wh0l15qkas7gw53r4vowrj40mo62r4x1', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-12 02:28:38.047885'),
 ('wl4b9z2zn2c72vr36lam8637sh3jkbb0', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 05:13:30.228965'),
 ('wmbr66csy2xy9ev0h6qmd1cmfe6oqd0e', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-27 03:27:21.009633'),
 ('wmumsp7199y6klzifx4fpci0pe1285fl', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 08:17:02.388953'),
 ('wo4jsyeugocbkd5j6sdfawkk0vu6eo8x', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 02:46:29.203848'),
 ('woi76q6ddr4en2sphma3ocajp2ft8jsr', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 06:52:54.128872'),
 ('wot51882qly54t5n2en1cznp6n34kn5h', 'YTZkMGVmMDI3MzEzYmIwYzk2Y2Y1ZTlmYzhhYjllZmFiNTgyMjU5Njp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyZmJkMGQwMTcyMDUxNDQzMDhmZWE5MDM3ZjJkNTk1OThlY2QzMDc1In0=', '2020-08-27 02:06:47.371961'),
+('wr1he2s6lbjp0jrmgdt2z30btti09d34', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-11 02:21:27.860635'),
 ('wr4o92g4o2met6n54wv4iu8vfsp92s9e', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 08:09:00.504980'),
 ('wt2d5z9mp9pocnlof6a2edpphs1vp385', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 05:52:37.607369'),
 ('wumiw8x3y1vv3sqt6y1o8t1wneyjknpg', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 05:38:41.368323'),
@@ -8212,6 +8244,8 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('xgzy164onch26jfikvt3odutl9ila4lr', 'YTZkMGVmMDI3MzEzYmIwYzk2Y2Y1ZTlmYzhhYjllZmFiNTgyMjU5Njp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyZmJkMGQwMTcyMDUxNDQzMDhmZWE5MDM3ZjJkNTk1OThlY2QzMDc1In0=', '2020-09-03 02:01:18.382900'),
 ('xidl7k2trknnl5us330lg90tyngmb6bk', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 08:08:24.615999'),
 ('xkpoeshb323d1zh10af3dl70zr5eeqju', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 01:42:57.021071'),
+('xpuhvbvwldps1kh5eegjs28ntielv0jg', 'YmFkYzI2ZDQ1M2U4ZmE2OTYxOGQzNDE2MGU4MGQ1YTFmNjI0OTQ4NDp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyZmJkMGQwMTcyMDUxNDQzMDhmZWE5MDM3ZjJkNTk1OThlY2QzMDc1IiwiY2FydCI6e319', '2020-11-12 04:02:15.106704');
+INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
 ('xq0fdejdflbuaqyfljnbs2juim3xzcmi', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 15:53:56.986039'),
 ('xxiap473t0ebdv5zqcw9dvz8vnt7whd7', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 03:27:35.063755'),
 ('xy95i2o3bd3rqoa1ygmz7ys7nxx896e6', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 05:35:22.696390'),
@@ -8227,12 +8261,15 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('y71sm9l8vg60pe4rn9axtt1lbmn9vwlp', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 08:58:28.481282'),
 ('y7r6u9bmcfte8w4so033x4bajcvwr2bw', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 11:40:00.902733'),
 ('ydrrwn21r2ob5bqggwbpv7zwu7zhndxw', 'YmFkYzI2ZDQ1M2U4ZmE2OTYxOGQzNDE2MGU4MGQ1YTFmNjI0OTQ4NDp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyZmJkMGQwMTcyMDUxNDQzMDhmZWE5MDM3ZjJkNTk1OThlY2QzMDc1IiwiY2FydCI6e319', '2020-09-24 20:01:03.877965'),
+('yfdwjfvsxmtrxd6svohu8msnj00erokc', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-10 06:22:16.262255'),
 ('yg84oat39686gvef3lvq1lpa12ct3g0t', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 08:59:10.199191'),
 ('ygpekqi27c4ynvw1sdkhiu0opocrb8tj', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 16:04:44.896186'),
 ('ylq4a6kgritcuxzwz4ptn2cl3cfhfw8a', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 08:36:29.863828'),
 ('ymp2xl0d2znnr28zgad1ipcziv003gz3', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 16:40:51.806550'),
 ('yn8i8noxwjyrbbc64xw0xxhbjcweiuxy', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 07:41:19.146703'),
 ('ynyakwch22e3v99lfv5c5cged62hl306', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 07:43:10.017434'),
+('younn8p5o5sctqxxtgbnpeg7nrcq4214', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-09 04:40:52.108245'),
+('yp53jf8udiry3yyqkf0qpah1ogpuj09y', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-09 04:40:56.254316'),
 ('yrclvk1eik2qnwpkvrjfd5a0m83zm5g5', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 09:02:59.269826'),
 ('yscmzrlt0s5bwiw17sg32qh34sspytax', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 08:33:44.227706'),
 ('ysigw4vj7531riy8fsgqgu2obnn57axi', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-23 08:11:17.978389'),
@@ -8248,6 +8285,8 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('z6hbjs3anvrmzcqfmxxloa4zx5xt7w4e', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 05:29:55.566962'),
 ('z8kd9ursnlssr91x1ld7fe13yfcvymnz', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 04:49:55.189093'),
 ('z9zxlty104vh24rcoxma3t4eqr7qt8hk', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-20 08:24:30.570682'),
+('za72pqslcsd7q2yuf7pkpkaznm2c3bpa', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-11-09 04:41:18.973288'),
+('zccfn5t4r424f7meuodbqf9mb85stw5j', 'eyJkZXZfYnkiOiJIdXUgTmd1eWVuIn0:1kZPgn:tWyMiDbL5Dp2zV-SumpR-ddYpOY4Kcza6XhsAXA9ODc', '2020-11-16 02:35:21.825124'),
 ('ze6jft7h7vbc6eqiow73igf5f41tytbk', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-22 02:41:42.455262'),
 ('zeb4wdvks8x3arp0iu8scb9wzo4hwnmp', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-21 18:30:26.664855'),
 ('zfpu77kg5ieuv0104q29rqodlmrlstxt', 'MDMwZjM4OGZkZjdlYTMwM2Y5OWFkMjM5YTM1MTQ0OTIwNmIxYjgxZDp7ImRldl9ieSI6Ikh1dSBOZ3V5ZW4ifQ==', '2020-10-19 09:02:51.440277'),
@@ -8268,13 +8307,11 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 --
 
 DROP TABLE IF EXISTS `django_site`;
-CREATE TABLE IF NOT EXISTS `django_site` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `django_site` (
+  `id` int(11) NOT NULL,
   `domain` varchar(100) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `django_site_domain_a2e37b91_uniq` (`domain`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+  `name` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `django_site`
@@ -8290,8 +8327,8 @@ INSERT INTO `django_site` (`id`, `domain`, `name`) VALUES
 --
 
 DROP TABLE IF EXISTS `extra_settings_setting`;
-CREATE TABLE IF NOT EXISTS `extra_settings_setting` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `extra_settings_setting` (
+  `id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
   `value_type` varchar(20) NOT NULL,
   `value_bool` tinyint(1) NOT NULL,
@@ -8307,9 +8344,7 @@ CREATE TABLE IF NOT EXISTS `extra_settings_setting` (
   `value_text` longtext NOT NULL,
   `value_time` time(6) DEFAULT NULL,
   `value_url` varchar(200) NOT NULL,
-  `value_duration` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`)
+  `value_duration` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -8319,12 +8354,11 @@ CREATE TABLE IF NOT EXISTS `extra_settings_setting` (
 --
 
 DROP TABLE IF EXISTS `feature`;
-CREATE TABLE IF NOT EXISTS `feature` (
-  `feature_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `feature` (
+  `feature_id` int(11) UNSIGNED NOT NULL,
   `name` varchar(45) DEFAULT NULL,
-  `position` int(11) UNSIGNED NOT NULL DEFAULT '0',
-  PRIMARY KEY (`feature_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+  `position` int(11) UNSIGNED NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `feature`
@@ -8344,16 +8378,12 @@ INSERT INTO `feature` (`feature_id`, `name`, `position`) VALUES
 --
 
 DROP TABLE IF EXISTS `feature_product`;
-CREATE TABLE IF NOT EXISTS `feature_product` (
-  `auto_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `feature_product` (
+  `auto_id` int(11) NOT NULL,
   `feature_id` int(11) UNSIGNED NOT NULL,
   `product_id` int(11) UNSIGNED NOT NULL,
-  `feature_value_id` int(11) UNSIGNED NOT NULL,
-  PRIMARY KEY (`auto_id`),
-  KEY `feature_product_2` (`feature_value_id`),
-  KEY `feature_product_3` (`product_id`),
-  KEY `feature_product_1` (`feature_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8;
+  `feature_value_id` int(11) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `feature_product`
@@ -8391,14 +8421,12 @@ INSERT INTO `feature_product` (`auto_id`, `feature_id`, `product_id`, `feature_v
 --
 
 DROP TABLE IF EXISTS `feature_value`;
-CREATE TABLE IF NOT EXISTS `feature_value` (
-  `feature_value_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `feature_value` (
+  `feature_value_id` int(11) UNSIGNED NOT NULL,
   `feature_id` int(11) UNSIGNED NOT NULL,
   `custom` tinyint(3) UNSIGNED DEFAULT NULL,
-  `value` text,
-  PRIMARY KEY (`feature_value_id`),
-  KEY `feature_value_1` (`feature_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+  `value` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `feature_value`
@@ -8429,14 +8457,13 @@ INSERT INTO `feature_value` (`feature_value_id`, `feature_id`, `custom`, `value`
 --
 
 DROP TABLE IF EXISTS `lookup`;
-CREATE TABLE IF NOT EXISTS `lookup` (
-  `lookup_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `lookup` (
+  `lookup_id` int(11) NOT NULL,
   `name` varchar(128) CHARACTER SET utf8 NOT NULL,
   `code` varchar(128) CHARACTER SET utf8 NOT NULL,
   `type` varchar(128) CHARACTER SET utf8 NOT NULL,
-  `position` tinyint(4) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`lookup_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `position` tinyint(4) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `lookup`
@@ -8456,17 +8483,16 @@ INSERT INTO `lookup` (`lookup_id`, `name`, `code`, `type`, `position`) VALUES
 --
 
 DROP TABLE IF EXISTS `manufacturer`;
-CREATE TABLE IF NOT EXISTS `manufacturer` (
-  `manufacturer_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `manufacturer` (
+  `manufacturer_id` int(11) UNSIGNED NOT NULL,
   `name` varchar(128) NOT NULL,
   `date_add` datetime NOT NULL,
   `date_upd` datetime NOT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '0',
   `description` text,
   `description_short` tinytext,
-  `slug` varchar(128) DEFAULT NULL,
-  PRIMARY KEY (`manufacturer_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `slug` varchar(128) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `manufacturer`
@@ -8483,17 +8509,15 @@ INSERT INTO `manufacturer` (`manufacturer_id`, `name`, `date_add`, `date_upd`, `
 --
 
 DROP TABLE IF EXISTS `message`;
-CREATE TABLE IF NOT EXISTS `message` (
-  `message_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `message` (
+  `message_id` int(11) UNSIGNED NOT NULL,
   `order_id` int(11) UNSIGNED NOT NULL,
   `owner_id` int(11) UNSIGNED NOT NULL,
   `title` varchar(255) DEFAULT NULL,
   `message` text NOT NULL,
   `private` tinyint(1) UNSIGNED NOT NULL DEFAULT '1',
   `date_add` datetime NOT NULL,
-  `date_upd` datetime DEFAULT NULL,
-  PRIMARY KEY (`message_id`),
-  KEY `message_4` (`order_id`)
+  `date_upd` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -8503,12 +8527,11 @@ CREATE TABLE IF NOT EXISTS `message` (
 --
 
 DROP TABLE IF EXISTS `message_readed`;
-CREATE TABLE IF NOT EXISTS `message_readed` (
+CREATE TABLE `message_readed` (
   `message_id` int(11) UNSIGNED NOT NULL,
   `owner_id` int(11) UNSIGNED NOT NULL,
   `date_add` datetime DEFAULT NULL,
-  `date_upd` datetime DEFAULT NULL,
-  PRIMARY KEY (`message_id`,`owner_id`)
+  `date_upd` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -8518,13 +8541,12 @@ CREATE TABLE IF NOT EXISTS `message_readed` (
 --
 
 DROP TABLE IF EXISTS `openid_openidnonce`;
-CREATE TABLE IF NOT EXISTS `openid_openidnonce` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `openid_openidnonce` (
+  `id` int(11) NOT NULL,
   `server_url` varchar(255) NOT NULL,
   `timestamp` int(11) NOT NULL,
   `salt` varchar(255) NOT NULL,
-  `date_created` datetime(6) NOT NULL,
-  PRIMARY KEY (`id`)
+  `date_created` datetime(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -8534,15 +8556,14 @@ CREATE TABLE IF NOT EXISTS `openid_openidnonce` (
 --
 
 DROP TABLE IF EXISTS `openid_openidstore`;
-CREATE TABLE IF NOT EXISTS `openid_openidstore` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `openid_openidstore` (
+  `id` int(11) NOT NULL,
   `server_url` varchar(255) NOT NULL,
   `handle` varchar(255) NOT NULL,
   `secret` longtext NOT NULL,
   `issued` int(11) NOT NULL,
   `lifetime` int(11) NOT NULL,
-  `assoc_type` longtext NOT NULL,
-  PRIMARY KEY (`id`)
+  `assoc_type` longtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -8552,8 +8573,8 @@ CREATE TABLE IF NOT EXISTS `openid_openidstore` (
 --
 
 DROP TABLE IF EXISTS `order`;
-CREATE TABLE IF NOT EXISTS `order` (
-  `order_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `order` (
+  `order_id` int(11) UNSIGNED NOT NULL,
   `owner_id` int(11) NOT NULL,
   `address_delivery_id` int(11) UNSIGNED DEFAULT NULL,
   `address_invoice_id` int(11) UNSIGNED DEFAULT NULL,
@@ -8567,15 +8588,8 @@ CREATE TABLE IF NOT EXISTS `order` (
   `invoice_date` datetime DEFAULT NULL,
   `date_add` datetime DEFAULT NULL,
   `date_upd` datetime DEFAULT NULL,
-  `cart_id` int(11) UNSIGNED DEFAULT NULL,
-  PRIMARY KEY (`order_id`),
-  KEY `date_add` (`date_add`),
-  KEY `fk_order_2` (`current_state`),
-  KEY `fk_order_3` (`address_delivery_id`),
-  KEY `fk_order_4` (`address_invoice_id`),
-  KEY `fk_order_1` (`cart_id`) USING BTREE,
-  KEY `fk_order_5` (`owner_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+  `cart_id` int(11) UNSIGNED DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `order`
@@ -8604,16 +8618,13 @@ INSERT INTO `order` (`order_id`, `owner_id`, `address_delivery_id`, `address_inv
 --
 
 DROP TABLE IF EXISTS `order_history`;
-CREATE TABLE IF NOT EXISTS `order_history` (
-  `order_history_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `order_history` (
+  `order_history_id` int(11) UNSIGNED NOT NULL,
   `owner_id` int(11) UNSIGNED DEFAULT NULL,
   `order_id` int(11) UNSIGNED NOT NULL,
   `order_state_id` int(11) UNSIGNED NOT NULL,
   `date_add` datetime NOT NULL,
-  `date_upd` datetime DEFAULT NULL,
-  PRIMARY KEY (`order_history_id`),
-  KEY `order_history_2` (`order_id`),
-  KEY `order_history_3` (`order_state_id`)
+  `date_upd` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -8623,16 +8634,14 @@ CREATE TABLE IF NOT EXISTS `order_history` (
 --
 
 DROP TABLE IF EXISTS `order_invoice`;
-CREATE TABLE IF NOT EXISTS `order_invoice` (
-  `order_invoice_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `order_invoice` (
+  `order_invoice_id` int(11) UNSIGNED NOT NULL,
   `order_id` int(11) UNSIGNED NOT NULL,
   `amount` decimal(17,2) DEFAULT NULL,
   `note` text,
   `date_add` datetime DEFAULT NULL,
-  `date_upd` datetime DEFAULT NULL,
-  PRIMARY KEY (`order_invoice_id`),
-  KEY `order_invoice_1` (`order_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+  `date_upd` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `order_invoice`
@@ -8661,17 +8670,13 @@ INSERT INTO `order_invoice` (`order_invoice_id`, `order_id`, `amount`, `note`, `
 --
 
 DROP TABLE IF EXISTS `order_invoice_payment`;
-CREATE TABLE IF NOT EXISTS `order_invoice_payment` (
-  `auto_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `order_invoice_payment` (
+  `auto_id` int(11) UNSIGNED NOT NULL,
   `order_invoice_id` int(11) UNSIGNED NOT NULL,
   `order_payment_id` int(11) UNSIGNED NOT NULL,
   `order_id` int(11) UNSIGNED NOT NULL,
-  `sign` tinyint(4) UNSIGNED DEFAULT NULL,
-  PRIMARY KEY (`auto_id`),
-  KEY `order_invoice_payment_ibfk_2` (`order_payment_id`),
-  KEY `order_invoice_payment_ibfk_3` (`order_id`),
-  KEY `order_invoice_payment_ibfk_1` (`order_invoice_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+  `sign` tinyint(4) UNSIGNED DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `order_invoice_payment`
@@ -8700,7 +8705,7 @@ INSERT INTO `order_invoice_payment` (`auto_id`, `order_invoice_id`, `order_payme
 --
 
 DROP TABLE IF EXISTS `order_item`;
-CREATE TABLE IF NOT EXISTS `order_item` (
+CREATE TABLE `order_item` (
   `order_id` int(11) UNSIGNED NOT NULL,
   `find_item_id` varchar(128) NOT NULL,
   `class_of_item` mediumtext,
@@ -8709,9 +8714,7 @@ CREATE TABLE IF NOT EXISTS `order_item` (
   `price` decimal(20,2) DEFAULT NULL,
   `original_price` decimal(20,2) DEFAULT NULL,
   `total_price` decimal(20,2) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`find_item_id`),
-  KEY `fk_order_detail_2` (`order_id`)
+  `name` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -8757,15 +8760,14 @@ INSERT INTO `order_item` (`order_id`, `find_item_id`, `class_of_item`, `quantity
 --
 
 DROP TABLE IF EXISTS `order_payment`;
-CREATE TABLE IF NOT EXISTS `order_payment` (
-  `order_payment_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `order_payment` (
+  `order_payment_id` int(11) UNSIGNED NOT NULL,
   `order_reference` varchar(8) DEFAULT NULL,
   `amount` decimal(10,2) NOT NULL,
   `payment_method` tinyint(4) NOT NULL COMMENT '1: TT trực tiếp\n2: TT CK\n3: TT Ví Điện Tử',
   `date_add` date NOT NULL,
-  `data_payment` mediumtext,
-  PRIMARY KEY (`order_payment_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+  `data_payment` mediumtext
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `order_payment`
@@ -8794,8 +8796,8 @@ INSERT INTO `order_payment` (`order_payment_id`, `order_reference`, `amount`, `p
 --
 
 DROP TABLE IF EXISTS `order_state`;
-CREATE TABLE IF NOT EXISTS `order_state` (
-  `order_state_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `order_state` (
+  `order_state_id` int(11) UNSIGNED NOT NULL,
   `invoice` tinyint(1) UNSIGNED DEFAULT '0',
   `send_email` tinyint(1) UNSIGNED DEFAULT '0',
   `delivery` tinyint(1) UNSIGNED DEFAULT '0',
@@ -8803,9 +8805,8 @@ CREATE TABLE IF NOT EXISTS `order_state` (
   `paid` tinyint(1) UNSIGNED DEFAULT '0',
   `deleted` tinyint(1) UNSIGNED DEFAULT '0',
   `name` varchar(128) DEFAULT NULL,
-  `template` varchar(128) DEFAULT NULL,
-  PRIMARY KEY (`order_state_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  `template` varchar(128) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `order_state`
@@ -8821,16 +8822,14 @@ INSERT INTO `order_state` (`order_state_id`, `invoice`, `send_email`, `delivery`
 --
 
 DROP TABLE IF EXISTS `pack`;
-CREATE TABLE IF NOT EXISTS `pack` (
-  `pack_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `pack` (
+  `pack_id` int(11) UNSIGNED NOT NULL,
   `pack_group_id` int(11) UNSIGNED NOT NULL,
   `find_item_id` varchar(45) NOT NULL,
   `class_of_item` varchar(45) DEFAULT NULL,
   `quantity` int(11) UNSIGNED NOT NULL DEFAULT '1',
   `price_in_pack` decimal(20,2) DEFAULT NULL,
-  `original_price` decimal(20,2) DEFAULT NULL,
-  PRIMARY KEY (`pack_id`),
-  KEY `fk_pack_1` (`pack_group_id`)
+  `original_price` decimal(20,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -8840,8 +8839,8 @@ CREATE TABLE IF NOT EXISTS `pack` (
 --
 
 DROP TABLE IF EXISTS `pack_group`;
-CREATE TABLE IF NOT EXISTS `pack_group` (
-  `pack_group_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `pack_group` (
+  `pack_group_id` int(11) UNSIGNED NOT NULL,
   `name` varchar(128) DEFAULT NULL,
   `description` text,
   `description_short` varchar(255) DEFAULT NULL,
@@ -8851,8 +8850,7 @@ CREATE TABLE IF NOT EXISTS `pack_group` (
   `total_paid_real` decimal(17,2) DEFAULT '0.00',
   `available_for_order` tinyint(1) UNSIGNED NOT NULL DEFAULT '1',
   `available_date` datetime DEFAULT NULL,
-  `active` tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`pack_group_id`)
+  `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -8862,16 +8860,15 @@ CREATE TABLE IF NOT EXISTS `pack_group` (
 --
 
 DROP TABLE IF EXISTS `param`;
-CREATE TABLE IF NOT EXISTS `param` (
-  `param_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `param` (
+  `param_id` int(11) UNSIGNED NOT NULL,
   `name` varchar(128) NOT NULL,
   `label` varchar(64) DEFAULT NULL,
   `value` text NOT NULL,
   `group` varchar(45) DEFAULT NULL,
   `description` text,
   `type` varchar(45) DEFAULT 'text',
-  `index` tinyint(3) DEFAULT NULL,
-  PRIMARY KEY (`param_id`)
+  `index` tinyint(3) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -8881,8 +8878,8 @@ CREATE TABLE IF NOT EXISTS `param` (
 --
 
 DROP TABLE IF EXISTS `post`;
-CREATE TABLE IF NOT EXISTS `post` (
-  `post_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `post` (
+  `post_id` int(11) UNSIGNED NOT NULL,
   `user_add_id` int(11) DEFAULT NULL,
   `user_upd_id` int(11) DEFAULT NULL,
   `category_id` int(11) UNSIGNED NOT NULL,
@@ -8892,13 +8889,8 @@ CREATE TABLE IF NOT EXISTS `post` (
   `tags` text,
   `date_add` datetime DEFAULT NULL,
   `date_upd` datetime DEFAULT NULL,
-  `status` enum('DRAFT','PUBLISHED','DELETED','PENDING') NOT NULL DEFAULT 'PUBLISHED',
-  PRIMARY KEY (`post_id`),
-  UNIQUE KEY `slug` (`slug`),
-  KEY `fk_post_1` (`category_id`),
-  KEY `fk_post_2` (`user_add_id`),
-  KEY `fk_post_3` (`user_upd_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+  `status` enum('DRAFT','PUBLISHED','DELETED','PENDING') NOT NULL DEFAULT 'PUBLISHED'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `post`
@@ -8937,14 +8929,11 @@ INSERT INTO `post` (`post_id`, `user_add_id`, `user_upd_id`, `category_id`, `tit
 --
 
 DROP TABLE IF EXISTS `post_category`;
-CREATE TABLE IF NOT EXISTS `post_category` (
-  `auto_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `post_category` (
+  `auto_id` int(11) UNSIGNED NOT NULL,
   `post_id` int(11) UNSIGNED NOT NULL,
-  `category_id` int(11) UNSIGNED NOT NULL,
-  PRIMARY KEY (`auto_id`),
-  KEY `fk_post_category_2` (`category_id`),
-  KEY `fk_post_category_1` (`post_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+  `category_id` int(11) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `post_category`
@@ -8982,8 +8971,8 @@ INSERT INTO `post_category` (`auto_id`, `post_id`, `category_id`) VALUES
 --
 
 DROP TABLE IF EXISTS `product`;
-CREATE TABLE IF NOT EXISTS `product` (
-  `product_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `product` (
+  `product_id` int(11) UNSIGNED NOT NULL,
   `manufacturer_id` int(11) UNSIGNED NOT NULL,
   `category_default_id` int(11) UNSIGNED NOT NULL,
   `quantity` int(11) NOT NULL DEFAULT '0',
@@ -8998,12 +8987,8 @@ CREATE TABLE IF NOT EXISTS `product` (
   `name` varchar(255) DEFAULT NULL,
   `description` text,
   `description_short` varchar(512) DEFAULT NULL,
-  `config` varchar(512) DEFAULT NULL,
-  PRIMARY KEY (`product_id`),
-  KEY `date_add` (`date_add`),
-  KEY `fk_product_2` (`manufacturer_id`),
-  KEY `fk_product_3` (`category_default_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+  `config` varchar(512) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `product`
@@ -9024,20 +9009,16 @@ INSERT INTO `product` (`product_id`, `manufacturer_id`, `category_default_id`, `
 --
 
 DROP TABLE IF EXISTS `product_attribute`;
-CREATE TABLE IF NOT EXISTS `product_attribute` (
-  `pro_attribute_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `product_attribute` (
+  `pro_attribute_id` int(11) UNSIGNED NOT NULL,
   `product_id` int(11) UNSIGNED NOT NULL,
   `attr_name` varchar(255) DEFAULT NULL,
   `price` decimal(20,3) NOT NULL DEFAULT '0.000',
   `quantity` int(11) NOT NULL DEFAULT '0',
   `date_add` datetime NOT NULL,
   `date_upd` datetime DEFAULT NULL,
-  `available_date` datetime DEFAULT NULL,
-  PRIMARY KEY (`pro_attribute_id`),
-  KEY `reference` (`attr_name`),
-  KEY `pro_attribute_id_product_id` (`pro_attribute_id`,`product_id`),
-  KEY `product_attribute_1` (`product_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=246 DEFAULT CHARSET=utf8;
+  `available_date` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `product_attribute`
@@ -9096,14 +9077,11 @@ INSERT INTO `product_attribute` (`pro_attribute_id`, `product_id`, `attr_name`, 
 --
 
 DROP TABLE IF EXISTS `product_attribute_combination`;
-CREATE TABLE IF NOT EXISTS `product_attribute_combination` (
-  `auto_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `product_attribute_combination` (
+  `auto_id` int(11) UNSIGNED NOT NULL,
   `attribute_id` int(11) UNSIGNED DEFAULT NULL,
-  `pro_attribute_id` int(11) UNSIGNED DEFAULT NULL,
-  PRIMARY KEY (`auto_id`),
-  KEY `product_attribute_combination_2` (`pro_attribute_id`),
-  KEY `product_attribute_combination_1` (`attribute_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=605 DEFAULT CHARSET=utf8;
+  `pro_attribute_id` int(11) UNSIGNED DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `product_attribute_combination`
@@ -9215,16 +9193,12 @@ INSERT INTO `product_attribute_combination` (`auto_id`, `attribute_id`, `pro_att
 --
 
 DROP TABLE IF EXISTS `product_attribute_group`;
-CREATE TABLE IF NOT EXISTS `product_attribute_group` (
-  `auto_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `product_attribute_group` (
+  `auto_id` int(11) UNSIGNED NOT NULL,
   `product_id` int(11) UNSIGNED DEFAULT NULL,
   `attr_group_id` int(11) UNSIGNED DEFAULT NULL,
-  `attribute_id` int(11) UNSIGNED DEFAULT NULL,
-  PRIMARY KEY (`auto_id`),
-  KEY `fk_product_attribute_group_1` (`attr_group_id`),
-  KEY `fk_product_attribute_group_2` (`attribute_id`),
-  KEY `fk_product_attribute_group_3` (`product_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=119 DEFAULT CHARSET=utf8mb4;
+  `attribute_id` int(11) UNSIGNED DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `product_attribute_group`
@@ -9271,16 +9245,12 @@ INSERT INTO `product_attribute_group` (`auto_id`, `product_id`, `attr_group_id`,
 --
 
 DROP TABLE IF EXISTS `product_attribute_tag`;
-CREATE TABLE IF NOT EXISTS `product_attribute_tag` (
-  `auto_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `product_attribute_tag` (
+  `auto_id` int(11) UNSIGNED NOT NULL,
   `product_id` int(11) UNSIGNED NOT NULL,
   `pro_attribute_id` int(11) UNSIGNED NOT NULL,
   `tag_id` int(11) UNSIGNED NOT NULL,
-  `frequency` int(11) UNSIGNED DEFAULT '1',
-  PRIMARY KEY (`auto_id`),
-  KEY `fk_product_attribute_tag_1` (`pro_attribute_id`),
-  KEY `fk_product_attribute_tag_2` (`tag_id`),
-  KEY `fk_product_attribute_tag_3` (`product_id`)
+  `frequency` int(11) UNSIGNED DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -9290,14 +9260,11 @@ CREATE TABLE IF NOT EXISTS `product_attribute_tag` (
 --
 
 DROP TABLE IF EXISTS `product_tag`;
-CREATE TABLE IF NOT EXISTS `product_tag` (
-  `auto_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `product_tag` (
+  `auto_id` int(11) UNSIGNED NOT NULL,
   `product_id` int(11) UNSIGNED NOT NULL,
   `tag_id` int(11) UNSIGNED NOT NULL,
-  `frequency` int(11) UNSIGNED DEFAULT '0',
-  PRIMARY KEY (`auto_id`),
-  KEY `product_tag_2` (`tag_id`),
-  KEY `product_tag_1` (`product_id`)
+  `frequency` int(11) UNSIGNED DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -9307,7 +9274,7 @@ CREATE TABLE IF NOT EXISTS `product_tag` (
 --
 
 DROP TABLE IF EXISTS `profile`;
-CREATE TABLE IF NOT EXISTS `profile` (
+CREATE TABLE `profile` (
   `user_id` int(11) NOT NULL,
   `birth_date` date DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL,
@@ -9316,8 +9283,7 @@ CREATE TABLE IF NOT EXISTS `profile` (
   `verified` tinyint(2) UNSIGNED DEFAULT NULL,
   `social_joined` varchar(255) DEFAULT NULL,
   `gender` tinyint(2) DEFAULT NULL,
-  `couple_status` tinyint(2) DEFAULT NULL,
-  PRIMARY KEY (`user_id`)
+  `couple_status` tinyint(2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -9334,8 +9300,8 @@ INSERT INTO `profile` (`user_id`, `birth_date`, `address`, `location`, `role`, `
 --
 
 DROP TABLE IF EXISTS `queue`;
-CREATE TABLE IF NOT EXISTS `queue` (
-  `queue_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `queue` (
+  `queue_id` int(11) UNSIGNED NOT NULL,
   `from_name` varchar(64) DEFAULT NULL,
   `from_email` varchar(128) NOT NULL,
   `to_email` varchar(128) NOT NULL,
@@ -9346,9 +9312,7 @@ CREATE TABLE IF NOT EXISTS `queue` (
   `status` tinyint(2) NOT NULL DEFAULT '0',
   `date_published` datetime DEFAULT NULL,
   `last_attempt` datetime DEFAULT NULL,
-  `date_sent` datetime DEFAULT NULL,
-  PRIMARY KEY (`queue_id`),
-  KEY `to_email` (`to_email`)
+  `date_sent` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -9358,8 +9322,8 @@ CREATE TABLE IF NOT EXISTS `queue` (
 --
 
 DROP TABLE IF EXISTS `room`;
-CREATE TABLE IF NOT EXISTS `room` (
-  `room_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `room` (
+  `room_id` int(11) UNSIGNED NOT NULL,
   `name_room` varchar(128) DEFAULT NULL,
   `name_creator` varchar(64) DEFAULT NULL COMMENT 'name\nor \nemail\nor\nnumber phone',
   `info` varchar(256) DEFAULT NULL,
@@ -9367,8 +9331,7 @@ CREATE TABLE IF NOT EXISTS `room` (
   `status` tinyint(1) DEFAULT '1',
   `status_reason` tinytext,
   `date_add` datetime NOT NULL,
-  `date_upd` datetime DEFAULT NULL,
-  PRIMARY KEY (`room_id`)
+  `date_upd` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -9378,8 +9341,8 @@ CREATE TABLE IF NOT EXISTS `room` (
 --
 
 DROP TABLE IF EXISTS `room4chat`;
-CREATE TABLE IF NOT EXISTS `room4chat` (
-  `room_id4chat` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `room4chat` (
+  `room_id4chat` int(11) UNSIGNED NOT NULL,
   `content` text NOT NULL,
   `status` tinyint(1) DEFAULT '1',
   `date_add` datetime NOT NULL,
@@ -9391,10 +9354,122 @@ CREATE TABLE IF NOT EXISTS `room4chat` (
   `old_content` text,
   `status_reason` tinytext,
   `media` varchar(128) DEFAULT NULL COMMENT 'name of media',
-  `type` varchar(5) DEFAULT NULL COMMENT 'type of media',
-  PRIMARY KEY (`room_id4chat`),
-  KEY `fk_room4chat_1_idx` (`room_id`)
+  `type` varchar(5) DEFAULT NULL COMMENT 'type of media'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Schedule`
+--
+
+DROP TABLE IF EXISTS `Schedule`;
+CREATE TABLE `Schedule` (
+  `schedule_id` int(11) UNSIGNED NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `ScheduleType` enum('Daily','Weekly','Monthly','Yearly','Specific') NOT NULL DEFAULT 'Daily' COMMENT 'Daily, \nWeekly, \nMonthly, \nYearly, \nSpecific',
+  `StartDate` date DEFAULT NULL,
+  `IntervalInDays` tinyint(8) DEFAULT NULL,
+  `frequency` tinyint(4) DEFAULT NULL,
+  `is_active` tinyint(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ScheduleDaily`
+--
+
+DROP TABLE IF EXISTS `ScheduleDaily`;
+CREATE TABLE `ScheduleDaily` (
+  `ScheduleDaily_Id` int(11) UNSIGNED NOT NULL,
+  `schedule_id` int(11) UNSIGNED NOT NULL,
+  `TimeOfDay` time DEFAULT NULL,
+  `StartTime` time DEFAULT NULL,
+  `EndTime` time DEFAULT NULL,
+  `parent_id` int(11) UNSIGNED DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ScheduleJob`
+--
+
+DROP TABLE IF EXISTS `ScheduleJob`;
+CREATE TABLE `ScheduleJob` (
+  `ScheduleJob_id` int(11) UNSIGNED NOT NULL,
+  `schedule_id` int(11) UNSIGNED DEFAULT NULL,
+  `ScheduleStatus` tinyint(2) UNSIGNED NOT NULL DEFAULT '0',
+  `title` varchar(255) DEFAULT NULL,
+  `description` text,
+  `type_job` enum('person','public','task') DEFAULT NULL COMMENT 'person\npublic\njob',
+  `reminder` varchar(45) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ScheduleMonthly`
+--
+
+DROP TABLE IF EXISTS `ScheduleMonthly`;
+CREATE TABLE `ScheduleMonthly` (
+  `ScheduleMonthly_id` int(10) UNSIGNED NOT NULL,
+  `schedule_id` int(11) UNSIGNED NOT NULL,
+  `DayOfMonth` varchar(45) DEFAULT NULL,
+  `StartDate` date DEFAULT NULL,
+  `EndDate` date DEFAULT NULL,
+  `parent_id` int(11) UNSIGNED DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ScheduleSpecific`
+--
+
+DROP TABLE IF EXISTS `ScheduleSpecific`;
+CREATE TABLE `ScheduleSpecific` (
+  `ScheduleSpecific_Id` int(11) UNSIGNED NOT NULL,
+  `schedule_id` int(11) UNSIGNED NOT NULL,
+  `SpecificDate` date DEFAULT NULL,
+  `StartTime` time DEFAULT NULL,
+  `EndTime` time DEFAULT NULL,
+  `message` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ScheduleWeekly`
+--
+
+DROP TABLE IF EXISTS `ScheduleWeekly`;
+CREATE TABLE `ScheduleWeekly` (
+  `ScheduleWeekly_id` int(11) NOT NULL,
+  `schedule_id` int(11) UNSIGNED NOT NULL,
+  `DayOfWeek` varchar(45) DEFAULT NULL,
+  `StartDate` date DEFAULT NULL,
+  `EndDate` date DEFAULT NULL,
+  `parent_id` int(11) UNSIGNED DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ScheduleYearly`
+--
+
+DROP TABLE IF EXISTS `ScheduleYearly`;
+CREATE TABLE `ScheduleYearly` (
+  `ScheduleYearly_id` int(11) UNSIGNED NOT NULL,
+  `schedule_id` int(11) UNSIGNED NOT NULL,
+  `DayOfYear` date DEFAULT NULL,
+  `StartDate` date DEFAULT NULL,
+  `EndDate` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -9403,15 +9478,32 @@ CREATE TABLE IF NOT EXISTS `room4chat` (
 --
 
 DROP TABLE IF EXISTS `service`;
-CREATE TABLE IF NOT EXISTS `service` (
-  `service_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `service` (
+  `service_id` int(11) UNSIGNED NOT NULL,
   `name` varchar(45) DEFAULT NULL,
   `price` decimal(20,2) DEFAULT NULL,
   `price_in_pack` decimal(20,2) DEFAULT NULL,
   `available_date` datetime DEFAULT NULL,
   `unity` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`service_id`)
+  `during_time` int(11) UNSIGNED DEFAULT NULL,
+  `during_average` int(11) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `service_csvc_job`
+--
+
+DROP TABLE IF EXISTS `service_csvc_job`;
+CREATE TABLE `service_csvc_job` (
+  `auto_id` int(11) UNSIGNED NOT NULL,
+  `service_id` int(11) UNSIGNED NOT NULL,
+  `csvc_id` int(11) UNSIGNED DEFAULT NULL,
+  `ScheduleJob_id` int(11) UNSIGNED NOT NULL,
+  `during_time` int(11) UNSIGNED DEFAULT NULL,
+  `during_average` int(11) UNSIGNED DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -9420,17 +9512,14 @@ CREATE TABLE IF NOT EXISTS `service` (
 --
 
 DROP TABLE IF EXISTS `socialaccount_socialaccount`;
-CREATE TABLE IF NOT EXISTS `socialaccount_socialaccount` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `socialaccount_socialaccount` (
+  `id` int(11) NOT NULL,
   `provider` varchar(30) NOT NULL,
   `uid` varchar(191) NOT NULL,
   `last_login` datetime(6) NOT NULL,
   `date_joined` datetime(6) NOT NULL,
   `extra_data` longtext NOT NULL,
-  `user_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `socialaccount_socialaccount_provider_uid_fc810c6e_uniq` (`provider`,`uid`),
-  KEY `socialaccount_socialaccount_user_id_8146e70c_fk_auth_user_id` (`user_id`)
+  `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -9440,14 +9529,13 @@ CREATE TABLE IF NOT EXISTS `socialaccount_socialaccount` (
 --
 
 DROP TABLE IF EXISTS `socialaccount_socialapp`;
-CREATE TABLE IF NOT EXISTS `socialaccount_socialapp` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `socialaccount_socialapp` (
+  `id` int(11) NOT NULL,
   `provider` varchar(30) NOT NULL,
   `name` varchar(40) NOT NULL,
   `client_id` varchar(191) NOT NULL,
   `secret` varchar(191) NOT NULL,
-  `key` varchar(191) NOT NULL,
-  PRIMARY KEY (`id`)
+  `key` varchar(191) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -9457,13 +9545,10 @@ CREATE TABLE IF NOT EXISTS `socialaccount_socialapp` (
 --
 
 DROP TABLE IF EXISTS `socialaccount_socialapp_sites`;
-CREATE TABLE IF NOT EXISTS `socialaccount_socialapp_sites` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `socialaccount_socialapp_sites` (
+  `id` int(11) NOT NULL,
   `socialapp_id` int(11) NOT NULL,
-  `site_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `socialaccount_socialapp_sites_socialapp_id_site_id_71a9a768_uniq` (`socialapp_id`,`site_id`),
-  KEY `socialaccount_socialapp_sites_site_id_2579dee5_fk_django_site_id` (`site_id`)
+  `site_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -9473,16 +9558,13 @@ CREATE TABLE IF NOT EXISTS `socialaccount_socialapp_sites` (
 --
 
 DROP TABLE IF EXISTS `socialaccount_socialtoken`;
-CREATE TABLE IF NOT EXISTS `socialaccount_socialtoken` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `socialaccount_socialtoken` (
+  `id` int(11) NOT NULL,
   `token` longtext NOT NULL,
   `token_secret` longtext NOT NULL,
   `expires_at` datetime(6) DEFAULT NULL,
   `account_id` int(11) NOT NULL,
-  `app_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `socialaccount_socialtoken_app_id_account_id_fca4e0ac_uniq` (`app_id`,`account_id`),
-  KEY `socialaccount_social_account_id_951f210e_fk_socialacc` (`account_id`)
+  `app_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -9492,15 +9574,12 @@ CREATE TABLE IF NOT EXISTS `socialaccount_socialtoken` (
 --
 
 DROP TABLE IF EXISTS `specific_price`;
-CREATE TABLE IF NOT EXISTS `specific_price` (
-  `specific_price_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `specific_price` (
+  `specific_price_id` int(11) UNSIGNED NOT NULL,
   `spec_pri_ru_id` int(11) UNSIGNED DEFAULT NULL,
   `cart_id` int(11) UNSIGNED NOT NULL,
   `price` decimal(20,6) NOT NULL,
-  `find_item_id` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`specific_price_id`),
-  KEY `specific_price_1` (`spec_pri_ru_id`),
-  KEY `specific_price_2` (`cart_id`)
+  `find_item_id` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -9510,17 +9589,15 @@ CREATE TABLE IF NOT EXISTS `specific_price` (
 --
 
 DROP TABLE IF EXISTS `specific_price_rule`;
-CREATE TABLE IF NOT EXISTS `specific_price_rule` (
-  `spec_pri_ru_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `specific_price_rule` (
+  `spec_pri_ru_id` int(11) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
   `secure_key` varchar(45) NOT NULL,
   `to` date DEFAULT NULL,
   `from` date DEFAULT NULL,
   `quantity` int(11) UNSIGNED DEFAULT NULL,
   `remain_qty` int(11) UNSIGNED DEFAULT NULL,
-  `type_rule_id` int(11) UNSIGNED DEFAULT NULL,
-  PRIMARY KEY (`spec_pri_ru_id`),
-  KEY `fk_specific_price_rule_1_idx` (`type_rule_id`)
+  `type_rule_id` int(11) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -9530,16 +9607,14 @@ CREATE TABLE IF NOT EXISTS `specific_price_rule` (
 --
 
 DROP TABLE IF EXISTS `subscriber`;
-CREATE TABLE IF NOT EXISTS `subscriber` (
+CREATE TABLE `subscriber` (
   `email` varchar(128) NOT NULL,
   `first_name` varchar(45) DEFAULT NULL,
   `last_name` varchar(45) DEFAULT NULL,
   `status` tinyint(4) DEFAULT '1',
   `date_join` date DEFAULT NULL,
   `service` enum('news','service','full') DEFAULT 'full',
-  `limited` enum('day','week','month') DEFAULT 'day',
-  PRIMARY KEY (`email`),
-  UNIQUE KEY `email_UNIQUE` (`email`)
+  `limited` enum('day','week','month') DEFAULT 'day'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -9549,15 +9624,12 @@ CREATE TABLE IF NOT EXISTS `subscriber` (
 --
 
 DROP TABLE IF EXISTS `subscriber_post`;
-CREATE TABLE IF NOT EXISTS `subscriber_post` (
+CREATE TABLE `subscriber_post` (
   `email` varchar(128) NOT NULL,
   `post_id` int(11) UNSIGNED NOT NULL,
   `status` tinyint(1) DEFAULT NULL,
   `date_sent` date DEFAULT NULL,
-  `info` text,
-  PRIMARY KEY (`email`,`post_id`),
-  KEY `fk_subscriber_post_1_idx` (`email`),
-  KEY `fk_subscriber_post_2_idx` (`post_id`)
+  `info` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -9567,15 +9639,13 @@ CREATE TABLE IF NOT EXISTS `subscriber_post` (
 --
 
 DROP TABLE IF EXISTS `subscriber_product_attribute`;
-CREATE TABLE IF NOT EXISTS `subscriber_product_attribute` (
+CREATE TABLE `subscriber_product_attribute` (
   `email` varchar(128) NOT NULL,
   `product_id` int(11) UNSIGNED NOT NULL,
   `pro_attribute_id` int(11) DEFAULT NULL,
   `status` tinyint(4) DEFAULT NULL,
   `date_sent` date DEFAULT NULL,
-  `info` text,
-  PRIMARY KEY (`email`,`product_id`),
-  KEY `fk_subscriber_product_2_idx` (`product_id`)
+  `info` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -9585,14 +9655,11 @@ CREATE TABLE IF NOT EXISTS `subscriber_product_attribute` (
 --
 
 DROP TABLE IF EXISTS `tag`;
-CREATE TABLE IF NOT EXISTS `tag` (
-  `tag_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tag` (
+  `tag_id` int(11) UNSIGNED NOT NULL,
   `name` varchar(45) NOT NULL,
   `name_en` varchar(45) NOT NULL,
-  `frequency` int(11) UNSIGNED DEFAULT '1',
-  PRIMARY KEY (`tag_id`),
-  UNIQUE KEY `name_en_UNIQUE` (`name_en`),
-  KEY `tag_name` (`name`)
+  `frequency` int(11) UNSIGNED DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -9602,13 +9669,12 @@ CREATE TABLE IF NOT EXISTS `tag` (
 --
 
 DROP TABLE IF EXISTS `type_rule`;
-CREATE TABLE IF NOT EXISTS `type_rule` (
-  `type_rule_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `type_rule` (
+  `type_rule_id` int(11) UNSIGNED NOT NULL,
   `name` tinytext,
   `add_to_item` enum('all','item','pack','special','voucher') DEFAULT NULL,
   `amount` decimal(20,2) DEFAULT NULL,
-  `ratio` decimal(20,2) DEFAULT NULL,
-  PRIMARY KEY (`type_rule_id`)
+  `ratio` decimal(20,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -9618,13 +9684,11 @@ CREATE TABLE IF NOT EXISTS `type_rule` (
 --
 
 DROP TABLE IF EXISTS `ward`;
-CREATE TABLE IF NOT EXISTS `ward` (
-  `ward_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `ward` (
+  `ward_id` int(11) UNSIGNED NOT NULL,
   `name` varchar(45) NOT NULL,
-  `district_id` int(11) UNSIGNED NOT NULL,
-  PRIMARY KEY (`ward_id`),
-  KEY `fk_ward_1` (`district_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32249 DEFAULT CHARSET=utf8;
+  `district_id` int(11) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `ward`
@@ -20801,6 +20865,1063 @@ INSERT INTO `ward` (`ward_id`, `name`, `district_id`) VALUES
 (32248, 'Xã Đất Mũi', 973);
 
 --
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `account_emailaddress`
+--
+ALTER TABLE `account_emailaddress`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`),
+  ADD KEY `account_emailaddress_user_id_2c513194_fk_auth_user_id` (`user_id`);
+
+--
+-- Indexes for table `account_emailconfirmation`
+--
+ALTER TABLE `account_emailconfirmation`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `key` (`key`),
+  ADD KEY `account_emailconfirm_email_address_id_5b7f8c58_fk_account_e` (`email_address_id`);
+
+--
+-- Indexes for table `actor`
+--
+ALTER TABLE `actor`
+  ADD PRIMARY KEY (`actor_id`);
+
+--
+-- Indexes for table `address`
+--
+ALTER TABLE `address`
+  ADD PRIMARY KEY (`address_id`),
+  ADD KEY `fk_address_6` (`city_id`),
+  ADD KEY `fk_address_8` (`district_id`),
+  ADD KEY `fk_address_9` (`ward_id`);
+
+--
+-- Indexes for table `admin_interface_theme`
+--
+ALTER TABLE `admin_interface_theme`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `admin_interface_theme_name_30bda70f_uniq` (`name`);
+
+--
+-- Indexes for table `answer_customer`
+--
+ALTER TABLE `answer_customer`
+  ADD PRIMARY KEY (`answer_owner_id`),
+  ADD KEY `fk_answer_customer_1` (`answer_id`);
+
+--
+-- Indexes for table `attribute`
+--
+ALTER TABLE `attribute`
+  ADD PRIMARY KEY (`attribute_id`),
+  ADD KEY `attribute_1` (`attr_group_id`);
+
+--
+-- Indexes for table `attribute_group`
+--
+ALTER TABLE `attribute_group`
+  ADD PRIMARY KEY (`attr_group_id`),
+  ADD UNIQUE KEY `name_UNIQUE` (`name`),
+  ADD UNIQUE KEY `public_name_UNIQUE` (`public_name`);
+
+--
+-- Indexes for table `auth_group`
+--
+ALTER TABLE `auth_group`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
+
+--
+-- Indexes for table `auth_group_permissions`
+--
+ALTER TABLE `auth_group_permissions`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `auth_group_permissions_group_id_permission_id_0cd325b0_uniq` (`group_id`,`permission_id`),
+  ADD KEY `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` (`permission_id`);
+
+--
+-- Indexes for table `auth_permission`
+--
+ALTER TABLE `auth_permission`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `auth_permission_content_type_id_codename_01ab375a_uniq` (`content_type_id`,`codename`);
+
+--
+-- Indexes for table `auth_user`
+--
+ALTER TABLE `auth_user`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`);
+
+--
+-- Indexes for table `auth_user_groups`
+--
+ALTER TABLE `auth_user_groups`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `auth_user_groups_user_id_group_id_94350c0c_uniq` (`user_id`,`group_id`),
+  ADD KEY `auth_user_groups_group_id_97559544_fk_auth_group_id` (`group_id`);
+
+--
+-- Indexes for table `auth_user_user_permissions`
+--
+ALTER TABLE `auth_user_user_permissions`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `auth_user_user_permissions_user_id_permission_id_14a6b632_uniq` (`user_id`,`permission_id`),
+  ADD KEY `auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm` (`permission_id`);
+
+--
+-- Indexes for table `behavior`
+--
+ALTER TABLE `behavior`
+  ADD PRIMARY KEY (`behavior_id`);
+
+--
+-- Indexes for table `books`
+--
+ALTER TABLE `books`
+  ADD PRIMARY KEY (`books_id`),
+  ADD KEY `fk_books_1_idx` (`user_books`),
+  ADD KEY `fk_books_2_idx` (`service_id`);
+
+--
+-- Indexes for table `books_service_staff`
+--
+ALTER TABLE `books_service_staff`
+  ADD PRIMARY KEY (`auto_id`),
+  ADD KEY `fk_books_service_staff_1_idx` (`books_id`),
+  ADD KEY `fk_books_service_staff_2_idx` (`service_id`),
+  ADD KEY `fk_books_service_staff_3_idx` (`user_id`);
+
+--
+-- Indexes for table `captcha_captchastore`
+--
+ALTER TABLE `captcha_captchastore`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `hashkey` (`hashkey`);
+
+--
+-- Indexes for table `cart`
+--
+ALTER TABLE `cart`
+  ADD PRIMARY KEY (`cart_id`),
+  ADD UNIQUE KEY `owner_id` (`owner_id`),
+  ADD UNIQUE KEY `address_id` (`address_id`),
+  ADD KEY `fk_cart_1` (`address_id`);
+
+--
+-- Indexes for table `cart_item`
+--
+ALTER TABLE `cart_item`
+  ADD PRIMARY KEY (`find_item_id`),
+  ADD KEY `fk_cart_item_1_idx` (`cart_id`);
+
+--
+-- Indexes for table `category`
+--
+ALTER TABLE `category`
+  ADD PRIMARY KEY (`category_id`),
+  ADD KEY `fk_category_1` (`parent_id`);
+
+--
+-- Indexes for table `category_product`
+--
+ALTER TABLE `category_product`
+  ADD PRIMARY KEY (`auto_id`),
+  ADD KEY `category_id` (`category_id`),
+  ADD KEY `product_id` (`product_id`);
+
+--
+-- Indexes for table `category_product_attribute`
+--
+ALTER TABLE `category_product_attribute`
+  ADD PRIMARY KEY (`auto_id`),
+  ADD KEY `fk_category_product_attribute_2_idx` (`product_id`),
+  ADD KEY `fk_category_product_attribute_3_idx` (`pro_attribute_id`),
+  ADD KEY `fk_category_product_attribute_1` (`category_id`);
+
+--
+-- Indexes for table `city`
+--
+ALTER TABLE `city`
+  ADD PRIMARY KEY (`city_id`);
+
+--
+-- Indexes for table `comment`
+--
+ALTER TABLE `comment`
+  ADD PRIMARY KEY (`comment_id`),
+  ADD KEY `fk_comment_1` (`parent_id`),
+  ADD KEY `fk_comment_2` (`post_id`),
+  ADD KEY `fk_comment_3` (`owner_id`);
+
+--
+-- Indexes for table `contact`
+--
+ALTER TABLE `contact`
+  ADD PRIMARY KEY (`contact_id`);
+
+--
+-- Indexes for table `csvc`
+--
+ALTER TABLE `csvc`
+  ADD PRIMARY KEY (`csvc_id`);
+
+--
+-- Indexes for table `customer_message`
+--
+ALTER TABLE `customer_message`
+  ADD PRIMARY KEY (`owner_message_id`),
+  ADD KEY `customer_message_1` (`owner_thread_id`);
+
+--
+-- Indexes for table `customer_thread`
+--
+ALTER TABLE `customer_thread`
+  ADD PRIMARY KEY (`owner_thread_id`),
+  ADD KEY `fk_customer_thread_2` (`order_id`);
+
+--
+-- Indexes for table `customization`
+--
+ALTER TABLE `customization`
+  ADD PRIMARY KEY (`customization_id`),
+  ADD KEY `customization_1` (`pro_attribute_id`),
+  ADD KEY `customization_2` (`cart_id`),
+  ADD KEY `customization_3` (`product_id`);
+
+--
+-- Indexes for table `customized_data`
+--
+ALTER TABLE `customized_data`
+  ADD PRIMARY KEY (`customization_id`,`type`,`index`);
+
+--
+-- Indexes for table `district`
+--
+ALTER TABLE `district`
+  ADD PRIMARY KEY (`district_id`),
+  ADD KEY `fk_district_1` (`city_id`);
+
+--
+-- Indexes for table `django_admin_log`
+--
+ALTER TABLE `django_admin_log`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `django_admin_log_content_type_id_c4bce8eb_fk_django_co` (`content_type_id`),
+  ADD KEY `django_admin_log_user_id_c564eba6_fk_auth_user_id` (`user_id`);
+
+--
+-- Indexes for table `django_content_type`
+--
+ALTER TABLE `django_content_type`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `django_content_type_app_label_model_76bd3d3b_uniq` (`app_label`,`model`);
+
+--
+-- Indexes for table `django_migrations`
+--
+ALTER TABLE `django_migrations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `django_session`
+--
+ALTER TABLE `django_session`
+  ADD PRIMARY KEY (`session_key`),
+  ADD KEY `django_session_expire_date_a5c62663` (`expire_date`);
+
+--
+-- Indexes for table `django_site`
+--
+ALTER TABLE `django_site`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `django_site_domain_a2e37b91_uniq` (`domain`);
+
+--
+-- Indexes for table `extra_settings_setting`
+--
+ALTER TABLE `extra_settings_setting`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
+
+--
+-- Indexes for table `feature`
+--
+ALTER TABLE `feature`
+  ADD PRIMARY KEY (`feature_id`);
+
+--
+-- Indexes for table `feature_product`
+--
+ALTER TABLE `feature_product`
+  ADD PRIMARY KEY (`auto_id`),
+  ADD KEY `feature_product_2` (`feature_value_id`),
+  ADD KEY `feature_product_3` (`product_id`),
+  ADD KEY `feature_product_1` (`feature_id`);
+
+--
+-- Indexes for table `feature_value`
+--
+ALTER TABLE `feature_value`
+  ADD PRIMARY KEY (`feature_value_id`),
+  ADD KEY `feature_value_1` (`feature_id`);
+
+--
+-- Indexes for table `lookup`
+--
+ALTER TABLE `lookup`
+  ADD PRIMARY KEY (`lookup_id`);
+
+--
+-- Indexes for table `manufacturer`
+--
+ALTER TABLE `manufacturer`
+  ADD PRIMARY KEY (`manufacturer_id`);
+
+--
+-- Indexes for table `message`
+--
+ALTER TABLE `message`
+  ADD PRIMARY KEY (`message_id`),
+  ADD KEY `message_4` (`order_id`);
+
+--
+-- Indexes for table `message_readed`
+--
+ALTER TABLE `message_readed`
+  ADD PRIMARY KEY (`message_id`,`owner_id`);
+
+--
+-- Indexes for table `openid_openidnonce`
+--
+ALTER TABLE `openid_openidnonce`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `openid_openidstore`
+--
+ALTER TABLE `openid_openidstore`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `order`
+--
+ALTER TABLE `order`
+  ADD PRIMARY KEY (`order_id`),
+  ADD KEY `date_add` (`date_add`),
+  ADD KEY `fk_order_2` (`current_state`),
+  ADD KEY `fk_order_3` (`address_delivery_id`),
+  ADD KEY `fk_order_4` (`address_invoice_id`),
+  ADD KEY `fk_order_1` (`cart_id`) USING BTREE,
+  ADD KEY `fk_order_5` (`owner_id`);
+
+--
+-- Indexes for table `order_history`
+--
+ALTER TABLE `order_history`
+  ADD PRIMARY KEY (`order_history_id`),
+  ADD KEY `order_history_2` (`order_id`),
+  ADD KEY `order_history_3` (`order_state_id`);
+
+--
+-- Indexes for table `order_invoice`
+--
+ALTER TABLE `order_invoice`
+  ADD PRIMARY KEY (`order_invoice_id`),
+  ADD KEY `order_invoice_1` (`order_id`);
+
+--
+-- Indexes for table `order_invoice_payment`
+--
+ALTER TABLE `order_invoice_payment`
+  ADD PRIMARY KEY (`auto_id`),
+  ADD KEY `order_invoice_payment_ibfk_2` (`order_payment_id`),
+  ADD KEY `order_invoice_payment_ibfk_3` (`order_id`),
+  ADD KEY `order_invoice_payment_ibfk_1` (`order_invoice_id`);
+
+--
+-- Indexes for table `order_item`
+--
+ALTER TABLE `order_item`
+  ADD PRIMARY KEY (`find_item_id`),
+  ADD KEY `fk_order_detail_2` (`order_id`);
+
+--
+-- Indexes for table `order_payment`
+--
+ALTER TABLE `order_payment`
+  ADD PRIMARY KEY (`order_payment_id`);
+
+--
+-- Indexes for table `order_state`
+--
+ALTER TABLE `order_state`
+  ADD PRIMARY KEY (`order_state_id`);
+
+--
+-- Indexes for table `pack`
+--
+ALTER TABLE `pack`
+  ADD PRIMARY KEY (`pack_id`),
+  ADD KEY `fk_pack_1` (`pack_group_id`);
+
+--
+-- Indexes for table `pack_group`
+--
+ALTER TABLE `pack_group`
+  ADD PRIMARY KEY (`pack_group_id`);
+
+--
+-- Indexes for table `param`
+--
+ALTER TABLE `param`
+  ADD PRIMARY KEY (`param_id`);
+
+--
+-- Indexes for table `post`
+--
+ALTER TABLE `post`
+  ADD PRIMARY KEY (`post_id`),
+  ADD UNIQUE KEY `slug` (`slug`),
+  ADD KEY `fk_post_1` (`category_id`),
+  ADD KEY `fk_post_2` (`user_add_id`),
+  ADD KEY `fk_post_3` (`user_upd_id`);
+
+--
+-- Indexes for table `post_category`
+--
+ALTER TABLE `post_category`
+  ADD PRIMARY KEY (`auto_id`),
+  ADD KEY `fk_post_category_2` (`category_id`),
+  ADD KEY `fk_post_category_1` (`post_id`);
+
+--
+-- Indexes for table `product`
+--
+ALTER TABLE `product`
+  ADD PRIMARY KEY (`product_id`),
+  ADD KEY `date_add` (`date_add`),
+  ADD KEY `fk_product_2` (`manufacturer_id`),
+  ADD KEY `fk_product_3` (`category_default_id`);
+
+--
+-- Indexes for table `product_attribute`
+--
+ALTER TABLE `product_attribute`
+  ADD PRIMARY KEY (`pro_attribute_id`),
+  ADD KEY `reference` (`attr_name`),
+  ADD KEY `pro_attribute_id_product_id` (`pro_attribute_id`,`product_id`),
+  ADD KEY `product_attribute_1` (`product_id`);
+
+--
+-- Indexes for table `product_attribute_combination`
+--
+ALTER TABLE `product_attribute_combination`
+  ADD PRIMARY KEY (`auto_id`),
+  ADD KEY `product_attribute_combination_2` (`pro_attribute_id`),
+  ADD KEY `product_attribute_combination_1` (`attribute_id`);
+
+--
+-- Indexes for table `product_attribute_group`
+--
+ALTER TABLE `product_attribute_group`
+  ADD PRIMARY KEY (`auto_id`),
+  ADD KEY `fk_product_attribute_group_1` (`attr_group_id`),
+  ADD KEY `fk_product_attribute_group_2` (`attribute_id`),
+  ADD KEY `fk_product_attribute_group_3` (`product_id`);
+
+--
+-- Indexes for table `product_attribute_tag`
+--
+ALTER TABLE `product_attribute_tag`
+  ADD PRIMARY KEY (`auto_id`),
+  ADD KEY `fk_product_attribute_tag_1` (`pro_attribute_id`),
+  ADD KEY `fk_product_attribute_tag_2` (`tag_id`),
+  ADD KEY `fk_product_attribute_tag_3` (`product_id`);
+
+--
+-- Indexes for table `product_tag`
+--
+ALTER TABLE `product_tag`
+  ADD PRIMARY KEY (`auto_id`),
+  ADD KEY `product_tag_2` (`tag_id`),
+  ADD KEY `product_tag_1` (`product_id`);
+
+--
+-- Indexes for table `profile`
+--
+ALTER TABLE `profile`
+  ADD PRIMARY KEY (`user_id`);
+
+--
+-- Indexes for table `queue`
+--
+ALTER TABLE `queue`
+  ADD PRIMARY KEY (`queue_id`),
+  ADD KEY `to_email` (`to_email`);
+
+--
+-- Indexes for table `room`
+--
+ALTER TABLE `room`
+  ADD PRIMARY KEY (`room_id`);
+
+--
+-- Indexes for table `room4chat`
+--
+ALTER TABLE `room4chat`
+  ADD PRIMARY KEY (`room_id4chat`),
+  ADD KEY `fk_room4chat_1_idx` (`room_id`);
+
+--
+-- Indexes for table `Schedule`
+--
+ALTER TABLE `Schedule`
+  ADD PRIMARY KEY (`schedule_id`),
+  ADD KEY `fk_Schedule_1_idx` (`user_id`);
+
+--
+-- Indexes for table `ScheduleDaily`
+--
+ALTER TABLE `ScheduleDaily`
+  ADD PRIMARY KEY (`ScheduleDaily_Id`),
+  ADD KEY `fk_ScheduleDaily_1_idx` (`schedule_id`),
+  ADD KEY `fk_ScheduleDaily_2_idx` (`parent_id`);
+
+--
+-- Indexes for table `ScheduleJob`
+--
+ALTER TABLE `ScheduleJob`
+  ADD PRIMARY KEY (`ScheduleJob_id`),
+  ADD KEY `fk_ScheduleJob_1_idx` (`schedule_id`);
+
+--
+-- Indexes for table `ScheduleMonthly`
+--
+ALTER TABLE `ScheduleMonthly`
+  ADD PRIMARY KEY (`ScheduleMonthly_id`),
+  ADD KEY `fk_ScheduleMonthly_1_idx` (`schedule_id`),
+  ADD KEY `fk_ScheduleMonthly_2_idx` (`parent_id`);
+
+--
+-- Indexes for table `ScheduleSpecific`
+--
+ALTER TABLE `ScheduleSpecific`
+  ADD PRIMARY KEY (`ScheduleSpecific_Id`),
+  ADD KEY `fk_ScheduleSpecific_1_idx` (`schedule_id`);
+
+--
+-- Indexes for table `ScheduleWeekly`
+--
+ALTER TABLE `ScheduleWeekly`
+  ADD PRIMARY KEY (`ScheduleWeekly_id`),
+  ADD KEY `fk_ScheduleWeekly_1_idx` (`schedule_id`),
+  ADD KEY `fk_ScheduleWeekly_2_idx` (`parent_id`);
+
+--
+-- Indexes for table `ScheduleYearly`
+--
+ALTER TABLE `ScheduleYearly`
+  ADD PRIMARY KEY (`ScheduleYearly_id`),
+  ADD KEY `fk_ScheduleYearly_1_idx` (`schedule_id`);
+
+--
+-- Indexes for table `service`
+--
+ALTER TABLE `service`
+  ADD PRIMARY KEY (`service_id`);
+
+--
+-- Indexes for table `service_csvc_job`
+--
+ALTER TABLE `service_csvc_job`
+  ADD PRIMARY KEY (`auto_id`),
+  ADD KEY `fk_service_csvc_job_1_idx` (`service_id`),
+  ADD KEY `fk_service_csvc_job_2_idx` (`ScheduleJob_id`),
+  ADD KEY `fk_service_csvc_job_3_idx` (`csvc_id`);
+
+--
+-- Indexes for table `socialaccount_socialaccount`
+--
+ALTER TABLE `socialaccount_socialaccount`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `socialaccount_socialaccount_provider_uid_fc810c6e_uniq` (`provider`,`uid`),
+  ADD KEY `socialaccount_socialaccount_user_id_8146e70c_fk_auth_user_id` (`user_id`);
+
+--
+-- Indexes for table `socialaccount_socialapp`
+--
+ALTER TABLE `socialaccount_socialapp`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `socialaccount_socialapp_sites`
+--
+ALTER TABLE `socialaccount_socialapp_sites`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `socialaccount_socialapp_sites_socialapp_id_site_id_71a9a768_uniq` (`socialapp_id`,`site_id`),
+  ADD KEY `socialaccount_socialapp_sites_site_id_2579dee5_fk_django_site_id` (`site_id`);
+
+--
+-- Indexes for table `socialaccount_socialtoken`
+--
+ALTER TABLE `socialaccount_socialtoken`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `socialaccount_socialtoken_app_id_account_id_fca4e0ac_uniq` (`app_id`,`account_id`),
+  ADD KEY `socialaccount_social_account_id_951f210e_fk_socialacc` (`account_id`);
+
+--
+-- Indexes for table `specific_price`
+--
+ALTER TABLE `specific_price`
+  ADD PRIMARY KEY (`specific_price_id`),
+  ADD KEY `specific_price_1` (`spec_pri_ru_id`),
+  ADD KEY `specific_price_2` (`cart_id`);
+
+--
+-- Indexes for table `specific_price_rule`
+--
+ALTER TABLE `specific_price_rule`
+  ADD PRIMARY KEY (`spec_pri_ru_id`),
+  ADD KEY `fk_specific_price_rule_1_idx` (`type_rule_id`);
+
+--
+-- Indexes for table `subscriber`
+--
+ALTER TABLE `subscriber`
+  ADD PRIMARY KEY (`email`),
+  ADD UNIQUE KEY `email_UNIQUE` (`email`);
+
+--
+-- Indexes for table `subscriber_post`
+--
+ALTER TABLE `subscriber_post`
+  ADD PRIMARY KEY (`email`,`post_id`),
+  ADD KEY `fk_subscriber_post_1_idx` (`email`),
+  ADD KEY `fk_subscriber_post_2_idx` (`post_id`);
+
+--
+-- Indexes for table `subscriber_product_attribute`
+--
+ALTER TABLE `subscriber_product_attribute`
+  ADD PRIMARY KEY (`email`,`product_id`),
+  ADD KEY `fk_subscriber_product_2_idx` (`product_id`);
+
+--
+-- Indexes for table `tag`
+--
+ALTER TABLE `tag`
+  ADD PRIMARY KEY (`tag_id`),
+  ADD UNIQUE KEY `name_en_UNIQUE` (`name_en`),
+  ADD KEY `tag_name` (`name`);
+
+--
+-- Indexes for table `type_rule`
+--
+ALTER TABLE `type_rule`
+  ADD PRIMARY KEY (`type_rule_id`);
+
+--
+-- Indexes for table `ward`
+--
+ALTER TABLE `ward`
+  ADD PRIMARY KEY (`ward_id`),
+  ADD KEY `fk_ward_1` (`district_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `account_emailaddress`
+--
+ALTER TABLE `account_emailaddress`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `account_emailconfirmation`
+--
+ALTER TABLE `account_emailconfirmation`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `address`
+--
+ALTER TABLE `address`
+  MODIFY `address_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+--
+-- AUTO_INCREMENT for table `admin_interface_theme`
+--
+ALTER TABLE `admin_interface_theme`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `attribute`
+--
+ALTER TABLE `attribute`
+  MODIFY `attribute_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+--
+-- AUTO_INCREMENT for table `attribute_group`
+--
+ALTER TABLE `attribute_group`
+  MODIFY `attr_group_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `auth_group`
+--
+ALTER TABLE `auth_group`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `auth_group_permissions`
+--
+ALTER TABLE `auth_group_permissions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2321;
+--
+-- AUTO_INCREMENT for table `auth_permission`
+--
+ALTER TABLE `auth_permission`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=625;
+--
+-- AUTO_INCREMENT for table `auth_user`
+--
+ALTER TABLE `auth_user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT for table `auth_user_groups`
+--
+ALTER TABLE `auth_user_groups`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+--
+-- AUTO_INCREMENT for table `auth_user_user_permissions`
+--
+ALTER TABLE `auth_user_user_permissions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1161;
+--
+-- AUTO_INCREMENT for table `books`
+--
+ALTER TABLE `books`
+  MODIFY `books_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `books_service_staff`
+--
+ALTER TABLE `books_service_staff`
+  MODIFY `auto_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `captcha_captchastore`
+--
+ALTER TABLE `captcha_captchastore`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=368;
+--
+-- AUTO_INCREMENT for table `cart`
+--
+ALTER TABLE `cart`
+  MODIFY `cart_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT for table `category`
+--
+ALTER TABLE `category`
+  MODIFY `category_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT for table `category_product`
+--
+ALTER TABLE `category_product`
+  MODIFY `auto_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT for table `category_product_attribute`
+--
+ALTER TABLE `category_product_attribute`
+  MODIFY `auto_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `city`
+--
+ALTER TABLE `city`
+  MODIFY `city_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
+--
+-- AUTO_INCREMENT for table `comment`
+--
+ALTER TABLE `comment`
+  MODIFY `comment_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+--
+-- AUTO_INCREMENT for table `contact`
+--
+ALTER TABLE `contact`
+  MODIFY `contact_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+--
+-- AUTO_INCREMENT for table `csvc`
+--
+ALTER TABLE `csvc`
+  MODIFY `csvc_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `customer_message`
+--
+ALTER TABLE `customer_message`
+  MODIFY `owner_message_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `customer_thread`
+--
+ALTER TABLE `customer_thread`
+  MODIFY `owner_thread_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `customization`
+--
+ALTER TABLE `customization`
+  MODIFY `customization_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `district`
+--
+ALTER TABLE `district`
+  MODIFY `district_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=974;
+--
+-- AUTO_INCREMENT for table `django_admin_log`
+--
+ALTER TABLE `django_admin_log`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1281;
+--
+-- AUTO_INCREMENT for table `django_content_type`
+--
+ALTER TABLE `django_content_type`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=158;
+--
+-- AUTO_INCREMENT for table `django_migrations`
+--
+ALTER TABLE `django_migrations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+--
+-- AUTO_INCREMENT for table `django_site`
+--
+ALTER TABLE `django_site`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `extra_settings_setting`
+--
+ALTER TABLE `extra_settings_setting`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `feature`
+--
+ALTER TABLE `feature`
+  MODIFY `feature_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT for table `feature_product`
+--
+ALTER TABLE `feature_product`
+  MODIFY `auto_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+--
+-- AUTO_INCREMENT for table `feature_value`
+--
+ALTER TABLE `feature_value`
+  MODIFY `feature_value_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+--
+-- AUTO_INCREMENT for table `lookup`
+--
+ALTER TABLE `lookup`
+  MODIFY `lookup_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `manufacturer`
+--
+ALTER TABLE `manufacturer`
+  MODIFY `manufacturer_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `message`
+--
+ALTER TABLE `message`
+  MODIFY `message_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `openid_openidnonce`
+--
+ALTER TABLE `openid_openidnonce`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `openid_openidstore`
+--
+ALTER TABLE `openid_openidstore`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `order`
+--
+ALTER TABLE `order`
+  MODIFY `order_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+--
+-- AUTO_INCREMENT for table `order_history`
+--
+ALTER TABLE `order_history`
+  MODIFY `order_history_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `order_invoice`
+--
+ALTER TABLE `order_invoice`
+  MODIFY `order_invoice_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+--
+-- AUTO_INCREMENT for table `order_invoice_payment`
+--
+ALTER TABLE `order_invoice_payment`
+  MODIFY `auto_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+--
+-- AUTO_INCREMENT for table `order_payment`
+--
+ALTER TABLE `order_payment`
+  MODIFY `order_payment_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+--
+-- AUTO_INCREMENT for table `order_state`
+--
+ALTER TABLE `order_state`
+  MODIFY `order_state_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `pack`
+--
+ALTER TABLE `pack`
+  MODIFY `pack_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `pack_group`
+--
+ALTER TABLE `pack_group`
+  MODIFY `pack_group_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `param`
+--
+ALTER TABLE `param`
+  MODIFY `param_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `post`
+--
+ALTER TABLE `post`
+  MODIFY `post_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+--
+-- AUTO_INCREMENT for table `post_category`
+--
+ALTER TABLE `post_category`
+  MODIFY `auto_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+--
+-- AUTO_INCREMENT for table `product`
+--
+ALTER TABLE `product`
+  MODIFY `product_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+--
+-- AUTO_INCREMENT for table `product_attribute`
+--
+ALTER TABLE `product_attribute`
+  MODIFY `pro_attribute_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=246;
+--
+-- AUTO_INCREMENT for table `product_attribute_combination`
+--
+ALTER TABLE `product_attribute_combination`
+  MODIFY `auto_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=605;
+--
+-- AUTO_INCREMENT for table `product_attribute_group`
+--
+ALTER TABLE `product_attribute_group`
+  MODIFY `auto_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
+--
+-- AUTO_INCREMENT for table `product_attribute_tag`
+--
+ALTER TABLE `product_attribute_tag`
+  MODIFY `auto_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `product_tag`
+--
+ALTER TABLE `product_tag`
+  MODIFY `auto_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `queue`
+--
+ALTER TABLE `queue`
+  MODIFY `queue_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `room`
+--
+ALTER TABLE `room`
+  MODIFY `room_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `room4chat`
+--
+ALTER TABLE `room4chat`
+  MODIFY `room_id4chat` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `Schedule`
+--
+ALTER TABLE `Schedule`
+  MODIFY `schedule_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `ScheduleDaily`
+--
+ALTER TABLE `ScheduleDaily`
+  MODIFY `ScheduleDaily_Id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `ScheduleJob`
+--
+ALTER TABLE `ScheduleJob`
+  MODIFY `ScheduleJob_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `ScheduleMonthly`
+--
+ALTER TABLE `ScheduleMonthly`
+  MODIFY `ScheduleMonthly_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `ScheduleSpecific`
+--
+ALTER TABLE `ScheduleSpecific`
+  MODIFY `ScheduleSpecific_Id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `ScheduleYearly`
+--
+ALTER TABLE `ScheduleYearly`
+  MODIFY `ScheduleYearly_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `service`
+--
+ALTER TABLE `service`
+  MODIFY `service_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `service_csvc_job`
+--
+ALTER TABLE `service_csvc_job`
+  MODIFY `auto_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `socialaccount_socialaccount`
+--
+ALTER TABLE `socialaccount_socialaccount`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `socialaccount_socialapp`
+--
+ALTER TABLE `socialaccount_socialapp`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `socialaccount_socialapp_sites`
+--
+ALTER TABLE `socialaccount_socialapp_sites`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `socialaccount_socialtoken`
+--
+ALTER TABLE `socialaccount_socialtoken`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `specific_price`
+--
+ALTER TABLE `specific_price`
+  MODIFY `specific_price_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `specific_price_rule`
+--
+ALTER TABLE `specific_price_rule`
+  MODIFY `spec_pri_ru_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `tag`
+--
+ALTER TABLE `tag`
+  MODIFY `tag_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `type_rule`
+--
+ALTER TABLE `type_rule`
+  MODIFY `type_rule_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `ward`
+--
+ALTER TABLE `ward`
+  MODIFY `ward_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32249;
+--
 -- Constraints for dumped tables
 --
 
@@ -20862,6 +21983,21 @@ ALTER TABLE `auth_user_groups`
 ALTER TABLE `auth_user_user_permissions`
   ADD CONSTRAINT `auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
   ADD CONSTRAINT `auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
+
+--
+-- Constraints for table `books`
+--
+ALTER TABLE `books`
+  ADD CONSTRAINT `fk_books_1` FOREIGN KEY (`user_books`) REFERENCES `auth_user` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
+  ADD CONSTRAINT `fk_books_2` FOREIGN KEY (`service_id`) REFERENCES `service` (`service_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `books_service_staff`
+--
+ALTER TABLE `books_service_staff`
+  ADD CONSTRAINT `fk_books_service_staff_1` FOREIGN KEY (`books_id`) REFERENCES `books` (`books_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_books_service_staff_2` FOREIGN KEY (`service_id`) REFERENCES `service` (`service_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_books_service_staff_3` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `cart`
@@ -21077,6 +22213,59 @@ ALTER TABLE `profile`
 --
 ALTER TABLE `room4chat`
   ADD CONSTRAINT `fk_room4chat_1` FOREIGN KEY (`room_id`) REFERENCES `room` (`room_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `Schedule`
+--
+ALTER TABLE `Schedule`
+  ADD CONSTRAINT `fk_Schedule_1` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `ScheduleDaily`
+--
+ALTER TABLE `ScheduleDaily`
+  ADD CONSTRAINT `fk_ScheduleDaily_1` FOREIGN KEY (`schedule_id`) REFERENCES `Schedule` (`schedule_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_ScheduleDaily_2` FOREIGN KEY (`parent_id`) REFERENCES `ScheduleWeekly` (`schedule_id`) ON DELETE SET NULL ON UPDATE SET NULL;
+
+--
+-- Constraints for table `ScheduleJob`
+--
+ALTER TABLE `ScheduleJob`
+  ADD CONSTRAINT `fk_ScheduleJob_1` FOREIGN KEY (`schedule_id`) REFERENCES `Schedule` (`schedule_id`) ON DELETE SET NULL ON UPDATE SET NULL;
+
+--
+-- Constraints for table `ScheduleMonthly`
+--
+ALTER TABLE `ScheduleMonthly`
+  ADD CONSTRAINT `fk_ScheduleMonthly_1` FOREIGN KEY (`schedule_id`) REFERENCES `Schedule` (`schedule_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_ScheduleMonthly_2` FOREIGN KEY (`parent_id`) REFERENCES `ScheduleYearly` (`ScheduleYearly_id`) ON DELETE SET NULL ON UPDATE SET NULL;
+
+--
+-- Constraints for table `ScheduleSpecific`
+--
+ALTER TABLE `ScheduleSpecific`
+  ADD CONSTRAINT `fk_ScheduleSpecific_1` FOREIGN KEY (`schedule_id`) REFERENCES `Schedule` (`schedule_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `ScheduleWeekly`
+--
+ALTER TABLE `ScheduleWeekly`
+  ADD CONSTRAINT `fk_ScheduleWeekly_1` FOREIGN KEY (`schedule_id`) REFERENCES `Schedule` (`schedule_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_ScheduleWeekly_2` FOREIGN KEY (`parent_id`) REFERENCES `ScheduleMonthly` (`ScheduleMonthly_id`) ON DELETE SET NULL ON UPDATE SET NULL;
+
+--
+-- Constraints for table `ScheduleYearly`
+--
+ALTER TABLE `ScheduleYearly`
+  ADD CONSTRAINT `fk_ScheduleYearly_1` FOREIGN KEY (`schedule_id`) REFERENCES `Schedule` (`schedule_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `service_csvc_job`
+--
+ALTER TABLE `service_csvc_job`
+  ADD CONSTRAINT `fk_service_csvc_job_1` FOREIGN KEY (`service_id`) REFERENCES `service` (`service_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_service_csvc_job_2` FOREIGN KEY (`ScheduleJob_id`) REFERENCES `ScheduleJob` (`ScheduleJob_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_service_csvc_job_3` FOREIGN KEY (`csvc_id`) REFERENCES `csvc` (`csvc_id`) ON DELETE SET NULL ON UPDATE SET NULL;
 
 --
 -- Constraints for table `socialaccount_socialaccount`

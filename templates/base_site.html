@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+{% load i18n static %}
+{% load cart_tag %}
+{% block globals_css %}{{ block.super }}{% endblock %}
+{% block plugins_css %}{{ block.super }}
+<link href='{% static "css/magnific-popup.css" %}' rel="stylesheet" type="text/css">
+<link href='{% static "bootstrap-touchspin/bootstrap.touchspin.min.css" %}' rel="stylesheet">
+<link href='{% static "slider-layer-slider/css/layerslider.css" %}' rel="stylesheet">
+<link href='{% static "css/owl.carousel.min.css" %}' rel="stylesheet" type="text/css">
+{% endblock %}
+{% block themes_css %}{{ block.super }}
+<link href='{% static "slider-layer-slider/css/style-layer-slider.css" %}' rel="stylesheet">
+<link href='{% static "themes/red.css" %}' id="style-color" rel="stylesheet">
+{% endblock %}
+
+{% block global_js %}{{ block.super }}
+<!-- BEGIN CORE PLUGINS (REQUIRED FOR ALL PAGES) -->
+<script src='{% static "js/jquery.waypoints.min.js" %}' type="text/javascript"></script>
+<script src='{% static "js/back-to-top.js" %}' type="text/javascript"></script>
+<script src='{% static "jquery-slimscroll/jquery.slimscroll.min.js" %}' type="text/javascript"></script>
+<script src='{% static "js/jquery-migrate.min.js" %}' type="text/javascript"></script>
+<!-- END CORE PLUGINS -->
+{% endblock global_js %}
+{% block plugins_js %}{{ block.super }}
+<!-- BEGIN PAGE LEVEL JAVASCRIPTS (REQUIRED ONLY FOR CURRENT PAGE) -->
+<script src='{% static "bootstrap-touchspin/bootstrap.touchspin.min.js" %}' type="text/javascript"></script>
+<!-- Quantity -->
+<script src='{% static "js/jquery.magnific-popup.min.js" %}'></script>
+<script src='{% static "js/jquery-ui.min.js" %}'></script>
+<script src='{% static "js/mixitup.min.js" %}'></script>
+<script src='{% static "js/jquery.slicknav.js" %}'></script>
+<script src='{% static "js/owl.carousel.min.js" %}'></script>
+<script src='{% static "js/jquery.nicescroll.min.js" %}'></script>
+<script src='{% static "js/main.js" %}'></script>
+<script type="text/javascript">
+        jQuery(document).ready(function() {
+            var menu_wp = new Waypoint({
+              element: document.getElementById('pre-footer'),
+              handler: function(direction) {
+                if(direction == 'down') { $("#header").css({'position': 'fixed', 'top': 0, 'width': '100%', 'opacity': 0.5, 'z-index': 99 });}
+                else { $("#header").css({'position': 'sticky', 'top': 'auto', 'width': '100%', 'opacity': 1, 'z-index': 'auto' }); }
+              },
+              offset: '100%'
+            });
+            $('[data-toggle="tooltip"]').tooltip();
+            let curUrl = window.location.pathname, urlRegExp = new RegExp(curUrl.replace(/\/$/,'') + "$");
+            let found = false, arrUrl = ['', '/', 'index', 'index.html', 'home', 'home.html'];
+            $('.header__menu a').each(function(){
+                if(urlRegExp.test(this.href.replace(/\/$/,'')) && arrUrl.includes(curUrl)!==true){
+                    $(this).addClass('active');$(this).parent('li').addClass('active');found = true;
+                    let dd = $(this).closest('ul').hasClass('dropdown')
+                    if (dd==true) $(this).closest('ul').parent('li').addClass('active');
+                }
+            });
+            if( arrUrl.includes(curUrl)===true && found===false){$('#home a').addClass('active');$('#home a').parent('li').addClass('active');}
+        });
+</script>
+<!-- END PAGE LEVEL JAVASCRIPTS -->
+{% endblock plugins_js %}
+
+{% block header_content %}{{ block.super }}
+<!-- BEGIN HEADER -->
+<!-- Header Section Begin -->
+<header class="header" id="header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-3 col-lg-2">
+                <div class="header__logo">
+                    <a href="{% url 'home' %}"><img alt="" src='{% static "img/favicon-32x32.png" %}'></a>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-7">
+                <nav class="header__menu">
+                    <ul>
+                        <li id="home"><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'main:shop' %}">Shop</a></li>
+                        <li><a href="{% url 'main:service' %}">Services</a></li>
+                        <li><a href="{% url 'main:post_list' %}">Blog</a></li>
+                        <li><a href="{% url 'main:contact' %}">Contact</a></li>
+                        <li><a href="javascript:void(0)">Pages</a>
+                            <ul class="dropdown">
+                                <li><a href="javascript:void(0)">Supporting</a></li>
+                                <li><a href="javascript:void(0)">Report Errors</a></li>
+                                <li><a href="javascript:void(0)">About Us</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="{% url 'admin:index' %}">Admin</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-lg-3">
+                <div class="header__right">
+                    <div class="header__right__auth">
+                        {% if user.is_authenticated %}
+                        {{ user.username|truncatechars:16 }} <a href="{% url 'logout' %}">Log Out</a>
+                        {% else %}
+                        <a href="{% url 'login' %}">Login</a>
+                        <a href="{% url 'signup' %}">Sign Up</a>
+                        {% endif %}
+                    </div>
+                    <ul class="header__right__widget">
+                        <li><span class="icon_search search-switch"></span></li>
+                        <li><a href="#"><span class="icon_heart_alt"></span>
+                            <div class="tip">2</div>
+                        </a></li>
+                        <li><a href="{% url 'cart:cart_detail' %}"><span class="icon_bag_alt"></span>
+                            <div class="tip">{{request.session.cart|length}}</div>
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="canvas__open">
+            <i class="fa fa-bars"></i>
+        </div>
+    </div>
+</header>
+<!-- Header Section End -->
+<!-- Header END -->
+{% endblock header_content %}
+
+{% block footer_content %}{{ block.super }}
+<!-- BEGIN PRE-FOOTER -->
+<div class="pre-footer" id="pre-footer">
+    <div class="container">
+        <div class="row">
+            <!-- BEGIN BOTTOM ABOUT BLOCK -->
+            <div class="col-md-4 col-sm-6 pre-footer-col">
+                <h2>About us</h2>
+                <p>Lorem ipsum dolor sit amet, conssequat. </p>
+                <p>Duis autem vel eum iriure dolor vulputate velit esse molestie at dolore.</p>
+            </div>
+            <!-- END BOTTOM ABOUT BLOCK -->
+            <!-- BEGIN BOTTOM INFO BLOCK -->
+            <div class="col-md-4 col-sm-6 pre-footer-col">
+                <h2>Information</h2>
+                <ul class="list-unstyled">
+                    <li><i class="fa fa-angle-right"></i> <a href='{% static "javascript:;" %}'>Delivery Information</a>
+                    </li>
+                    <li><i class="fa fa-angle-right"></i> <a href='{% static "javascript:;" %}'>Customer Service</a>
+                    </li>
+                    <li><i class="fa fa-angle-right"></i> <a href='{% static "contacts.html" %}'>Contact Us</a></li>
+                    <li><i class="fa fa-angle-right"></i> <a href='{% static "javascript:;" %}'>Careers</a></li>
+                    <li><i class="fa fa-angle-right"></i> <a href='{% static "javascript:;" %}'>Payment Methods</a></li>
+                </ul>
+            </div>
+            <!-- END INFO BLOCK -->
+            <!-- BEGIN BOTTOM CONTACTS -->
+            <div class="col-md-4 col-sm-6 pre-footer-col">
+                <h2>Our Contacts</h2>
+                <address class="margin-bottom-40">
+                    35, Lorem Lis Street, Park Ave<br>
+                    California, US<br>
+                    Phone: 300 323 3456<br>
+                    Email: <a href='{% static "mailto:info@metronic.com" %}'>info@metronic.com</a>
+                </address>
+            </div>
+            <!-- END BOTTOM CONTACTS -->
+        </div>
+    </div>
+</div>
+<hr>
+<!-- END PRE-FOOTER -->
+
+<!-- BEGIN FOOTER -->
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <!-- BEGIN COPYRIGHT -->
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pull-left align-middle">
+                {{current_year}} © Spa In Biên Hòa.
+            </div>
+            <!-- END COPYRIGHT -->
+            <!-- BEGIN NEWLETTER -->
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <div class="pre-footer-subscribe-box pull-right align-middle">
+                    <form action="#">
+                        <div class="input-group">
+                            <input class="form-control" placeholder="youremail@mail.com" type="text">
+                            <span class="input-group-btn"><button class="btn btn-primary" type="submit">Subscribe</button></span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- END NEWLETTER -->
+        </div>
+    </div>
+</div>
+<!-- END FOOTER -->
+{% endblock footer_content %}

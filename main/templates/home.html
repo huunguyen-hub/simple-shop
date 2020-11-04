@@ -1,0 +1,548 @@
+{% extends "base_site.html" %}
+{% load i18n static cart_tag humanize com_extras %}
+{% block title %}Spa 's Home{% endblock %}
+
+{% block plugins_js %}{{ block.super }}
+<!-- BEGIN PAGE LEVEL JAVASCRIPTS (REQUIRED ONLY FOR CURRENT PAGE) -->
+<!-- BEGIN LayerSlider -->
+<script src='{% static "slider-layer-slider/js/greensock.js" %}' type="text/javascript"></script>
+<script src='{% static "slider-layer-slider/js/layerslider.transitions.js" %}' type="text/javascript"></script>
+<script src='{% static "slider-layer-slider/js/layerslider.kreaturamedia.jquery.js" %}' type="text/javascript"></script>
+<script src='{% static "js/layout.js" %}' type="text/javascript"></script>
+<script src='{% static "js/jquery.countdown.min.js" %}' type="text/javascript"></script>
+<!-- END LayerSlider -->
+<script type="text/javascript">
+var LayersliderInit = function () {
+    return {
+        initLayerSlider: function () {
+            $('#layerslider').layerSlider({
+                skinsPath : '{% static "slider-layer-slider/skins/" %}',
+                skin : 'v5',
+                thumbnailNavigation : 'hover',
+                hoverPrevNext : false,
+                responsive : true,
+                responsiveUnder : 960,
+                layersContainer : 960,
+            });
+        }
+    };
+}(jQuery);
+jQuery(document).ready(function() {
+    Layout.init();
+    LayersliderInit.initLayerSlider();
+    var sliderHeight = $('#layerslider').height();
+    var sliderInHeight = $('#layerslider').innerHeight();
+    var sliderOutHeight = $('#layerslider').outerHeight();
+    $('#fixed_slider').height(sliderInHeight);
+    var fixH = setTimeout(function() {
+        sliderInHeight = $('#layerslider').innerHeight();
+        $('#fixed_slider').height(sliderInHeight);
+        clearTimeout(fixH);
+    }, 1500);
+
+     /*------------------   CountDown   --------------------*/
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+    if(mm == 12) {
+        mm = '01';
+        yyyy = yyyy + 1;
+    } else {
+        mm = parseInt(mm) + 1;
+        mm = String(mm).padStart(2, '0');
+    }
+    var timerdate = mm + '/' + dd + '/' + yyyy;
+    /* var timerdate = "2020/12/30" */
+	$("#countdown-time").countdown(timerdate, function(event) {
+        $(this).html(event.strftime("<div class='countdown__item'><span>%D</span> <p>Day</p> </div>" + "<div class='countdown__item'><span>%H</span> <p>Hour</p> </div>" + "<div class='countdown__item'><span>%M</span> <p>Min</p> </div>" + "<div class='countdown__item'><span>%S</span> <p>Sec</p> </div>"));
+    });
+
+     var slider_wp = new Waypoint({
+      element: document.getElementById('slider-waypoint'),
+      handler: function(direction) {
+        console.log(direction);
+        if(direction == 'down') { $(".shop__sidebar").css({'position': 'sticky', 'top': $(".pre-footer").offset().top + $(".shop__sidebar").innerHeight()}); }
+        else { $(".shop__sidebar").css({'position': 'sticky', 'top': 'auto'}); }
+      },
+      offset: '100%'
+    });
+
+});
+</script>
+<!-- END PAGE LEVEL JAVASCRIPTS -->
+{% endblock plugins_js %}
+{% block header_content %}{{ block.super }}
+<!-- Categories Section Begin -->
+<section class="categories">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- BEGIN SLIDER -->
+            <div class="categories__item categories__large__item set-bg page-slider col-12 col-lg-12 col-md-12 col-sm-12 col-sx-12 p-0"
+                 data-setbg='{% static "img/bg.png" %}'
+                 id="fixed_slider">
+                <!-- LayerSlider start -->
+                <div id="layerslider" style="width: 100%; height: 494px; margin: 0 auto;">
+                    <!-- slide one start -->
+                    <div class="ls-slide ls-slide1"
+                         data-ls="offsetxin: right; slidedelay: 7000; transition2d: 24,25,27,28;">
+                        <img alt="Slide background" class="ls-bg img-fluid"
+                             src='{% static "img/layerslider/slide1/bg.jpg" %}'>
+                        <div class="ls-l ls-title" data-ls="
+            fade: true;
+            fadeout: true;
+            durationin: 750;
+            durationout: 750;
+            easingin: easeOutQuint;
+            rotatein: 90;
+            rotateout: -90;
+            scalein: .5;
+            scaleout: .5;
+            showuntil: 4000;
+          " style="top: 96px; left: 35%; white-space: nowrap;">Tones of <strong>shop UI features</strong> designed
+                        </div>
+                        <div class="ls-l ls-mini-text" data-ls="
+          fade: true;
+          fadeout: true;
+          durationout: 750;
+          easingin: easeOutQuint;
+          delayin: 300;
+          showuntil: 4000;
+          " style="top: 338px; left: 35%; white-space: nowrap;">Lorem ipsum dolor sit amet constectetuer diam<br>
+                            adipiscing elit euismod ut laoreet dolore.
+                        </div>
+                    </div>
+                    <!-- slide one end -->
+                    <!-- slide two start -->
+                    <div class="ls-slide ls-slide2"
+                         data-ls="offsetxin: right; slidedelay: 7000; transition2d: 110,111,112,113;">
+                        <img alt="Slide background" class="ls-bg img-fluid"
+                             src='{% static "img/layerslider/slide2/bg.jpg" %}'>
+                        <div class="ls-l ls-title" data-ls="
+          fade: true;
+          fadeout: true;
+          durationin: 750; durationout: 109750;
+          easingin: easeOutQuint;
+          easingout: easeInOutQuint;
+          delayin: 0;
+          delayout: 0;
+          rotatein: 90;
+          rotateout: -90;
+          scalein: .5;
+          scaleout: .5;
+          showuntil: 4000;
+          " style="top: 40%; left: 21%; white-space: nowrap;"><strong>Unlimted</strong> Layout Options <em>Fully
+                            Responsive</em>
+                        </div>
+                        <div class="ls-l ls-price" data-ls="
+          fade: true;
+          fadeout: true;
+          durationout: 109750;
+          easingin: easeOutQuint;
+          delayin: 300;
+          scalein: .8;
+          scaleout: .8;
+          showuntil: 4000;" style="top: 50%; left: 45%; white-space: nowrap;"><b>from</b>
+                            <strong><span>$</span>25</strong>
+                        </div>
+                        <a class="ls-l ls-more" data-ls="
+          fade: true;
+          fadeout: true;
+          durationin: 750;
+          durationout: 750;
+          easingin: easeOutQuint;
+          easingout: easeInOutQuint;
+          delayin: 0;
+          delayout: 0;
+          rotatein: 90;
+          rotateout: -90;
+          scalein: .5;
+          scaleout: .5;
+          showuntil: 4000;"
+                           href="javascript:;" style="top: 72%; left: 21%; display: inline-block; white-space: nowrap;">See
+                            More Details
+                        </a>
+                    </div>
+                    <!-- slide two end -->
+                    <!-- slide three start -->
+                    <div class="ls-slide ls-slide3"
+                         data-ls="offsetxin: right; slidedelay: 7000; transition2d: 92,93,105;">
+                        <img alt="Slide background" class="ls-bg img-fluid"
+                             src='{% static "img/layerslider/slide3/bg.jpg" %}'>
+                        <div class="ls-l ls-title" data-ls="
+          fade: true;
+          fadeout: true;
+          durationin: 750;
+          durationout: 750;
+          easingin: easeOutQuint;
+          rotatein: 90;
+          rotateout: -90;
+          scalein: .5;
+          scaleout: .5;
+          showuntil: 4000;
+          " style="top: 83px; left: 33%; white-space: nowrap;">Full Admin &amp; Frontend <strong>eCommerce UI</strong>
+                            Is Ready For Your Project
+                        </div>
+                        <div class="ls-l" data-ls="
+          fade: true;
+          fadeout: true;
+          durationout: 750;
+          easingin: easeOutQuint;
+          delayin: 300;
+          scalein: .8;
+          scaleout: .8;
+          showuntil: 4000;
+          "
+                             style="top: 333px; left: 33%; white-space: nowrap; font-size: 20px; font: 20px 'Open Sans Light', sans-serif;">
+                            <a class="ls-buy" href="javascript:;">
+                                Buy It Now!
+                            </a>
+                            <div class="ls-price">
+                                <span>All these for only:</span>
+                                <strong>25<sup>$</sup></strong>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- slide three end -->
+                    <!-- slide four start -->
+                    <div class="ls-slide ls-slide4"
+                         data-ls="offsetxin: right; slidedelay: 7000; transition2d: 110,111,112,113;">
+                        <img alt="Slide background" class="ls-bg img-fluid"
+                             src='{% static "img/layerslider/slide5/bg.jpg" %}'>
+                        <div class="ls-l ls-title" data-ls="
+          fade: true;
+          fadeout: true;
+          durationin: 750;
+          durationout: 750;
+          easingin: easeOutQuint;
+          rotatein: 90;
+          rotateout: -90;
+          scalein: .5;
+          scaleout: .5;
+          showuntil: 4000;" style="top: 35%; left: 60%; white-space: nowrap;">
+                            The most<br>
+                            wanted bijouterie
+                        </div>
+                        <div class="ls-l ls-mini-text" data-ls="
+          fade: true;
+          fadeout: true;
+          durationout: 750;
+          easingin: easeOutQuint;
+          delayin: 300;
+          scalein: .8;
+          scaleout: .8;
+          showuntil: 4000;" style="top: 70%; left: 60%; white-space: nowrap;">
+                            <span>Lorem ipsum and</span>
+                            <a href="javascript:;">Buy It Now!</a>
+                        </div>
+                    </div>
+                    <!-- slide four end -->
+                </div>
+                <!-- LayerSlider end -->
+            </div>
+            <!-- END SLIDER -->
+        </div>
+    </div>
+</section>
+<!-- Categories Section End -->
+{% endblock header_content %}
+{% block content %}{{ block.super }}
+
+<!-- Shop Section Begin -->
+
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__links">
+                    <a href="{% url 'home' %}"><i class="fa fa-home"></i></a>
+                    <a href="{% url 'main:product_list' %}">All Products</a>
+                    <span>Shop's Home</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+<section class="shop spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-12 col-sx-12 d-none d-md-block hidden-sm hidden-xs col-sm-hidden col-sx-hidden">
+                <div class="shop__sidebar">
+                    <div class="sidebar__categories">
+                        <div class="section-title">
+                            <h4>Categories</h4>
+                        </div>
+                        <div class="categories__accordion">
+                            <div class="accordion" id="accordionExample">
+                                {% for category in categories %}
+                                {% if forloop.counter >= 10 %} {% else %}
+                                <div class="card">
+                                    <div class="card-heading">
+                                        <a data-target="#{{category.slug}}" data-toggle="collapse">{{category.name}}</a>
+                                    </div>
+                                    <div class="collapse" data-parent="#accordionExample" id="{{category.slug}}">
+                                        <div class="card-body">
+                                            <ul>
+                                                {% for product in category.products.all %}
+                                                {% if forloop.counter >= 5 %} {% else %}
+                                                <li><a href="{{ product.get_absolute_url }}">{{product.name}}</a></li>
+                                                {% endif %}
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif%}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="trend__content">
+                        <div class="section-title">
+                            <h4>Best seller</h4>
+                        </div>
+                        {% for item in best_items %}
+                            <div class="trend__item">
+                            <div class="trend__item__pic">
+                                <a href="{{ item.get_absolute_url }}">
+                                    <img width=90 style="max-width:90px" alt="" src="{% thumbnail item "hmid" %}">
+                                </a>
+                            </div>
+                            <div class="trend__item__text">
+                                <h6><a href="{{ item.get_absolute_url }}">{{ item.attr_name|truncatechars:32|safe }}</a></h6>
+                                <div class="rating"><font style="font-size:10px">InStock: {{ item.quantity }} items</font></div>
+                                <div class="product__price">{{ item.price|floatformat:2|intcomma }} <font style="font-size:10px">VND</font></div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="sidebar__saleoff">
+                        <div class="section-title">
+                            <h4>Products in SaleOff</h4>
+                        </div>
+                        <div class="trend__item">
+                            <div class="trend__item__pic">
+                                <img alt="" src="static/img/trend/bs-1.jpg">
+                            </div>
+                            <div class="trend__item__text">
+                                <h6>Cotton T-Shirt</h6>
+                                <div class="rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <div class="product__price">$ 59.0</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sidebar__saleoff">
+                        <div class="section-title">
+                            <h4>Services in SaleOff</h4>
+                        </div>
+                        <div class="trend__item">
+                            <div class="trend__item__pic">
+                                <img alt="" src="static/img/trend/bs-1.jpg">
+                            </div>
+                            <div class="trend__item__text">
+                                <h6>Cotton T-Shirt</h6>
+                                <div class="rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <div class="product__price">$ 59.0</div>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="slider-waypoint" id="slider-waypoint"></span>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-12 col-sx-12">
+                <div class="container">
+                    <div class="section-title"><h4>Products In Spa's Shop</h4></div>
+                    {% for pro_att in productattributes %}
+                        {% if forloop.first %}<div class="row">{% endif %}
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-sx-12">
+                            <div class="product-grid3">
+                                <div class="product-image3">
+                                    <a href="{{ pro_att.get_absolute_url }}">
+                                        <img class="pic-1" src='{{MEDIA_URL}}{% thumbnail pro_att "hmid" %}'>
+                                        <img class="pic-2" src='{% thumbnail_alt pro_att "hmid" %}'>
+                                    </a>
+                                    <ul class="social">
+                                        <li><a href="{{ pro_att.get_absolute_url }}"><i class="icon_heart_alt"></i></a>
+                                        </li>
+                                        <li><a href="{% url 'cart:cart_add' pro_att.pro_attribute_id %}"><i
+                                                class="fa fa-shopping-cart"></i></a></li>
+                                    </ul>
+                                    <span class="product-new-label">{{ pro_att.product_id.condition }}</span>
+                                </div>
+                                <div class="product-content">
+                                    <h3 class="title"><a href="{{ pro_att.get_absolute_url }}">{{pro_att.attr_name}}</a></h3>
+                                    <div class="price">{{ pro_att.price|floatformat:2|intcomma }} VND <br/>(<span>saleoff~10%</span>)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% if forloop.counter|modulo:3 == 0 and not forloop.first and not forloop.last%}
+                        </div><hr><div class="row">
+                        {% endif %}
+                        {% if forloop.last %}</div>{% endif %}
+                    {% endfor %}
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            {% include "pagination.html" with page=page_obj %}
+                        </div>
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Shop Section End -->
+<!-- Categories Section Begin -->
+<section class="categories">
+    <div class="container-fluid">
+        <div class="row">
+            {% for product in products %}
+            {% if forloop.first %}
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 p-0">
+                    <div class="categories__item categories__large__item set-bg"
+                         data-setbg="{% thumbnail product 'big' %}">
+                        <div class="categories__text">
+                            <h3>{{product.name|truncatechars:64|safe}}</h3>
+                            <p>{{product.description_short|truncatechars:128|safe}}</p>
+                            <a href="#">Shop now</a>
+                        </div>
+                    </div>
+                </div>
+                {% if not forloop.last %}<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"><div class="row">{% else %}<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"><div class="row"></div></div>{% endif %}
+            {% else %}
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 p-0">
+                        <div class="categories__item set-bg" data-setbg="{% thumbnail product 'mid' %}">
+                            <div class="categories__text">
+                                <h4>{{product.name|truncatechars:24|safe}}</h4>
+                                <p>{{ product|count_items_in_product}} items</p>
+                                <a href="{{ product.get_absolute_url }}">Shop now</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% if forloop.last %}</div></div>{% endif %}
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<!-- Categories Section End -->
+<!-- Product Section Begin -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3 col-md-3">
+            <div class="section-title">
+                <h4>In Group</h4>
+            </div>
+        </div>
+        <div class="col-lg-9 col-md-9">
+            <ul class="filter__controls">
+                <li class="active" data-filter="*">All</li>
+                {% for pro in products %}
+                <li data-filter=".{{ pro.slug }}">{{ pro.name|truncatechars:16|title }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="row property__gallery">
+        {% for pro in products %}
+        {% for pro_att in pro.get_pro_atts %}
+        <div class="col-lg-3 col-md-4 col-sm-6 mix {{ pro.slug }}">
+            <div class="product-grid4">
+                <div class="product-image4">
+                    <a href="{{ pro_att.get_absolute_url }}">
+                        <img class="pic-1" src='{{MEDIA_URL}}{% thumbnail pro_att "mid" %}'>
+                        <img class="pic-2" src='{% thumbnail_alt pro_att "big" %}'>
+                    </a>
+                    <ul class="social">
+                        <li><a data-tip="Quick View" href="#"><i class="fa fa-eye"></i></a></li>
+                        <li><a data-tip="Add to Wishlist" href="#"><i class="icon_heart_alt"></i></a></li>
+                        <li><a data-tip="Add to Cart" href="{% url 'cart:cart_add' pro_att.pro_attribute_id %}"><i class="fa fa-shopping-cart"></i></a></li>
+                    </ul>
+                    <span class="product-new-label">New</span>
+                    <span class="product-discount-label">-10%</span>
+                </div>
+                <div class="product-content">
+                    <h3 class="title"><a href="{{ pro_att.get_absolute_url }}">{{ pro_att.attr_name }}</a></h3>
+                    <div class="price">{{ pro_att.price|floatformat:2|intcomma }} VND <br/>(<span>saleoff~10%</span>)</div>
+                    <a class="add-to-cart" href="{% url 'cart:cart_add' pro_att.pro_attribute_id %}">ADD TO CART</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endfor %}
+    </div>
+</div>
+<!-- Product Section End -->
+<section class="discount">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 p-0">
+                <div class="discount__pic">
+                    <img src="static/img/discount.jpg" alt="">
+                </div>
+            </div>
+            <div class="col-lg-6 p-0">
+                <div class="discount__text">
+                    <div class="discount__text__title">
+                        <span>Discount</span>
+                        <h2>Summer 2020</h2>
+                        <h5><span>All Service Only</span> 29%</h5>
+                        <h5><span>Clothing Only Sale</span> 45%</h5>
+                    </div>
+                    <div class="discount__countdown" id="countdown-time"><div class="countdown__item"><span>30</span> <p>Day</p> </div><div class="countdown__item"><span>13</span> <p>Hour</p> </div><div class="countdown__item"><span>13</span> <p>Min</p> </div><div class="countdown__item"><span>35</span> <p>Sec</p> </div></div>
+                    <a href="#">Shop now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="services spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="services__item">
+                    <i class="fa fa-car"></i>
+                    <h6>Free Shipping</h6>
+                    <p>For all oder over $99</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="services__item">
+                    <i class="fa fa-money"></i>
+                    <h6>Money Back Guarantee</h6>
+                    <p>If good have Problems</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="services__item">
+                    <i class="fa fa-support"></i>
+                    <h6>Online Support 24/7</h6>
+                    <p>Dedicated support</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="services__item">
+                    <i class="fa fa-headphones"></i>
+                    <h6>Payment Secure</h6>
+                    <p>100% secure payment</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

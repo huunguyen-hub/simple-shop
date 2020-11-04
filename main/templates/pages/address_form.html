@@ -1,0 +1,31 @@
+{% extends "base_site.html" %}
+{% load i18n static %}
+{% load cart_tag humanize com_extras %}
+{% load crispy_forms_tags %}
+{% block title %}My Shopping{% endblock %}
+
+{% block content %}{{ block.super }}
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__links">
+                    <a href="{% url 'home' %}"><i class="fa fa-home"></i></a>
+                    <a href="{% url 'main:product_list' %}">All Products</a>
+                    <span>Shop's Home</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+<div class="container">
+    <form method="post" novalidate>
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button class="btn btn-success" type="submit">Save person</button>
+    </form>
+</div>
+<hr>
+{% endblock %}

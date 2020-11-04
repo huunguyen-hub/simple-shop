@@ -1,0 +1,166 @@
+{% extends "pages/news.html" %}
+{% load i18n static %}
+{% block title %}Share a post{% endblock %}
+
+{% block content %}
+{% load widget_tweaks %}
+<div class="row justify-content-center">
+    <div class="col-12 col-md-12">
+        <h2 class="mbr-section-title pb-3 mbr-fonts-style">
+            <a href="{{ post.get_absolute_url }}">
+                {{ post.title }}
+            </a>
+        </h2>
+        <h3 class="mbr-section-subtitle mbr-light mbr-fonts-style date">
+            Published {{ post.date_add }} by {{ post.user_add_id }}
+        </h3>
+        <p class="mbr-text col-12 col-md-8 mbr-fonts-style">
+            {{ post.content|truncatewords:30|linebreaks }}
+        </p>
+    </div>
+    <div class="col-12 col-md-12">
+        {% if sent %}
+        <h1>E-mail successfully sent</h1>
+        <p>
+            "{{ post.title }}" was successfully sent to {{ form.cleaned_data.to }}.
+        </p>
+        {% else %}
+        <h1>Share "{{ post.title }}" by e-mail</h1>
+        <form enctype="multipart/form-data" class="form-horizontal" method="post" role="form" action="{{ post.get_shared_url }}" >
+            {% csrf_token %}
+            {% for hidden_field in form.hidden_fields %}
+                {{ hidden_field }}
+            {% endfor %}
+            <div class="form-body">
+                {% for field in form.visible_fields %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {% render_field field class="form-control" %}
+                    {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            <div class="form-actions fluid">
+                <div class="col-md-offset-3 col-md-9">
+                    <button class="btn green" type="submit">Send e-mail</button>
+                    <button class="btn default" type="reset">Reset</button>
+                </div>
+            </div>
+        </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+{% block sidebar %}
+<!-- BEGIN RECENT NEWS -->
+<h2>Recent News</h2>
+<div class="recent-news margin-bottom-10">
+    <div class="row margin-bottom-10">
+        <div class="col-md-3">
+            <img class="img-responsive" alt=""
+                 src='{% static "assets/frontend/pages/img/people/img2-large.jpg" %}'>
+        </div>
+        <div class="col-md-9 recent-news-inner">
+            <h3><a href="javascript:;">Letiusto gnissimos</a></h3>
+            <p>Decusamus tiusto odiodig nis simos ducimus qui sint</p>
+        </div>
+    </div>
+    <div class="row margin-bottom-10">
+        <div class="col-md-3">
+            <img class="img-responsive" alt=""
+                 src='{% static "assets/frontend/pages/img/people/img1-large.jpg" %}'>
+        </div>
+        <div class="col-md-9 recent-news-inner">
+            <h3><a href="javascript:;">Deiusto anissimos</a></h3>
+            <p>Decusamus tiusto odiodig nis simos ducimus qui sint</p>
+        </div>
+    </div>
+    <div class="row margin-bottom-10">
+        <div class="col-md-3">
+            <img class="img-responsive" alt=""
+                 src='{% static "assets/frontend/pages/img/people/img3-large.jpg" %}'>
+        </div>
+        <div class="col-md-9 recent-news-inner">
+            <h3><a href="javascript:;">Tesiusto baissimos</a></h3>
+            <p>Decusamus tiusto odiodig nis simos ducimus qui sint</p>
+        </div>
+    </div>
+</div>
+<!-- END RECENT NEWS -->
+
+<!-- BEGIN BLOG TALKS -->
+<div class="blog-talks margin-bottom-30">
+    <h2>Popular Talks</h2>
+    <div class="tab-style-1">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#tab-1">Multipurpose</a></li>
+            <li><a data-toggle="tab" href="#tab-2">Documented</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="tab-1" class="tab-pane row-fluid fade in active">
+                <p class="margin-bottom-10">Raw denim you probably haven't heard of them
+                    jean shorts Austin. eu banh mi, qui irure terry richardson ex squid
+                    Aliquip placeat salvia cillum iphone.</p>
+                <p><a class="more" href="javascript:;">Read more</a></p>
+            </div>
+            <div id="tab-2" class="tab-pane fade">
+                <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla
+                    single-origin coffee squid. aliquip jean shorts ullamco ad vinyl
+                    aesthetic magna delectus mollit. Keytar helvetica VHS salvia..</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END BLOG TALKS -->
+
+<!-- BEGIN BLOG PHOTOS STREAM -->
+<div class="blog-photo-stream margin-bottom-20">
+    <h2>Photos Stream</h2>
+    <ul class="list-unstyled">
+        <li><a href="javascript:;"><img alt=""
+                                        src='{% static "assets/frontend/pages/img/people/img5-small.jpg" %}'></a>
+        </li>
+        <li><a href="javascript:;"><img alt=""
+                                        src='{% static "assets/frontend/pages/img/works/img1.jpg" %}'></a>
+        </li>
+        <li><a href="javascript:;"><img alt=""
+                                        src='{% static "assets/frontend/pages/img/people/img4-large.jpg" %}'></a>
+        </li>
+        <li><a href="javascript:;"><img alt=""
+                                        src='{% static "assets/frontend/pages/img/works/img6.jpg" %}'></a>
+        </li>
+        <li><a href="javascript:;"><img alt=""
+                                        src='{% static "assets/frontend/pages/img/pics/img1-large.jpg" %}'></a>
+        </li>
+        <li><a href="javascript:;"><img alt=""
+                                        src='{% static "assets/frontend/pages/img/pics/img2-large.jpg" %}'></a>
+        </li>
+        <li><a href="javascript:;"><img alt=""
+                                        src='{% static "assets/frontend/pages/img/works/img3.jpg" %}'></a>
+        </li>
+        <li><a href="javascript:;"><img alt=""
+                                        src='{% static "assets/frontend/pages/img/people/img2-large.jpg" %}'></a>
+        </li>
+    </ul>
+</div>
+<!-- END BLOG PHOTOS STREAM -->
+
+<!-- BEGIN BLOG TAGS -->
+<div class="blog-tags margin-bottom-20">
+    <h2>Tags</h2>
+    <ul>
+        <li><a href="javascript:;"><i class="fa fa-tags"></i>OS</a></li>
+        <li><a href="javascript:;"><i class="fa fa-tags"></i>Metronic</a></li>
+        <li><a href="javascript:;"><i class="fa fa-tags"></i>Dell</a></li>
+        <li><a href="javascript:;"><i class="fa fa-tags"></i>Conquer</a></li>
+        <li><a href="javascript:;"><i class="fa fa-tags"></i>MS</a></li>
+        <li><a href="javascript:;"><i class="fa fa-tags"></i>Google</a></li>
+        <li><a href="javascript:;"><i class="fa fa-tags"></i>Keenthemes</a></li>
+        <li><a href="javascript:;"><i class="fa fa-tags"></i>Twitter</a></li>
+    </ul>
+</div>
+<!-- END BLOG TAGS -->
+{% endblock %}
+

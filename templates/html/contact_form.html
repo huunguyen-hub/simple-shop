@@ -1,0 +1,15 @@
+{% extends "pages/one.html" %}
+{% block content %}
+{% load bootstrap4 %}
+<h2>Contact us</h2>
+<p>Please fill the form below to contact us</p>
+<form action="/url/to/submit/" class="form" method="post">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% include "includes/field.html" with field=form.name %}
+    {% include "includes/field.html" with field=form.message %}
+    {% buttons %}
+    <button class="btn btn-primary" type="submit">Submit</button>
+    {% endbuttons %}
+</form>
+{% endblock content %}
