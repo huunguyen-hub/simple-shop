@@ -53,7 +53,7 @@ urlpatterns = [
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('tags_input/', include('tags_input.urls', namespace='tags_input')),
     path('chaining/', include('smart_selects.urls')),
-    path("select2/", include("django_select2.urls")),
+    # path("select2/", include("django_select2.urls")),
     path('maintenance-mode/', include('maintenance_mode.urls')),
     path('nested_admin/', include('nested_admin.urls')),
     path('captcha/', include('captcha.urls')),

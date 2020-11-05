@@ -46,8 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'main.apps.MainConfig',
     'cart.apps.CartConfig',
-    'django_prices',
-    'widget_tweaks',
+    # 'django_prices',
+    # 'widget_tweaks',
     'ckeditor',
     'ckeditor_uploader',
     'tags_input',
@@ -333,7 +333,7 @@ MAINTENANCE_MODE_STATE_BACKEND = 'maintenance_mode.backends.LocalFileBackend'
 MAINTENANCE_MODE_STATE_FILE_PATH = 'maintenance_mode_state.txt'
 
 # Tell select2 which cache configuration to use:
-SELECT2_CACHE_BACKEND = "select2"
+# SELECT2_CACHE_BACKEND = "select2"
 # if True the template tag will fallback to django.conf.settings,
 # very useful to retrieve conf settings such as DEBUG.
 EXTRA_SETTINGS_FALLBACK_TO_CONF_SETTINGS = True
@@ -359,33 +359,11 @@ if not DEBUG or TEST_MEMCACHE:
             'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
             'LOCATION': '127.0.0.1:11211',
         },
-        # … default cache config and others
-        "_default": {
-            "BACKEND": "django_redis.cache.RedisCache",
-            "LOCATION": "redis://127.0.0.1:6379/1",
-            "OPTIONS": {
-                "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            }
-        },
-        "select2": {
-            "BACKEND": "django_redis.cache.RedisCache",
-            "LOCATION": "redis://127.0.0.1:6379/2",
-            "OPTIONS": {
-                "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            }
-        }
     }
 else:
     CACHES = {
         'default': {
             'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
-        },
-        "select2": {
-            "BACKEND": "django_redis.cache.RedisCache",
-            "LOCATION": "redis://127.0.0.1:6379/2",
-            "OPTIONS": {
-                "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            }
         }
     }
 CRISPY_TEMPLATE_PACK = "bootstrap4"
