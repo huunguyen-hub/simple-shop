@@ -19,7 +19,7 @@ checkbox-support==0.22
 click==7.1.2
 configparser==5.0.1
 coverage==5.0.4
-cryptography==3.0
+cryptography==3.2
 decorator==4.4.2
 defusedxml==0.6.0
 distlib==0.3.0
