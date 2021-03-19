@@ -2,7 +2,7 @@ django_json_widget==1.0.1
 Markdown==3.2.2
 django_mysql==3.8.1
 cryptography==3.0
-Django==3.1.2
+Django==3.1.6
 tox==3.14.6
 bootstrap4==0.1.0
 django_crispy_forms==1.9.2
