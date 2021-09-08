@@ -134,7 +134,7 @@ pbr==5.4.5
 pexpect==4.8.0
 phonenumbers==8.12.8
 pickleshare==0.7.5
-Pillow==8.0.1
+Pillow==8.3.2
 piston-mini-client==0.7.5
 plainbox==0.25
 pluggy==0.13.1
